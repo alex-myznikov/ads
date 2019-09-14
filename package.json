@@ -1,0 +1,22 @@
+{
+  "name": "algorithms",
+  "version": "0.0.0",
+  "description": "Implementation of various algorithms and data structures on ES2015. With support for TypeScript.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/alex_edev/algorithms.git"
+  },
+  "keywords": [
+    "algorithms",
+    "data structures"
+  ],
+  "author": "Alexander Myznikov",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.4.0"
+  }
+}
