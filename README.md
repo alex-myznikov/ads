@@ -6,7 +6,7 @@ Implementation of various algorithms and data structures on ES2015. With support
   - [Tree](#tree)
     - [Binary tree](#binary-tree)
       - [Linked Binary Tree](#linked-binary-tree)
-        - [AVL Tree](#avl-tree)
+        - [Red-black Tree](#red-black-tree)
 
 ## Tree
 
@@ -14,4 +14,4 @@ Implementation of various algorithms and data structures on ES2015. With support
 
 #### Linked Binary Tree
 
-##### AVL Tree
+##### Red-black Tree
