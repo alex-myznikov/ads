@@ -4,7 +4,24 @@
   "description": "Implementation of various algorithms and data structures on ES2015. With support for TypeScript.",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm-run-all clean:dist build:cjs",
+    "build:cjs": "npm-run-all clean:cjs compile:cjs",
+    "build:es": "echo \"Error: not implemented\" && exit 1",
+    "build:bundle": "echo \"Error: not implemented\" && exit 1",
+    "build:types": "echo \"Error: not implemented\" && exit 1",
+    "clean:dist": "shx rm -rf ./dist",
+    "clean:cjs": "shx rm -rf ./dist/cjs",
+    "clean:es": "echo \"Error: not implemented\" && exit 1",
+    "clean:bundle": "echo \"Error: not implemented\" && exit 1",
+    "clean:types": "echo \"Error: not implemented\" && exit 1",
+    "compile:cjs": "tsc -p ./tsconfig.cjs.json",
+    "compile:es": "echo \"Error: not implemented\" && exit 1",
+    "compile:bundle": "echo \"Error: not implemented\" && exit 1",
+    "compile:types": "echo \"Error: not implemented\" && exit 1",
+    "lint": "npm-run-all --parallel lint:*",
+    "lint:spec": "tslint -c tslint.json \"spec/**/*.ts\"",
+    "lint:src": "tslint -c tslint.json \"src/**/*.ts\"",
+    "test": "nyc mocha \"spec/**/*.spec.ts\""
   },
   "repository": {
     "type": "git",
@@ -17,6 +34,14 @@
   "author": "Alexander Myznikov",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^6.4.0"
-  }
+    "chai": "^4.2.0",
+    "eslint": "^6.4.0",
+    "mocha": "^6.2.0",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^14.1.1",
+    "shx": "^0.3.2",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {},
+  "typings": "./dist/typings/index.d.ts"
 }

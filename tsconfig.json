@@ -1,0 +1,21 @@
+
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "ads": ["./src/index"]
+    },
+    "moduleResolution": "node",
+    "target": "es5",
+    "removeComments": true,
+    "sourceMap": true,
+    "strict": true,
+    "noUnusedParameters": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "stripInternal": false,
+    "outDir": "./dist"
+  },
+  "files": [
+    "./src/lists/index"
+  ]
+}
