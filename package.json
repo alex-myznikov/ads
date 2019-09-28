@@ -2,7 +2,7 @@
   "name": "ads",
   "version": "0.0.0",
   "description": "Implementation of various algorithms and data structures on ES2015. With support for TypeScript.",
-  "main": "main.js",
+  "main": "./dist/cjs/index.js",
   "scripts": {
     "build": "npm-run-all clean build:cjs",
     "build:cjs": "npm-run-all clean:cjs compile:cjs",
