@@ -21,6 +21,7 @@
     "lint": "npm-run-all --parallel lint:*",
     "lint:spec": "tslint -c tslint.json \"spec/**/*.ts\"",
     "lint:src": "tslint -c tslint.json \"src/**/*.ts\"",
+    "postinstall": "npm run build",
     "test": "nyc mocha \"spec/**/*.spec.ts\""
   },
   "repository": {
