@@ -1,0 +1,1 @@
+export const qwe = 'This is compiled';
