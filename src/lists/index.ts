@@ -1,1 +1,1 @@
-export const qwe = 'This is compiled';
+export { SinglyLinkedList } from './singly-linked';

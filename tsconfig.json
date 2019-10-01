@@ -1,9 +1,8 @@
-
 {
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "ads": ["./src/index"]
+      "ads": ["./src/index.ts"],
     },
     "moduleResolution": "node",
     "target": "es5",
@@ -13,9 +12,9 @@
     "noUnusedParameters": true,
     "suppressImplicitAnyIndexErrors": true,
     "stripInternal": false,
-    "outDir": "./dist"
-  },
-  "files": [
-    "./src/lists/index"
-  ]
+    "outDir": "./dist",
+    "lib": [
+      "es2015"
+    ]
+  }
 }

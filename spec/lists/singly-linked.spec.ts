@@ -1,9 +1,9 @@
-const chai = require('chai');
-const SinglyLinkedList = require('../../src/lists/singly-linked');
-let list;
-// TODO: 2) CommonJS/ES6/UMD module support 3) types
+import * as chai from 'chai';
+import { SinglyLinkedList } from 'ads';
 
 describe('SinglyLinkedList', function() {
+  let list: SinglyLinkedList;
+
   beforeEach(() => {
     list = new SinglyLinkedList();
   });
