@@ -1,1 +1,1 @@
-export { SinglyLinkedList } from './lists';
+export * from './lists';

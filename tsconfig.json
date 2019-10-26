@@ -12,6 +12,7 @@
     "noUnusedParameters": true,
     "suppressImplicitAnyIndexErrors": true,
     "stripInternal": false,
+    "downlevelIteration": true,
     "outDir": "./dist",
     "lib": [
       "es2015"
