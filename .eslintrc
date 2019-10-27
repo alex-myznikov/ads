@@ -37,7 +37,16 @@
     "array-bracket-spacing": "error",
     "brace-style": "error",
     "camelcase": "error",
-    "comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "always-multiline"
+      }
+    ],
     "comma-spacing": "error",
     "comma-style": "error",
     "curly": ["error", "multi"],
@@ -46,7 +55,7 @@
     "eqeqeq": ["error", "smart"],
     "generator-star-spacing": ["error", "before"],
     "guard-for-in": "error",
-    "indent": ["error", 2],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
     "key-spacing": "error",
     "keyword-spacing": "error",
     "max-len": ["error", 120, 2],
