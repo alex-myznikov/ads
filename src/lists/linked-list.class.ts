@@ -28,6 +28,8 @@ export abstract class LinkedListAbstract<T, N extends IContainer<T>> {
 
   /**
    * Number of elements in the list.
+   *
+   * @readonly
    */
   get length() {
     return this.size;
@@ -46,9 +48,6 @@ export abstract class LinkedListAbstract<T, N extends IContainer<T>> {
     return !this.size;
   }
 
-  /**
-   * Gets iteration of all elements in the list.
-   */
   abstract [Symbol.iterator](): Generator<T>;
 
 }

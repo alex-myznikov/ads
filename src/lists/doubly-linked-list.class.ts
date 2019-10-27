@@ -249,9 +249,6 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     return replacedElement;
   }
 
-  /**
-   * Gets iteration of all elements in the list.
-   */
   *[Symbol.iterator]() {
     if (!this.head) return;
 
