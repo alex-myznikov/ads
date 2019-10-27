@@ -1,0 +1,10 @@
+#!/bin/sh
+
+BRANCH=`git branch | grep '^\*' | cut -b3-`
+
+if [ "$BRANCH" = "master" ] ; then
+  exit
+else
+  ORIG_MSG=`cat "$1"`
+  echo "$BRANCH: $ORIG_MSG" > "$1"
+fi
