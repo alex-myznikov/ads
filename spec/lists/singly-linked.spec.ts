@@ -194,7 +194,7 @@ describe('SinglyLinkedList', function() {
   });
 
   describe('removeFirst()', function() {
-    it('should throw an Error if the list is empty', function() {
+    it('should throw if the list is empty', function() {
       list.clear();
       chai.expect(list.removeFirst.bind(list)).to.throw('List is empty');
     });

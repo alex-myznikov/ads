@@ -178,7 +178,7 @@ describe('CircularlyLinkedList', function() {
   });
 
   describe('removeCurrent()', function() {
-    it('should throw an Error if the list is empty', function() {
+    it('should throw if the list is empty', function() {
       list.clear();
       chai.expect(list.removeCurrent.bind(list)).to.throw('List is empty');
     });
