@@ -62,7 +62,7 @@ describe('binarySearch()', function() {
     chai.expect(binarySearch(arr, 3, 4, 1)).to.eql({ index: 1, exact: false });
   });
 
-  it('should throw an error if encounters NaN with default comparison algorithm', function() {
+  it('should throw if encounters NaN with default comparison algorithm', function() {
     chai.expect(binarySearch.bind(this, arr, NaN)).to.throw('Can not compare with NaN');
     chai.expect(binarySearch.bind(this, [NaN], 5)).to.throw('Can not compare with NaN');
     chai.expect(binarySearch.bind(this, ['not correct number'], 'not correct number')).to
