@@ -49,7 +49,7 @@
     ],
     "comma-spacing": "error",
     "comma-style": "error",
-    "curly": ["error", "multi"],
+    "curly": ["error", "multi-or-nest"],
     "dot-notation": "error",
     "eol-last": "error",
     "eqeqeq": ["error", "smart"],
