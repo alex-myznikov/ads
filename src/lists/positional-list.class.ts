@@ -8,6 +8,13 @@ import { Position } from '../position.class';
 export abstract class PositionalListAbstract<T, N extends IContainer<T>> extends LinkedListAbstract<T, N> {
 
   /**
+   * Clears the list. If instant set TRUE it takes O(1) time but does not deprecate existing positions.
+   *
+   * @param instant TRUE to deprecate all existing positions, FALSE to skip deprecation (client code cares of it).
+   */
+  abstract clear(instant?: boolean): void;
+
+  /**
    * Creates an instance of position referring to the specified list node.
    *
    * @protected
@@ -36,7 +43,7 @@ export abstract class PositionalListAbstract<T, N extends IContainer<T>> extends
    * @returns Node the position is referring to.
    */
   protected validate(position: Position<T, N>): N {
-    const { node, container } = position._meta;
+    const { node, container } = position._internal;
 
     if (container !== this) throw new Error('Position does not belong to this container');
     else if (this.isDeprecated(node)) throw new Error('Position is deprecated');

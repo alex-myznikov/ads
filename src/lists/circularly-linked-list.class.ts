@@ -80,11 +80,6 @@ export class CircularlyLinkedList<T> extends PositionalListAbstract<T, Node<T>> 
     return this.createPosition(this.validate(position).next);
   }
 
-  /**
-   * Clears the list. If instant set TRUE it takes O(1) time but does not deprecate existing positions.
-   *
-   * @param instant TRUE to deprecate all existing positions, FALSE to skip deprecation (client code cares of it).
-   */
   clear(instant = false) {
     if (!instant && this.tail) {
       let node = this.tail.next;
