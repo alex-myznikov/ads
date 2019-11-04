@@ -109,11 +109,6 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     return prev ? this.createPosition(prev) : prev;
   }
 
-  /**
-   * Clears the list. If instant set TRUE it takes O(1) time but does not deprecate existing positions.
-   *
-   * @param instant TRUE to deprecate all existing positions, FALSE to skip deprecation (client code cares of it).
-   */
   clear(instant = false) {
     if (!instant && this.head) {
       let node: Node<T> | undefined = this.head;

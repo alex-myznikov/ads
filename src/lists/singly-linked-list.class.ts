@@ -88,11 +88,6 @@ export class SinglyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     return next ? this.createPosition(next) : next;
   }
 
-  /**
-   * Clears the list. If instant is TRUE it takes O(1) time but does not deprecate existing positions.
-   *
-   * @param instant TRUE to deprecate all existing positions, FALSE to skip deprecation (client code cares of it).
-   */
   clear(instant = false) {
     if (!instant && this.head) {
       let node: Node<T> | undefined = this.head;
