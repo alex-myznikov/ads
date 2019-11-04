@@ -9,7 +9,7 @@ describe('binarySearch()', function() {
     chai.expect(binarySearch(arr, 3)).to.eql({ index: 2, exact: true });
   });
 
-  it('should return leftmost item greater than target if target is not matched', function() {
+  it('should return the leftmost item greater than target if target is not matched', function() {
     chai.expect(binarySearch(arr, 4)).to.eql({ index: 3, exact: false });
   });
 

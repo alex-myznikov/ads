@@ -15,11 +15,11 @@ export class Position<T, N extends IContainer<T>> implements IContainer<T> {
   }
 
   /**
-   * Position metadata for in-package usage. DO NOT use this method in your client code.
+   * Position data for in-package usage. DO NOT use this field in your client code.
    *
    * @readonly
    */
-  get _meta() {
+  get _internal() {
     return { node: this.node, container: this.container };
   }
 
