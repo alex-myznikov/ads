@@ -7,16 +7,14 @@ import { binarySearch } from '../searches/binary-search';
 export class SortedMap<K, V> implements Map<K, V> {
 
   /**
-   * Sorted collection of elements.
+   * Sorted collection of key-value pairs.
    *
    * @protected
    */
   protected arr: Array<[K, V]>;
 
-  [Symbol.toStringTag]: '[object SortedMap]';
-
   /**
-   * Number of elements in the map.
+   * Number of key-value pairs in the map.
    *
    * @readonly
    */
@@ -24,15 +22,19 @@ export class SortedMap<K, V> implements Map<K, V> {
     return this.arr.length;
   }
 
+  get [Symbol.toStringTag](): string {
+    return 'SortedMap';
+  }
+
   /**
    * Creates an instance of SortedMap.
    *
-   * @param iterable Iterable of elements to create the new map with.
-   * @param compare Comparison function for elements sorting. Elements are compared as numbers by default.
+   * @param iterable Iterable of pairs to create the new map with.
+   * @param compare Comparison function for key-value pairs sorting by key. Keys are compared as numbers by default.
    */
   constructor(iterable: Iterable<[K, V]> = [], protected compare: CompareFunc<K> = compareAsNumbers) {
     this.arr = [];
-    for (const entry of iterable) this.set(...entry);
+    for (const pair of iterable) this.set(...pair);
   }
 
   /**
@@ -43,10 +45,10 @@ export class SortedMap<K, V> implements Map<K, V> {
   }
 
   /**
-   * Deletes element from the map by key.
+   * Deletes key-value pair from the map by key.
    *
-   * @param key Element key.
-   * @returns TRUE if element existed and has been removed, FALSE otherwise.
+   * @param key Pair key.
+   * @returns TRUE if pair existed and has been removed, FALSE otherwise.
    */
   delete(key: K): boolean {
     const { index, exact } = this.findIndex(key);
@@ -62,11 +64,11 @@ export class SortedMap<K, V> implements Map<K, V> {
   }
 
   /**
-   * Finds the leftmost element with key greater than or equal to the specified key.
+   * Finds the leftmost key-value pair with key greater than or equal to the specified key.
    *
    * @protected
-   * @param key Element key.
-   * @returns Element index and exact match result. Index equals to the map size if no key greater than the specified.
+   * @param key Pair key.
+   * @returns Pair index and exact match result. Index equals to the map size if no key greater than the specified.
    */
   protected findIndex(key: K): { index: number; exact: boolean; } {
     return binarySearch(
@@ -78,42 +80,42 @@ export class SortedMap<K, V> implements Map<K, V> {
   }
 
   /**
-   * Finds the leftmost element with key greater than the specified key.
+   * Finds the leftmost key-value pair with key greater than the specified key.
    *
-   * @param key Element key.
-   * @returns Key, value pair or undefined if key is the greatest or the map is empty.
+   * @param key Pair key.
+   * @returns Key-value pair or undefined if key is the greatest or the map is empty.
    */
   findGreater(key: K): [K, V] | undefined {
     const { index, exact } = this.findIndex(key);
 
-    return exact ? this.arr[index] : this.arr[index + 1];
+    return exact ? this.arr[index + 1] : this.arr[index];
   }
 
   /**
-   * Finds the leftmost element with key greater than or equal to the specified key.
+   * Finds the leftmost key-value pair with key greater than or equal to the specified key.
    *
-   * @param key Element key.
-   * @returns Key, value pair or undefined if key is the greatest or the map is empty.
+   * @param key Pair key.
+   * @returns Key-value pair or undefined if key is the greatest or the map is empty.
    */
   findGreaterOrEqual(key: K): [K, V] | undefined {
     return this.arr[this.findIndex(key).index];
   }
 
   /**
-   * Finds the rightmost element with key less than the specified key.
+   * Finds the rightmost key-value pair with key less than the specified key.
    *
-   * @param key Element key.
-   * @returns Key, value pair or undefined if key is the smallest or the map is empty.
+   * @param key Pair key.
+   * @returns Key-value pair or undefined if key is the smallest or the map is empty.
    */
   findLess(key: K): [K, V] | undefined {
     return this.arr[this.findIndex(key).index - 1];
   }
 
   /**
-   * Finds the rightmost element with key less than or equal to the specified key.
+   * Finds the rightmost key-value pair with key less than or equal to the specified key.
    *
-   * @param key Element key.
-   * @returns Key, value pair or undefined if key is the smallest or the map is empty.
+   * @param key Pair key.
+   * @returns Key-value pair or undefined if key is the smallest or the map is empty.
    */
   findLessOrEqual(key: K): [K, V] | undefined {
     const { index, exact } = this.findIndex(key);
@@ -122,49 +124,50 @@ export class SortedMap<K, V> implements Map<K, V> {
   }
 
   /**
-   * Finds the greatest (by key) element in the map.
+   * Finds the greatest (by key) key-value pair in the map.
    *
-   * @returns Key, value pair or undefined if the map is empty.
+   * @returns Key-value pair or undefined if the map is empty.
    */
   findMax(): [K, V] | undefined {
     return this.arr[this.size - 1];
   }
 
   /**
-   * Finds the smallest (by key) element in the map.
+   * Finds the smallest (by key) key-value pair in the map.
    *
-   * @returns Key, value pair or undefined if the map is empty.
+   * @returns Key-value pair or undefined if the map is empty.
    */
   findMin(): [K, V] | undefined {
     return this.arr[0];
   }
 
   /**
-   * Returns an iterable of key, value pairs for every element in the map with start <= key < stop.
+   * Returns an iterable of key-value pairs for every pair in the map with start <= key < stop.
    *
-   * @param start Element key to start from.
-   * @param stop Element key to stop on.
-   * @returns Iterable of key, value pairs.
+   * @param start Pair key to start from.
+   * @param stop Pair key to stop on.
+   * @returns Iterable of key-value pairs.
    */
   findRange(start: K, stop: K): IterableIterator<[K, V]> {
     let current = this.findIndex(start).index;
-
-    return {
-      *[Symbol.iterator]() {
-        // TODO: problem with types here
+    const iterator = {
+      [Symbol.iterator]() {
+        return iterator;
       },
       next: () => ({
-        done: this.compare(this.arr[current][0], stop) !== ComparisonResult.LESS,
+        done: current < this.size ? this.compare(this.arr[current][0], stop) !== ComparisonResult.LESS : true,
         value: this.arr[current++],
       }),
     };
+
+    return iterator;
   }
 
   /**
    * Executes a provided function once per each key/value pair in the Map
    *
    * @param callbackfn A function that accepts up to three arguments.
-   * forEach calls the callbackfn function one time for each element in the array.
+   * forEach calls the callbackfn function one time for each key-value pair in the map.
    * @param thisArg An object to which the this keyword can refer in the callbackfn function.
    * If thisArg is omitted, undefined is used as the this value.
    */
@@ -173,10 +176,10 @@ export class SortedMap<K, V> implements Map<K, V> {
   }
 
   /**
-   * Gets element from the map by key. Throws an error if key not found.
+   * Gets key-value pair from the map by key. Throws an error if key not found.
    *
-   * @param key Element key.
-   * @returns Element value.
+   * @param key Pair key.
+   * @returns Pair value.
    */
   get(key: K): V {
     const { index, exact } = this.findIndex(key);
@@ -187,10 +190,10 @@ export class SortedMap<K, V> implements Map<K, V> {
   }
 
   /**
-   * Checks element presence in the map by key.
+   * Checks key-value pair presence in the map by key.
    *
-   * @param key Element key.
-   * @returns TRUE if element exists, FALSE otherwise.
+   * @param key Pair key.
+   * @returns TRUE if pair exists, FALSE otherwise.
    */
   has(key: K): boolean {
     return this.findIndex(key).exact;
@@ -207,36 +210,41 @@ export class SortedMap<K, V> implements Map<K, V> {
 
   keys(): IterableIterator<K> {
     let current = 0;
-
-    return {
-      *[Symbol.iterator]() {
-        // TODO: problem with types here
+    const iterator = {
+      [Symbol.iterator]() {
+        return iterator;
       },
-      next: () => ({ done: current < this.size, value: this.arr[current++][0] }),
+      next: () => ({
+        done: current >= this.size,
+        value: (this.arr[current++] || [])[0],
+      }),
     };
+
+    return iterator;
   }
 
   /**
-   * Returns an iterable of key, value pairs for every element in the map in reverse order.
+   * Returns an iterable of key-value pairs for every key-value pair in the map in reverse order.
    *
-   * @returns Iterable of key, value pairs.
+   * @returns Iterable of key-value pairs.
    */
   reversed(): IterableIterator<[K, V]> {
     let current = this.size - 1;
-
-    return {
-      *[Symbol.iterator]() {
-        // TODO: problem with types here
+    const iterator = {
+      [Symbol.iterator]() {
+        return iterator;
       },
-      next: () => ({ done: current > 0, value: this.arr[current--] }),
+      next: () => ({ done: current < 0, value: this.arr[current--] }),
     };
+
+    return iterator;
   }
 
   /**
-   * Sets element in the map by key.
+   * Sets key-value pair in the map by key.
    *
-   * @param key Element key.
-   * @param value Element value.
+   * @param key Pair key.
+   * @param value key-value pair value.
    * @returns Instance of the map.
    */
   set(key: K, value: V): this {
@@ -250,13 +258,17 @@ export class SortedMap<K, V> implements Map<K, V> {
 
   values(): IterableIterator<V> {
     let current = 0;
-
-    return {
-      *[Symbol.iterator]() {
-        // TODO: problem with types here
+    const iterator = {
+      [Symbol.iterator]() {
+        return iterator;
       },
-      next: () => ({ done: current < this.size, value: this.arr[current++][1] }),
+      next: () => ({
+        done: current >= this.size,
+        value: (this.arr[current++] || [])[1],
+      }),
     };
+
+    return iterator;
   }
 
   *[Symbol.iterator](): Generator<[K, V]> {
