@@ -1,13 +1,11 @@
-import { IStack } from './stack.interface';
-import { ListBasedStructureCommonAbstract } from './list-based-structure.class';
+import { ListBasedStructure } from './list-based-structure.class';
 import { SinglyLinkedList } from '../lists';
+import { StackAbstract } from './stack.class';
 
 /**
  * Implementation of a linked stack.
  */
-export class LinkedStack<T> extends ListBasedStructureCommonAbstract<T> implements IStack<T> {
-
-  protected list: SinglyLinkedList<T>;
+export class LinkedStack<T> extends StackAbstract<T, ListBasedStructure<T, SinglyLinkedList<T>>> {
 
   /**
    * Creates an instance of LinkedStack.
@@ -15,24 +13,23 @@ export class LinkedStack<T> extends ListBasedStructureCommonAbstract<T> implemen
    * @param elements List of elements to create the new stack with.
    */
   constructor(elements: T[] = []) {
-    super();
-    this.list = new SinglyLinkedList<T>(elements);
+    super(new ListBasedStructure(new SinglyLinkedList<T>(elements)));
   }
 
   pop(): T {
     try {
-      return this.list.removeFirst();
+      return this.structure.list.removeFirst();
     } catch (err) {
       throw new Error('Stack is empty');
     }
   }
 
   push(element: T) {
-    this.list.addFirst(element);
+    this.structure.list.addFirst(element);
   }
 
   top(): T {
-    const position = this.list.first();
+    const position = this.structure.list.first();
 
     if (!position) throw new Error('Stack is empty');
 

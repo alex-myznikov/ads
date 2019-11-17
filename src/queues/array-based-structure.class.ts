@@ -1,81 +1,27 @@
+import { IStructure } from './structure.interface';
+
 /**
- * Provides implementation of the common behaviour for structures based on circular arrays.
+ * Provides implementation of the common behaviour for structures based on arrays.
  */
-export abstract class ArrayBasedStructureCommonAbstract<T> {
-
-  /**
-   * Reference to the underlying array data structure.
-   *
-   * @protected
-   */
-  protected arr!: Array<T>;
-
-  /**
-   * Pointer at the front element of the stored sequence.
-   *
-   * @protected
-   */
-  protected front!: number;
-
-  /**
-   * Size of the stored sequence.
-   *
-   * @protected
-   */
-  protected size!: number;
-
-  /**
-   * Pointer at the rear element of the stored sequence.
-   *
-   * @protected
-   */
-  protected rear!: number;
+export class ArrayBasedStructure<T> implements IStructure {
 
   get length() {
-    return this.size;
+    return this.arr.length;
   }
 
   /**
-   * Creates an instance of ArrayBasedStructureCommonAbstract.
+   * Creates an instance of ArrayBasedStructure.
    *
-   * @param len Total capacity of the underlying array.
+   * @param arr Reference to the underlying array data structure.
    */
-  constructor(protected len: number) {
-    this.clear();
-  }
+  constructor(public arr: T[]) { }
 
   clear() {
-    this.arr = Array(this.len);
-    this.front = 0;
-    this.size = 0;
-    this.rear = 0;
+    this.arr = [];
   }
 
   isEmpty(): boolean {
-    return !this.size;
-  }
-
-  /**
-   * Resizes the underlying array.
-   *
-   * @protected
-   * @param len The new array length.
-   */
-  protected resize(len: number) {
-    let walk: number;
-    let swap: T;
-
-    if (this.front) {
-      for (let i = 0; i < this.length; i++) {
-        walk = (i + this.front) % this.len;
-        swap = this.arr[i];
-        this.arr[i] = this.arr[walk];
-        this.arr[walk] = swap;
-      }
-    }
-
-    this.len = len;
-    this.clear();
+    return !this.length;
   }
 
 }

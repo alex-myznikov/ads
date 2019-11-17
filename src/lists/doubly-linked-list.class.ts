@@ -66,10 +66,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
    * @returns Position of the added element.
    */
   addFirst(element: T): Position<T, Node<T>> {
-    if (!this.head) this.tail = this.head = this.insertBetween(element);
-    else this.head = this.insertBetween(element, this.head.prev, this.head);
-
-    return this.createPosition(this.head);
+    return this.createPosition(this.insertBetween(element, undefined, this.head)); // eslint-disable-line no-undefined
   }
 
   /**
@@ -79,10 +76,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
    * @returns Position of the added element.
    */
   addLast(element: T): Position<T, Node<T>> {
-    if (!this.tail) this.tail = this.head = this.insertBetween(element);
-    else this.tail = this.insertBetween(element, this.tail, this.tail.next);
-
-    return this.createPosition(this.tail);
+    return this.createPosition(this.insertBetween(element, this.tail));
   }
 
   /**
@@ -148,7 +142,9 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     const succ = node.next;
 
     if (pred) pred.next = succ;
+    else this.head = succ;
     if (succ) succ.prev = pred;
+    else this.tail = pred;
     node.next = node.prev = node;
     this.size--;
 
@@ -166,6 +162,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
 
   /**
    * Inserts element node between the specified consecutive nodes in the list.
+   * Reassigns head/tail when the node is inserted on outer bounds.
    *
    * @protected
    * @param element Element to insert.
@@ -177,7 +174,9 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     const node = new Node(element, succ, pred);
 
     if (pred) pred.next = node;
+    else this.head = node;
     if (succ) succ.prev = node;
+    else this.tail = node;
     this.size++;
 
     return node;
@@ -204,12 +203,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
   removeFirst(): T {
     if (!this.head) throw new Error('List is empty');
 
-    const head = this.head;
-
-    this.head = this.head.next;
-    if (!this.head) delete this.tail;
-
-    return this.deleteNode(head);
+    return this.deleteNode(this.head);
   }
 
   /**
@@ -220,12 +214,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
   removeLast(): T {
     if (!this.tail) throw new Error('List is empty');
 
-    const tail = this.tail;
-
-    this.tail = this.tail.prev;
-    if (!this.tail) delete this.head;
-
-    return this.deleteNode(tail);
+    return this.deleteNode(this.tail);
   }
 
   /**

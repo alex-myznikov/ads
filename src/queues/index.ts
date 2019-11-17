@@ -1,3 +1,14 @@
+export { AdaptableHeapPriorityQueue } from './adaptable-heap-priority-queue';
+export { ArrayBasedStructure } from './array-based-structure.class';
+export { CircularArrayBasedStructure } from './circular-array-based-structure.class';
+export { CircularArrayBuffer } from './circular-array-buffer.class';
+export { CircularQueue } from './circular-queue.class';
+export { IStructure } from './structure.interface';
+export { LinkedDeque } from './linked-deque.class';
+export { LinkedQueue } from './linked-queue.class';
 export { LinkedStack } from './linked-stack.class';
-export { IStack } from './stack.interface';
-export { IQueue } from './queue.interface';
+export { ListBasedStructure } from './list-based-structure.class';
+export { QueueAbstract } from './queue.class';
+export { SortedPriorityQueue } from './sorted-priority-queue.class';
+export { StackAbstract } from './stack.class';
+export { UnsortedPriorityQueue } from './unsorted-priority-queue.class';

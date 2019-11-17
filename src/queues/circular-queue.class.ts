@@ -1,13 +1,11 @@
 import { CircularlyLinkedList } from '../lists';
-import { IQueue } from './queue.interface';
-import { ListBasedStructureCommonAbstract } from './list-based-structure.class';
+import { ListBasedStructure } from './list-based-structure.class';
+import { QueueAbstract } from './queue.class';
 
 /**
  * Implementation of a linked circular queue.
  */
-export class CircularQueue<T> extends ListBasedStructureCommonAbstract<T> implements IQueue<T> {
-
-  protected list: CircularlyLinkedList<T>;
+export class CircularQueue<T> extends QueueAbstract<T, ListBasedStructure<T, CircularlyLinkedList<T>>> {
 
   /**
    * Creates an instance of CircularQueue.
@@ -15,25 +13,24 @@ export class CircularQueue<T> extends ListBasedStructureCommonAbstract<T> implem
    * @param elements List of elements to create the new queue with.
    */
   constructor(elements: T[] = []) {
-    super();
-    this.list = new CircularlyLinkedList<T>(elements);
+    super(new ListBasedStructure(new CircularlyLinkedList<T>(elements)));
   }
 
   dequeue(): T {
     try {
-      return this.list.removeCurrent();
+      return this.structure.list.removeCurrent();
     } catch (err) {
       throw new Error('Queue is empty');
     }
   }
 
   enqueue(element: T) {
-    this.list.addCurrent(element);
-    this.list.rotate();
+    this.structure.list.addCurrent(element);
+    this.structure.list.rotate();
   }
 
   first(): T {
-    const position = this.list.current();
+    const position = this.structure.list.current();
 
     if (!position) throw new Error('Queue is empty');
 
@@ -45,8 +42,8 @@ export class CircularQueue<T> extends ListBasedStructureCommonAbstract<T> implem
    *
    * @param steps Number of steps.
    */
-  rotate(steps: number) {
-    for (let i = 0; i < steps; i++) this.list.rotate();
+  rotate(steps: number = 1) {
+    for (let i = 0; i < steps; i++) this.structure.list.rotate();
   }
 
 }

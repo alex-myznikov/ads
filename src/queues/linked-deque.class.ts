@@ -1,13 +1,11 @@
 import { DoublyLinkedList } from '../lists';
-import { IQueue } from './queue.interface';
-import { ListBasedStructureCommonAbstract } from './list-based-structure.class';
+import { ListBasedStructure } from './list-based-structure.class';
+import { QueueAbstract } from './queue.class';
 
 /**
  * Implementation of a linked deque.
  */
-export class LinkedDeque<T> extends ListBasedStructureCommonAbstract<T> implements IQueue<T> {
-
-  protected list: DoublyLinkedList<T>;
+export class LinkedDeque<T> extends QueueAbstract<T, ListBasedStructure<T, DoublyLinkedList<T>>> {
 
   /**
    * Creates an instance of LinkedDeque.
@@ -15,13 +13,12 @@ export class LinkedDeque<T> extends ListBasedStructureCommonAbstract<T> implemen
    * @param elements List of elements to create the new deque with.
    */
   constructor(elements: T[] = []) {
-    super();
-    this.list = new DoublyLinkedList<T>(elements);
+    super(new ListBasedStructure(new DoublyLinkedList<T>(elements)));
   }
 
   dequeue(): T {
     try {
-      return this.list.removeFirst();
+      return this.structure.list.removeFirst();
     } catch (err) {
       throw new Error('Queue is empty');
     }
@@ -34,14 +31,14 @@ export class LinkedDeque<T> extends ListBasedStructureCommonAbstract<T> implemen
    */
   dequeueLast(): T {
     try {
-      return this.list.removeLast();
+      return this.structure.list.removeLast();
     } catch (err) {
       throw new Error('Queue is empty');
     }
   }
 
   enqueue(element: T) {
-    this.list.addLast(element);
+    this.structure.list.addLast(element);
   }
 
   /**
@@ -50,11 +47,11 @@ export class LinkedDeque<T> extends ListBasedStructureCommonAbstract<T> implemen
    * @param element Element to add.
    */
   enqueueFirst(element: T) {
-    this.list.addFirst(element);
+    this.structure.list.addFirst(element);
   }
 
   first(): T {
-    const position = this.list.first();
+    const position = this.structure.list.first();
 
     if (!position) throw new Error('Queue is empty');
 
@@ -67,7 +64,7 @@ export class LinkedDeque<T> extends ListBasedStructureCommonAbstract<T> implemen
    * @returns Queue element.
    */
   last(): T {
-    const position = this.list.last();
+    const position = this.structure.list.last();
 
     if (!position) throw new Error('Queue is empty');
 

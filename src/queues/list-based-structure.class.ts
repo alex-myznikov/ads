@@ -1,21 +1,22 @@
+import { IContainer } from '../container.interface';
+import { IStructure } from './structure.interface';
 import { LinkedListAbstract } from '../lists/linked-list.class';
-import { IContainer } from 'src/container.interface';
 
 /**
  * Provides implementation of the common behaviour for linked list based stacks and queues.
  */
-export abstract class ListBasedStructureCommonAbstract<T> {
-
-  /**
-   * Reference to the underlying linked list data structure.
-   *
-   * @protected
-   */
-  protected abstract list: LinkedListAbstract<T, IContainer<T>>;
+export class ListBasedStructure<T, L extends LinkedListAbstract<T, IContainer<T>>> implements IStructure {
 
   get length() {
     return this.list.length;
   }
+
+  /**
+   * Creates an instance of ListBasedStructure.
+   *
+   * @param list Reference to the underlying linked list data structure.
+   */
+  constructor(public list: L) { }
 
   clear() {
     this.list.clear();

@@ -10,8 +10,17 @@ export class Locator<T> implements IContainer<T> {
    *
    * @readonly
    */
-  get element() {
+  get element(): T {
     return this._element;
+  }
+
+  /**
+   * Index of the element in its containing array.
+   *
+   * @readonly
+   */
+  get index(): number {
+    return this._index;
   }
 
   /**
@@ -20,15 +29,24 @@ export class Locator<T> implements IContainer<T> {
    * @readonly
    */
   get _internal() {
-    return { element: this._element };
+    const self = this;
+
+    return {
+      set element(value: T) {
+        self._element = value;
+      },
+      set index(value: number) {
+        self._index = value;
+      },
+    };
   }
 
   /**
    * Creates an instance of Position.
    *
    * @param _element Reference to the element.
-   * @param index Index of the element in its containing array.
+   * @param _index Index of the element in its containing array.
    */
-  constructor(protected _element: T, public index: number) { }
+  constructor(protected _element: T, protected _index: number) { }
 
 }

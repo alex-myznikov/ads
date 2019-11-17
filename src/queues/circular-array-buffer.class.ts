@@ -1,10 +1,10 @@
-import { ArrayBasedStructureCommonAbstract } from './array-based-structure.class';
-import { IQueue } from './queue.interface';
+import { CircularArrayBasedStructure } from './circular-array-based-structure.class';
+import { QueueAbstract } from './queue.class';
 
 /**
  * Implementation of a circular array buffer.
  */
-export class CircularArrayBuffer<T> extends ArrayBasedStructureCommonAbstract<T> implements IQueue<T> {
+export class CircularArrayBuffer<T> extends QueueAbstract<T, CircularArrayBasedStructure<T>> {
 
   /**
    * Maximum size of a sequence the buffer can store without overwriting itself.
@@ -12,16 +12,18 @@ export class CircularArrayBuffer<T> extends ArrayBasedStructureCommonAbstract<T>
    * @readonly
    */
   get maxLength() {
-    return this.len;
+    return this.structure.len;
   }
 
   /**
    * Creates an instance of CircularArrayBuffer.
    *
-   * @param elements Initial elements of the queue.
+   * @param len Buffer total capacity.
+   * @param elements List of elements to create the buffer with.
+   * @param overwritable Flag allowing to overwrite the buffer if it is full. Is FALSE by default.
    */
-  constructor(elements: T[] = [], protected len: number, protected overwritable = false) {
-    super(len);
+  constructor(len: number, elements: T[] = [], protected overwritable = false) {
+    super(new CircularArrayBasedStructure(len));
     for (const val of elements) this.enqueue(val);
   }
 
@@ -31,7 +33,7 @@ export class CircularArrayBuffer<T> extends ArrayBasedStructureCommonAbstract<T>
    * @returns TRUE if the buffer is full, FALSE otherwise.
    */
   isFull(): boolean {
-    return this.size === this.len;
+    return this.length === this.maxLength;
   }
 
   /**
@@ -46,25 +48,26 @@ export class CircularArrayBuffer<T> extends ArrayBasedStructureCommonAbstract<T>
   dequeue(): T {
     if (this.isEmpty()) throw new Error('Buffer is empty');
 
-    const element = this.arr[this.front];
+    const element = this.structure.arr[this.structure.front];
 
-    this.front = (this.front + 1) % this.len;
-    this.size--;
+    this.structure.front = (this.structure.front + 1) % this.maxLength;
+    this.structure.size--;
 
     return element;
   }
 
   enqueue(element: T) {
-    if (!this.isFull()) this.size++;
+    if (!this.isFull()) this.structure.size++;
     else if (!this.isOverwritable()) throw new Error('Buffer is full');
-    this.arr[this.rear] = element;
-    this.rear = (this.rear + 1) % this.len;
+    else this.structure.front = (this.structure.front + 1) % this.maxLength;
+    this.structure.arr[this.structure.rear] = element;
+    this.structure.rear = (this.structure.rear + 1) % this.maxLength;
   }
 
   first(): T {
     if (this.isEmpty()) throw new Error('Buffer is empty');
 
-    return this.arr[this.front];
+    return this.structure.arr[this.structure.front];
   }
 
 }

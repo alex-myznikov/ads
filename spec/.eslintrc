@@ -1,6 +1,7 @@
 {
   "rules": {
     "@typescript-eslint/no-non-null-assertion": "off",
+    "dot-notation": "off",
     "no-unused-expressions": "off"
   }
 }

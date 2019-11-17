@@ -29,6 +29,17 @@ describe('DoublyLinkedList', function() {
       chai.expect(list.after(beforePosition!)!.element).to.equal('added element');
     });
 
+    it('should insert element after the list tail and reassign it', function() {
+      const position = list.addAfter(list.last()!, 'added element');
+      const afterPosition = list.after(position);
+      const beforePosition = list.before(position);
+
+      chai.expect(beforePosition!.element).to.equal('baz');
+      chai.expect(afterPosition).to.be.undefined;
+      chai.expect(list.after(beforePosition!)!.element).to.equal('added element');
+      chai.expect(list.last()!.element).to.equal('added element');
+    });
+
     it('should return position of the added element', function() {
       const position = list.addAfter(list.first()!, 'added element');
 
@@ -58,6 +69,17 @@ describe('DoublyLinkedList', function() {
       chai.expect(beforePosition!.element).to.equal('bar');
       chai.expect(list.before(afterPosition!)!.element).to.equal('added element');
       chai.expect(list.after(beforePosition!)!.element).to.equal('added element');
+    });
+
+    it('should insert element before the list head and reassign it', function() {
+      const position = list.addBefore(list.first()!, 'added element');
+      const afterPosition = list.after(position);
+      const beforePosition = list.before(position);
+
+      chai.expect(afterPosition!.element).to.equal('foo');
+      chai.expect(beforePosition).to.be.undefined;
+      chai.expect(list.before(afterPosition!)!.element).to.equal('added element');
+      chai.expect(list.first()!.element).to.equal('added element');
     });
 
     it('should return position of the added element', function() {
@@ -294,6 +316,12 @@ describe('DoublyLinkedList', function() {
       chai.expect(list.removeFirst()).to.equal('foo');
     });
 
+    it('should reassign head of the list after removal', function() {
+      chai.expect(list.first()!.element).to.equal('foo');
+      list.removeFirst();
+      chai.expect(list.first()!.element).to.equal('bar');
+    });
+
     it('should first() and last() point to the same if one element is left after removing', function() {
       list.removeFirst();
       list.removeFirst();
@@ -322,6 +350,12 @@ describe('DoublyLinkedList', function() {
 
     it('should remove and return the last element from the list', function() {
       chai.expect(list.removeLast()).to.equal('baz');
+    });
+
+    it('should reassign tail of the list after removal', function() {
+      chai.expect(list.last()!.element).to.equal('baz');
+      list.removeLast();
+      chai.expect(list.last()!.element).to.equal('bar');
     });
 
     it('should first() and last() point to the same if one element is left after removing', function() {

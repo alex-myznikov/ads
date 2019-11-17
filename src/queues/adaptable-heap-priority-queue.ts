@@ -1,22 +1,13 @@
+import { ArrayBasedStructure } from './array-based-structure.class';
 import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
-import { IQueue } from './queue.interface';
-import { Locator } from 'src/locator.class';
+import { Locator } from '../locator.class';
+import { QueueAbstract } from './queue.class';
 
 /**
  * Implementation of an adaptable heap priority queue.
  */
-export class AdaptableHeapPriorityQueue<K, V = never> implements IQueue<K | [K, V]> {
-
-  /**
-   * Reference to the underlying array data structure.
-   *
-   * @protected
-   */
-  protected arr: Locator<K | [K, V]>[];
-
-  get length() {
-    return this.arr.length;
-  }
+export class AdaptableHeapPriorityQueue<K, V = never>
+  extends QueueAbstract<K | [K, V], ArrayBasedStructure<Locator<K | [K, V]>>> {
 
   /**
    * Creates an instance of AdaptableHeapPriorityQueue.
@@ -25,8 +16,14 @@ export class AdaptableHeapPriorityQueue<K, V = never> implements IQueue<K | [K, 
    * @param compare Comparison function for element search. Elements are compared as numbers by default.
    */
   constructor(elements: K[] | [K, V][] = [], protected compare: CompareFunc<K> = compareAsNumbers) {
-    this.arr = [];
-    for (const val of elements) this.enqueue(val);
+    super(new ArrayBasedStructure([]));
+    for (const val of elements) this.structure.arr.push(new Locator(val, this.length));
+
+    if (this.length > 1) {
+      const { index: start } = this.getParent(this.length - 1) as Locator<K | [K, V]>;
+
+      for (let i = start; i > 0; i--) this.downheap(i);
+    }
   }
 
   /**
@@ -36,12 +33,11 @@ export class AdaptableHeapPriorityQueue<K, V = never> implements IQueue<K | [K, 
    * @param i Element index in the array.
    */
   protected bubble(i: number) {
-    if (i > 0 && this.arr[i] < this.arr[Math.floor((i - 1) / 2)]) this.upheap(i);
-    else this.downheap(i);
-  }
-
-  clear() {
-    this.arr = [];
+    if (!i) this.downheap(i);
+    else {
+      this.upheap(i);
+      this.downheap(i);
+    }
   }
 
   dequeue(): K | [K, V] {
@@ -49,7 +45,7 @@ export class AdaptableHeapPriorityQueue<K, V = never> implements IQueue<K | [K, 
 
     this.swap(0, this.length - 1);
 
-    const locator = this.arr.pop() as Locator<K | [K, V]>;
+    const locator = this.structure.arr.pop() as Locator<K | [K, V]>;
 
     this.downheap(0);
 
@@ -63,28 +59,30 @@ export class AdaptableHeapPriorityQueue<K, V = never> implements IQueue<K | [K, 
    * @param i Element index in the array.
    */
   protected downheap(i: number) {
-    let childIndex = i * 2 + 1;
-    let smallChild = this.arr[childIndex].element;
+    if (this.hasLeftChild(i)) {
+      let { element: leastChildElement, index: leastChildIndex } = this.getLeftChild(i) as Locator<K | [K, V]>;
 
-    if (!smallChild) return;
+      if (this.hasRightChild(i)) {
+        const { element: rightChildElement, index: rightChildIndex } = this.getRightChild(i) as Locator<K | [K, V]>;
 
-    const parent = this.arr[i].element;
-    const rightChild = this.arr[childIndex + 1].element;
+        if (rightChildElement && this.compare(
+          Array.isArray(rightChildElement) ? rightChildElement[0] : rightChildElement,
+          Array.isArray(leastChildElement) ? leastChildElement[0] : leastChildElement,
+        ) === ComparisonResult.LESS) {
+          leastChildElement = rightChildElement;
+          leastChildIndex = rightChildIndex;
+        }
+      }
 
-    if (rightChild && this.compare(
-      Array.isArray(rightChild) ? rightChild[0] : rightChild,
-      Array.isArray(smallChild) ? smallChild[0] : smallChild,
-    ) === ComparisonResult.LESS) {
-      childIndex++;
-      smallChild = rightChild;
-    }
+      const parentElement = this.structure.arr[i].element;
 
-    if (this.compare(
-      Array.isArray(parent) ? parent[0] : parent,
-      Array.isArray(smallChild) ? smallChild[0] : smallChild,
-    ) === ComparisonResult.GREATER) {
-      this.swap(i, childIndex);
-      this.downheap(childIndex);
+      if (this.compare(
+        Array.isArray(parentElement) ? parentElement[0] : parentElement,
+        Array.isArray(leastChildElement) ? leastChildElement[0] : leastChildElement,
+      ) === ComparisonResult.GREATER) {
+        this.swap(i, leastChildIndex);
+        this.downheap(leastChildIndex);
+      }
     }
   }
 
@@ -95,7 +93,7 @@ export class AdaptableHeapPriorityQueue<K, V = never> implements IQueue<K | [K, 
   enqueue(element: K | [K, V]): Locator<K | [K, V]> {
     const locator = new Locator(element, this.length);
 
-    this.arr.push(locator);
+    this.structure.arr.push(locator);
     this.upheap(this.length - 1);
 
     return locator;
@@ -104,11 +102,62 @@ export class AdaptableHeapPriorityQueue<K, V = never> implements IQueue<K | [K, 
   first(): K | [K, V] {
     if (this.isEmpty()) throw new Error('Queue is empty');
 
-    return this.arr[0].element;
+    return this.structure.arr[0].element;
   }
 
-  isEmpty(): boolean {
-    return !this.arr.length;
+  /**
+   * Gets left child of the specified element.
+   *
+   * @protected
+   * @param i Element index in the array.
+   * @returns Locator of the left child or undefined if left child does not exist.
+   */
+  protected getLeftChild(i: number): Locator<K | [K, V]> | undefined {
+    return this.structure.arr[i * 2 + 1];
+  }
+
+  /**
+   * Gets parent of the specified element.
+   *
+   * @protected
+   * @param i Element index in the array.
+   * @returns Locator of the parent or undefined if parent does not exist.
+   */
+  protected getParent(i: number): Locator<K | [K, V]> | undefined {
+    return this.structure.arr[Math.floor((i - 1) / 2)];
+  }
+
+  /**
+   * Gets right child of the specified element.
+   *
+   * @protected
+   * @param i Element index in the array.
+   * @returns Locator of the right child or undefined if right child does not exist.
+   */
+  protected getRightChild(i: number): Locator<K | [K, V]> | undefined {
+    return this.structure.arr[i * 2 + 2];
+  }
+
+  /**
+   * Checks whether the specified element has left child.
+   *
+   * @protected
+   * @param i Element index in the array.
+   * @returns TRUE if left child exists, FALSE otherwise.
+   */
+  protected hasLeftChild(i: number): boolean {
+    return i * 2 + 1 < this.length;
+  }
+
+  /**
+   * Checks whether the specified element has right child.
+   *
+   * @protected
+   * @param i Element index in the array.
+   * @returns TRUE if right child exists, FALSE otherwise.
+   */
+  protected hasRightChild(i: number): boolean {
+    return i * 2 + 2 < this.length;
   }
 
   /**
@@ -123,11 +172,11 @@ export class AdaptableHeapPriorityQueue<K, V = never> implements IQueue<K | [K, 
 
     if (elementIndex < 0 ||
       elementIndex > this.length ||
-      this.arr[elementIndex] !== locator) throw new Error('Locator is not valid.');
-    else if (elementIndex === this.length - 1) this.arr.pop();
+      this.structure.arr[elementIndex] !== locator) throw new Error('Locator is not valid.');
+    else if (elementIndex === this.length - 1) this.structure.arr.pop();
     else {
       this.swap(elementIndex, this.length - 1);
-      this.arr.pop();
+      this.structure.arr.pop();
       this.bubble(elementIndex);
     }
 
@@ -142,12 +191,12 @@ export class AdaptableHeapPriorityQueue<K, V = never> implements IQueue<K | [K, 
    * @param j Element index in the array.
    */
   protected swap(i: number, j: number) {
-    const element = this.arr[i];
+    const element = this.structure.arr[i];
 
-    this.arr[i].index = j;
-    this.arr[i] = this.arr[j];
-    this.arr[j].index = i;
-    this.arr[j] = element;
+    this.structure.arr[i]._internal.index = j;
+    this.structure.arr[i] = this.structure.arr[j];
+    this.structure.arr[j]._internal.index = i;
+    this.structure.arr[j] = element;
   }
 
   /**
@@ -159,9 +208,8 @@ export class AdaptableHeapPriorityQueue<K, V = never> implements IQueue<K | [K, 
   protected upheap(i: number) {
     if (!i) return;
 
-    const parentIndex = Math.floor((i - 1) / 2);
-    const parent = this.arr[parentIndex].element;
-    const child = this.arr[i].element;
+    const { element: parent, index: parentIndex } = this.getParent(i) as Locator<K | [K, V]>;
+    const child = this.structure.arr[i].element;
 
     if (this.compare(
       Array.isArray(parent) ? parent[0] : parent,
@@ -183,7 +231,7 @@ export class AdaptableHeapPriorityQueue<K, V = never> implements IQueue<K | [K, 
 
     if (elementIndex < 0 ||
       elementIndex > this.length ||
-      this.arr[elementIndex] !== locator) throw new Error('Locator is not valid.');
+      this.structure.arr[elementIndex] !== locator) throw new Error('Locator is not valid.');
     locator._internal.element = element;
     this.bubble(elementIndex);
   }

@@ -1,46 +1,61 @@
+import { IStructure } from './structure.interface';
+
 /**
- * Interface of a stack (LIFO) data structure.
+ * An abstract stack (LIFO) data structure.
  */
-export interface IStack<T> {
+export abstract class StackAbstract<T, S extends IStructure> {
 
   /**
    * Number of elements in the stack.
    *
    * @readonly
    */
-  length: number;
+  get length(): number {
+    return this.structure.length;
+  }
+
+  /**
+   * Creates an instance of StackAbstract.
+   *
+   * @param structure Data structure.
+   */
+  constructor(protected structure: S) { }
 
   /**
    * Clears the stack.
    */
-  clear(): void;
+  clear() {
+    this.structure.clear();
+  }
 
   /**
    * Checks whether the stack is empty or not.
    *
    * @returns TRUE if the stack is empty, FALSE otherwise.
    */
-  isEmpty(): boolean;
+  isEmpty(): boolean {
+    return this.structure.isEmpty();
+  }
 
   /**
    * Removes the first element from the top of the stack and returns it. Throws an error if the stack is empty.
    *
    * @returns Removed element.
    */
-  pop(): T;
+  abstract pop(): T;
 
   /**
    * Adds element at the top of the stack.
    *
    * @param element Element to add.
    */
-  push(element: T): void;
+  abstract push(element: T): void;
 
   /**
    * Gets element from the top of the stack without its removal.
    *
    * @returns Stack element.
    */
-  top(): T;
+  abstract top(): T;
 
 }
