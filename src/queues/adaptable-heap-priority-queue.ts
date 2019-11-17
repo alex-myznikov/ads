@@ -22,7 +22,7 @@ export class AdaptableHeapPriorityQueue<K, V = never>
     if (this.length > 1) {
       const { index: start } = this.getParent(this.length - 1) as Locator<K | [K, V]>;
 
-      for (let i = start; i > 0; i--) this.downheap(i);
+      for (let i = start; i >= 0; i--) this.downheap(i);
     }
   }
 

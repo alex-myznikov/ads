@@ -18,14 +18,14 @@ export function binarySearch<T>(
   to?: number,
   compare: CompareFunc<T> = compareAsNumbers,
 ): { index: number, exact: boolean } {
-  let low = from || 0;
-  let high = (to ? to : arr.length) - 1;
+  let low = Math.max(from || 0, 0);
+  let high = (to ? Math.min(to, arr.length) : arr.length) - 1;
   let mid: number;
 
   while (low <= high) {
     mid = Math.floor((low + high) / 2);
 
-    switch (mid < arr.length ? compare(arr[mid], target) : ComparisonResult.LESS) {
+    switch (compare(arr[mid], target)) {
       case ComparisonResult.EQUAL:
         return { index: mid, exact: true };
       case ComparisonResult.GREATER:

@@ -241,6 +241,12 @@ describe('CircularlyLinkedList', function() {
       list.rotate();
       chai.expect(list.current()!.element).to.equal('bar');
     });
+
+    it('should not fail if the list is empty', function() {
+      list.clear();
+      list.rotate();
+      chai.expect(list.current()).to.be.undefined;
+    });
   });
 
   describe('iterator', function() {

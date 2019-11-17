@@ -36,7 +36,7 @@ describe('binarySearch()', function() {
     chai.expect(binarySearch(arr, -1)).to.eql({ index: 0, exact: false });
   });
 
-  it('should right boundary index be the lenght of array by default', function() {
+  it('should right boundary index be the length of array by default', function() {
     chai.expect(binarySearch(arr, 8)).to.eql({ index: 6, exact: false });
   });
 
@@ -62,10 +62,13 @@ describe('binarySearch()', function() {
     chai.expect(binarySearch(arr, 3, 4, 1)).to.eql({ index: 1, exact: false });
   });
 
-  it('should throw if encounters NaN with default comparison algorithm', function() {
-    chai.expect(binarySearch.bind(this, arr, NaN)).to.throw('Can not compare with NaN');
-    chai.expect(binarySearch.bind(this, [NaN], 5)).to.throw('Can not compare with NaN');
-    chai.expect(binarySearch.bind(this, ['not correct number'], 'not correct number')).to
-      .throw('Can not compare with NaN');
+  it('should left boundary be 0 if from is negative', function() {
+    chai.expect(binarySearch(arr, 0, -1)).to.eql({ index: 0, exact: true });
+    chai.expect(binarySearch(arr, 3, -100, 3)).to.eql({ index: 2, exact: true });
+  });
+
+  it('should right boundary be the array length if to is greater than array length', function() {
+    chai.expect(binarySearch(arr, 8, 0, 10)).to.eql({ index: 6, exact: false });
+    chai.expect(binarySearch(arr, 7, 0, 10)).to.eql({ index: 5, exact: true });
   });
 });

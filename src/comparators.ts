@@ -11,11 +11,11 @@ export enum ComparisonResult {
  * @param b Comparison parameter.
  * @returns Result of comparison (1 if a is greater than b, -1 if a is less than b, 0 if they are equal).
  */
-export interface CompareFunc<T> {
-  (a: T, b: T): ComparisonResult;
+export interface CompareFunc<T, K = T> {
+  (a: T, b: K): ComparisonResult;
 }
 
-export function compareAsNumbers<T>(a: T, b: T): ComparisonResult {
+export function compareAsNumbers<T, K>(a: T, b: K): ComparisonResult {
   const _a = parseFloat(a as any);
   const _b = parseFloat(b as any);
 
