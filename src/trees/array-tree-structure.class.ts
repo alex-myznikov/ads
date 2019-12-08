@@ -1,0 +1,1 @@
+// TODO: export class LinkedTreeStructure<T, N extends IContainer<T>> implements IStructure
