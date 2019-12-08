@@ -37,7 +37,7 @@ describe('UnsortedPriorityQueue', function() {
       queue.enqueue(0);
       queue.enqueue(5);
       queue.enqueue(4);
-      chai.expect(queue['structure']['list'].last()!.element).to.equal(4);
+      chai.expect(queue['structure']['list'].getLast()!.element).to.equal(4);
       chai.expect(queue['structure']['list']['tail']!.prev!.element).to.equal(5);
       chai.expect(queue['structure']['list']['tail']!.prev!.prev!.element).to.equal(0);
     });
@@ -65,7 +65,7 @@ describe('UnsortedPriorityQueue', function() {
   describe('clear()', function() {
     it('should clear the queue', function() {
       queue.clear();
-      chai.expect(queue.first.bind(queue)).to.throw('Queue is empty');
+      chai.expect(queue.getFirst.bind(queue)).to.throw('Queue is empty');
     });
 
     it('should reduce the queue length to 0', function() {
@@ -81,14 +81,14 @@ describe('UnsortedPriorityQueue', function() {
     });
   });
 
-  describe('first()', function() {
+  describe('getFirst()', function() {
     it('should throw if the queue is empty', function() {
       queue.clear();
-      chai.expect(queue.first.bind(queue)).to.throw('Queue is empty');
+      chai.expect(queue.getFirst.bind(queue)).to.throw('Queue is empty');
     });
 
     it('should return the element at the front of the queue', function() {
-      chai.expect(queue.first()).to.equal(1);
+      chai.expect(queue.getFirst()).to.equal(1);
     });
   });
 

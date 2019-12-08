@@ -80,7 +80,7 @@ describe('AdaptableHeapPriorityQueue', function() {
   describe('clear()', function() {
     it('should clear the queue', function() {
       queue.clear();
-      chai.expect(queue.first.bind(queue)).to.throw('Queue is empty');
+      chai.expect(queue.getFirst.bind(queue)).to.throw('Queue is empty');
     });
 
     it('should reduce the queue length to 0', function() {
@@ -96,14 +96,14 @@ describe('AdaptableHeapPriorityQueue', function() {
     });
   });
 
-  describe('first()', function() {
+  describe('getFirst()', function() {
     it('should throw if the queue is empty', function() {
       queue.clear();
-      chai.expect(queue.first.bind(queue)).to.throw('Queue is empty');
+      chai.expect(queue.getFirst.bind(queue)).to.throw('Queue is empty');
     });
 
     it('should return the element at the front of the queue', function() {
-      chai.expect(queue.first()).to.equal(1);
+      chai.expect(queue.getFirst()).to.equal(1);
     });
   });
 
@@ -139,9 +139,9 @@ describe('AdaptableHeapPriorityQueue', function() {
     it('should remove element from the queue by its locator', function() {
       const locator = queue.enqueue(0);
 
-      chai.expect(queue.first()).to.equal(0);
+      chai.expect(queue.getFirst()).to.equal(0);
       queue.remove(locator);
-      chai.expect(queue.first()).to.equal(1);
+      chai.expect(queue.getFirst()).to.equal(1);
     });
 
     it('should return removed element', function() {

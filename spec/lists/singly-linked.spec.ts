@@ -19,27 +19,27 @@ describe('SinglyLinkedList', function() {
 
   describe('addAfter()', function() {
     it('should insert element after the specified position in the list', function() {
-      const position = list.addAfter(list.first()!, 'added element');
+      const position = list.addAfter(list.getFirst()!, 'added element');
 
       chai.expect(list.after(position)!.element).to.equal('bar');
-      chai.expect(list.after(list.first()!)!.element).to.equal('added element');
+      chai.expect(list.after(list.getFirst()!)!.element).to.equal('added element');
     });
 
     it('should return position of the added element', function() {
-      const position = list.addAfter(list.first()!, 'added element');
+      const position = list.addAfter(list.getFirst()!, 'added element');
 
       chai.expect(position).to.be.instanceOf(Position);
       chai.expect(position.element).to.equal('added element');
     });
 
     it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.addAfter.bind(list, anotherList.first()!, 'added element')).to
+      chai.expect(list.addAfter.bind(list, anotherList.getFirst()!, 'added element')).to
         .throw('Position does not belong to this list');
     });
 
     it('should increment the list length by one', function() {
       chai.expect(list.length).to.equal(3);
-      list.addAfter(list.first()!, 'added element');
+      list.addAfter(list.getFirst()!, 'added element');
       chai.expect(list.length).to.equal(4);
     });
   });
@@ -47,14 +47,14 @@ describe('SinglyLinkedList', function() {
   describe('addFirst()', function() {
     it('should prepend element to the list', function() {
       list.addFirst('added element');
-      chai.expect(list.first()!.element).to.equal('added element');
-      chai.expect(list.after(list.first()!)!.element).to.equal('foo');
+      chai.expect(list.getFirst()!.element).to.equal('added element');
+      chai.expect(list.after(list.getFirst()!)!.element).to.equal('foo');
     });
 
     it('should init both head and tail if the list is empty', function() {
       list.clear();
       list.addFirst('added element');
-      chai.expect(list.first()!.element).to.equal(list.last()!.element);
+      chai.expect(list.getFirst()!.element).to.equal(list.getLast()!.element);
     });
 
     it('should return position of the added element', function() {
@@ -74,13 +74,13 @@ describe('SinglyLinkedList', function() {
   describe('addLast()', function() {
     it('should append element to the list', function() {
       list.addLast('added element');
-      chai.expect(list.last()!.element).to.equal('added element');
+      chai.expect(list.getLast()!.element).to.equal('added element');
     });
 
     it('should init both head and tail if the list is empty', function() {
       list.clear();
       list.addLast('added element');
-      chai.expect(list.first()!.element).to.equal(list.last()!.element);
+      chai.expect(list.getFirst()!.element).to.equal(list.getLast()!.element);
     });
 
     it('should return position of the added element', function() {
@@ -99,29 +99,29 @@ describe('SinglyLinkedList', function() {
 
   describe('after()', function() {
     it('should return undefined if there is no element after the position', function() {
-      chai.expect(list.after(list.last()!)).to.be.undefined;
+      chai.expect(list.after(list.getLast()!)).to.be.undefined;
     });
 
     it('should return position of the element after the specified position', function() {
-      chai.expect(list.after(list.first()!)).to.be.instanceOf(Position);
-      chai.expect(list.after(list.first()!)!.element).to.equal('bar');
+      chai.expect(list.after(list.getFirst()!)).to.be.instanceOf(Position);
+      chai.expect(list.after(list.getFirst()!)!.element).to.equal('bar');
     });
 
     it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.after.bind(list, anotherList.first()!)).to.throw('Position does not belong to this list');
+      chai.expect(list.after.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
     });
   });
 
   describe('clear()', function() {
     it('should clear the list', function() {
       list.clear();
-      chai.expect(list.first()).to.be.undefined;
-      chai.expect(list.last()).to.be.undefined;
+      chai.expect(list.getFirst()).to.be.undefined;
+      chai.expect(list.getLast()).to.be.undefined;
       chai.expect(Array.from(list).length).to.equal(0);
     });
 
     it('should not deprecate existing positions if instant is TRUE', function() {
-      const position = list.first();
+      const position = list.getFirst();
       const positionAfter = list.after(position!);
 
       list.clear(true);
@@ -129,7 +129,7 @@ describe('SinglyLinkedList', function() {
     });
 
     it('should deprecate existing positions if instant is FALSE', function() {
-      const position = list.first();
+      const position = list.getFirst();
 
       list.clear();
       chai.expect(list.after.bind(list, position!)).to.throw('Position is deprecated');
@@ -148,37 +148,37 @@ describe('SinglyLinkedList', function() {
     });
   });
 
-  describe('first()', function() {
+  describe('getFirst()', function() {
     it('should return undefined if the list is empty', function() {
       list.clear();
-      chai.expect(list.first()).to.be.undefined;
+      chai.expect(list.getFirst()).to.be.undefined;
     });
 
     it('should return position of the first element in the list', function() {
-      chai.expect(list.first()).to.be.instanceOf(Position);
-      chai.expect(list.first()!.element).to.equal('foo');
+      chai.expect(list.getFirst()).to.be.instanceOf(Position);
+      chai.expect(list.getFirst()!.element).to.equal('foo');
     });
 
-    it('should return the same as last() if the list has one element', function() {
+    it('should return the same as getLast() if the list has one element', function() {
       list = new SinglyLinkedList(['foo']);
-      chai.expect(list.first()!.element).to.equal(list.last()!.element);
+      chai.expect(list.getFirst()!.element).to.equal(list.getLast()!.element);
     });
   });
 
-  describe('last()', function() {
+  describe('getLast()', function() {
     it('should return undefined if the list is empty', function() {
       list.clear();
-      chai.expect(list.last()).to.be.undefined;
+      chai.expect(list.getLast()).to.be.undefined;
     });
 
     it('should return position of the last element in the list', function() {
-      chai.expect(list.last()).to.be.instanceOf(Position);
-      chai.expect(list.last()!.element).to.equal('baz');
+      chai.expect(list.getLast()).to.be.instanceOf(Position);
+      chai.expect(list.getLast()!.element).to.equal('baz');
     });
 
-    it('should return the same as first() if the list has one element', function() {
+    it('should return the same as getFirst() if the list has one element', function() {
       list = new SinglyLinkedList(['foo']);
-      chai.expect(list.last()!.element).to.equal(list.first()!.element);
+      chai.expect(list.getLast()!.element).to.equal(list.getFirst()!.element);
     });
   });
 
@@ -203,10 +203,10 @@ describe('SinglyLinkedList', function() {
       chai.expect(list.removeFirst()).to.equal('foo');
     });
 
-    it('should first() and last() point to the same if one element is left after removing', function() {
+    it('should getFirst() and getLast() point to the same if one element is left after removing', function() {
       list.removeFirst();
       list.removeFirst();
-      chai.expect(list.first()!.element).to.equal(list.last()!.element);
+      chai.expect(list.getFirst()!.element).to.equal(list.getLast()!.element);
     });
 
     it('should decrement the list length by one', function() {
@@ -215,15 +215,15 @@ describe('SinglyLinkedList', function() {
       chai.expect(list.length).to.equal(2);
     });
 
-    it('should return undefined on first() and last() if the list is empty after removing', function() {
+    it('should return undefined on getFirst() and getLast() if the list is empty after removing', function() {
       list.removeFirst();
       list.removeFirst();
       list.removeFirst();
-      chai.expect(list.first()).to.equal(list.last()).and.to.be.undefined;
+      chai.expect(list.getFirst()).to.equal(list.getLast()).and.to.be.undefined;
     });
 
     it('should deprecate the removed node', function() {
-      const position = list.first();
+      const position = list.getFirst();
 
       list.removeFirst();
       chai.expect(list.after.bind(list, position!)).to.throw('Position is deprecated');
@@ -232,22 +232,22 @@ describe('SinglyLinkedList', function() {
 
   describe('replace()', function() {
     it('should replace element at the specified position in the list', function() {
-      list.replace(list.first()!, 'replacement');
-      chai.expect(list.first()!.element).to.equal('replacement');
+      list.replace(list.getFirst()!, 'replacement');
+      chai.expect(list.getFirst()!.element).to.equal('replacement');
     });
 
     it('should return the replaced element', function() {
-      chai.expect(list.replace(list.first()!, 'replacement')).to.equal('foo');
+      chai.expect(list.replace(list.getFirst()!, 'replacement')).to.equal('foo');
     });
 
     it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.replace.bind(list, anotherList.first()!, 'replacement')).to
+      chai.expect(list.replace.bind(list, anotherList.getFirst()!, 'replacement')).to
         .throw('Position does not belong to this list');
     });
 
     it('should not change the list length', function() {
       chai.expect(list.length).to.equal(3);
-      list.replace(list.first()!, 'replacement');
+      list.replace(list.getFirst()!, 'replacement');
       chai.expect(list.length).to.equal(3);
     });
   });

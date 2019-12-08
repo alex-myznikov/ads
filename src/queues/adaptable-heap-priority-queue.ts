@@ -99,7 +99,7 @@ export class AdaptableHeapPriorityQueue<K, V = never>
     return locator;
   }
 
-  first(): K | [K, V] {
+  getFirst(): K | [K, V] {
     if (this.isEmpty()) throw new Error('Queue is empty');
 
     return this.structure.arr[0].element;

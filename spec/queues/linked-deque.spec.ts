@@ -54,7 +54,7 @@ describe('LinkedDeque', function() {
   describe('clear()', function() {
     it('should clear the queue', function() {
       queue.clear();
-      chai.expect(queue.first.bind(queue)).to.throw('Queue is empty');
+      chai.expect(queue.getFirst.bind(queue)).to.throw('Queue is empty');
     });
 
     it('should reduce the queue length to 0', function() {
@@ -70,25 +70,25 @@ describe('LinkedDeque', function() {
     });
   });
 
-  describe('first()', function() {
+  describe('getFirst()', function() {
     it('should throw if the queue is empty', function() {
       queue.clear();
-      chai.expect(queue.first.bind(queue)).to.throw('Queue is empty');
+      chai.expect(queue.getFirst.bind(queue)).to.throw('Queue is empty');
     });
 
     it('should return the element at the front of the queue', function() {
-      chai.expect(queue.first()).to.equal(1);
+      chai.expect(queue.getFirst()).to.equal(1);
     });
   });
 
-  describe('last()', function() {
+  describe('getLast()', function() {
     it('should throw if the queue is empty', function() {
       queue.clear();
-      chai.expect(queue.last.bind(queue)).to.throw('Queue is empty');
+      chai.expect(queue.getLast.bind(queue)).to.throw('Queue is empty');
     });
 
     it('should return the element on the rear of the queue', function() {
-      chai.expect(queue.last()).to.equal(3);
+      chai.expect(queue.getLast()).to.equal(3);
     });
   });
 

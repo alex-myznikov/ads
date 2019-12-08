@@ -36,8 +36,8 @@ export class SortedPriorityQueue<K, V = never>
     }
   }
 
-  first(): K | [K, V] {
-    const position = this.structure.list.first();
+  getFirst(): K | [K, V] {
+    const position = this.structure.list.getFirst();
 
     if (!position) throw new Error('Queue is empty');
 
@@ -52,7 +52,7 @@ export class SortedPriorityQueue<K, V = never>
    * @returns Position to be the next for the element or undefined if its position to be the last.
    */
   protected findPosition(element: K | [K, V]): Position<K | [K, V], Node<K | [K, V]>> | undefined {
-    let position = this.structure.list.first();
+    let position = this.structure.list.getFirst();
 
     if (!position) return;
 

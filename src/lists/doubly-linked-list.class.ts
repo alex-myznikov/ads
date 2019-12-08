@@ -156,7 +156,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
    *
    * @returns Position of the element or undefined if the list is empty.
    */
-  first(): Position<T, Node<T>> | undefined {
+  getFirst(): Position<T, Node<T>> | undefined {
     return this.head ? this.createPosition(this.head) : this.head;
   }
 
@@ -191,7 +191,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
    *
    * @returns Position of the element or undefined if the list is empty.
    */
-  last(): Position<T, Node<T>> | undefined {
+  getLast(): Position<T, Node<T>> | undefined {
     return this.tail ? this.createPosition(this.tail) : this.tail;
   }
 

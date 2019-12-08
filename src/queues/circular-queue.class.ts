@@ -29,7 +29,7 @@ export class CircularQueue<T> extends QueueAbstract<T, ListBasedStructure<T, Cir
     this.structure.list.rotate();
   }
 
-  first(): T {
+  getFirst(): T {
     const position = this.structure.list.current();
 
     if (!position) throw new Error('Queue is empty');

@@ -28,8 +28,8 @@ export class LinkedQueue<T> extends QueueAbstract<T, ListBasedStructure<T, Singl
     this.structure.list.addLast(element);
   }
 
-  first(): T {
-    const position = this.structure.list.first();
+  getFirst(): T {
+    const position = this.structure.list.getFirst();
 
     if (!position) throw new Error('Queue is empty');
 

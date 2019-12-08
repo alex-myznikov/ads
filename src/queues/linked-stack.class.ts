@@ -29,7 +29,7 @@ export class LinkedStack<T> extends StackAbstract<T, ListBasedStructure<T, Singl
   }
 
   top(): T {
-    const position = this.structure.list.first();
+    const position = this.structure.list.getFirst();
 
     if (!position) throw new Error('Stack is empty');
 

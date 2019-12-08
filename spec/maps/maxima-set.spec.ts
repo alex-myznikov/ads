@@ -55,39 +55,39 @@ describe('MaximaSet', function() {
     });
   });
 
-  describe('best()', function() {
+  describe('getBest()', function() {
     it('should return pair with best Y (implied performance) and X (implied cost) not greater than the specified value',
       function() {
-        chai.expect(set.best(2)).to.eql([2, 3]);
-        chai.expect(set.best(3)).to.eql([3, 4]);
-        chai.expect(set.best(8)).to.eql([3, 4]);
+        chai.expect(set.getBest(2)).to.eql([2, 3]);
+        chai.expect(set.getBest(3)).to.eql([3, 4]);
+        chai.expect(set.getBest(8)).to.eql([3, 4]);
       });
 
     it('should return undefined if no pair with X less than or equal to the specified exists in the set', function() {
-      chai.expect(set.best(0)).to.be.undefined;
-      chai.expect(set.best(-1)).to.be.undefined;
+      chai.expect(set.getBest(0)).to.be.undefined;
+      chai.expect(set.getBest(-1)).to.be.undefined;
     });
   });
 
-  describe('first()', function() {
+  describe('getFirst()', function() {
     it('should return pair with least X (implied cost)', function() {
-      chai.expect(set.first()).to.eql([1, 2]);
+      chai.expect(set.getFirst()).to.eql([1, 2]);
     });
 
     it('should return undefined if the set is empty', function() {
       set.clear();
-      chai.expect(set.first()).to.be.undefined;
+      chai.expect(set.getFirst()).to.be.undefined;
     });
   });
 
-  describe('last()', function() {
+  describe('getLast()', function() {
     it('should return pair with greatest X (implied cost)', function() {
-      chai.expect(set.last()).to.eql([3, 4]);
+      chai.expect(set.getLast()).to.eql([3, 4]);
     });
 
     it('should return undefined if the set is empty', function() {
       set.clear();
-      chai.expect(set.last()).to.be.undefined;
+      chai.expect(set.getLast()).to.be.undefined;
     });
   });
 

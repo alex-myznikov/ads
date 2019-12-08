@@ -53,7 +53,7 @@ describe('CircularArrayBuffer', function() {
   describe('clear()', function() {
     it('should clear the buffer', function() {
       buffer.clear();
-      chai.expect(buffer.first.bind(buffer)).to.throw('Buffer is empty');
+      chai.expect(buffer.getFirst.bind(buffer)).to.throw('Buffer is empty');
     });
 
     it('should reduce the queue length to 0', function() {
@@ -75,14 +75,14 @@ describe('CircularArrayBuffer', function() {
     });
   });
 
-  describe('first()', function() {
+  describe('getFirst()', function() {
     it('should throw if the buffer is empty', function() {
       buffer.clear();
-      chai.expect(buffer.first.bind(buffer)).to.throw('Buffer is empty');
+      chai.expect(buffer.getFirst.bind(buffer)).to.throw('Buffer is empty');
     });
 
     it('should return the element at the front of the buffer', function() {
-      chai.expect(buffer.first()).to.equal(1);
+      chai.expect(buffer.getFirst()).to.equal(1);
     });
   });
 

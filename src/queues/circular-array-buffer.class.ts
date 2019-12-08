@@ -64,7 +64,7 @@ export class CircularArrayBuffer<T> extends QueueAbstract<T, CircularArrayBasedS
     this.structure.rear = (this.structure.rear + 1) % this.maxLength;
   }
 
-  first(): T {
+  getFirst(): T {
     if (this.isEmpty()) throw new Error('Buffer is empty');
 
     return this.structure.arr[this.structure.front];

@@ -36,7 +36,7 @@ describe('CircularQueue', function() {
   describe('clear()', function() {
     it('should clear the queue', function() {
       queue.clear();
-      chai.expect(queue.first.bind(queue)).to.throw('Queue is empty');
+      chai.expect(queue.getFirst.bind(queue)).to.throw('Queue is empty');
     });
 
     it('should reduce the queue length to 0', function() {
@@ -52,14 +52,14 @@ describe('CircularQueue', function() {
     });
   });
 
-  describe('first()', function() {
+  describe('getFirst()', function() {
     it('should throw if the queue is empty', function() {
       queue.clear();
-      chai.expect(queue.first.bind(queue)).to.throw('Queue is empty');
+      chai.expect(queue.getFirst.bind(queue)).to.throw('Queue is empty');
     });
 
     it('should return the element at the front of the queue', function() {
-      chai.expect(queue.first()).to.equal(1);
+      chai.expect(queue.getFirst()).to.equal(1);
     });
   });
 
@@ -94,14 +94,14 @@ describe('CircularQueue', function() {
   describe('rotate()', function() {
     it('should move move the queue front one step towards its rear', function() {
       queue.rotate();
-      chai.expect(queue.first()).to.equal(2);
+      chai.expect(queue.getFirst()).to.equal(2);
     });
 
     it('should accept the number of steps to rotate', function() {
       queue.rotate(2);
-      chai.expect(queue.first()).to.equal(3);
+      chai.expect(queue.getFirst()).to.equal(3);
       queue.rotate(4);
-      chai.expect(queue.first()).to.equal(1);
+      chai.expect(queue.getFirst()).to.equal(1);
     });
   });
 });

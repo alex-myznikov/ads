@@ -29,7 +29,7 @@ export class UnsortedPriorityQueue<K, V = never>
     this.structure.list.addLast(element);
   }
 
-  first(): K | [K, V] {
+  getFirst(): K | [K, V] {
     return this.findMin().element;
   }
 
@@ -41,7 +41,7 @@ export class UnsortedPriorityQueue<K, V = never>
    * @returns Position of the element.
    */
   protected findMin(): Position<K | [K, V], Node<K | [K, V]>> {
-    let min = this.structure.list.first();
+    let min = this.structure.list.getFirst();
 
     if (!min) throw new Error('Queue is empty');
 

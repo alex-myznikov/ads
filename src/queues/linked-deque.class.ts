@@ -50,8 +50,8 @@ export class LinkedDeque<T> extends QueueAbstract<T, ListBasedStructure<T, Doubl
     this.structure.list.addFirst(element);
   }
 
-  first(): T {
-    const position = this.structure.list.first();
+  getFirst(): T {
+    const position = this.structure.list.getFirst();
 
     if (!position) throw new Error('Queue is empty');
 
@@ -63,8 +63,8 @@ export class LinkedDeque<T> extends QueueAbstract<T, ListBasedStructure<T, Doubl
    *
    * @returns Queue element.
    */
-  last(): T {
-    const position = this.structure.list.last();
+  getLast(): T {
+    const position = this.structure.list.getLast();
 
     if (!position) throw new Error('Queue is empty');
 

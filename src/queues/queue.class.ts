@@ -56,6 +56,6 @@ export abstract class QueueAbstract<T, S extends IStructure> implements IStructu
    *
    * @returns Queue element.
    */
-  abstract first(): T;
+  abstract getFirst(): T;
 
 }

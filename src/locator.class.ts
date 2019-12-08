@@ -42,7 +42,7 @@ export class Locator<T> implements IContainer<T> {
   }
 
   /**
-   * Creates an instance of Position.
+   * Creates an instance of Locator.
    *
    * @param _element Reference to the element.
    * @param _index Index of the element in its containing array.

@@ -66,7 +66,7 @@ export class MaximaSet<X, Y> implements IStructure {
    * @param x X value.
    * @returns X, Y pair or undefined if the set is empty.
    */
-  best(x: X): [X, Y] | undefined {
+  getBest(x: X): [X, Y] | undefined {
     return this.map.findLessOrEqual(x);
   }
 
@@ -82,7 +82,7 @@ export class MaximaSet<X, Y> implements IStructure {
    *
    * @returns X, Y pair or undefined if the set is empty.
    */
-  first(): [X, Y] | undefined {
+  getFirst(): [X, Y] | undefined {
     return this.map.findMin();
   }
 
@@ -100,7 +100,7 @@ export class MaximaSet<X, Y> implements IStructure {
    *
    * @returns X, Y pair or undefined if the set is empty.
    */
-  last() {
+  getLast() {
     return this.map.findMax();
   }
 
