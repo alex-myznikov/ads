@@ -1,5 +1,5 @@
 import { IContainer } from '../container.interface';
-import { IStructure } from '../queues';
+import { IStructure } from '../structure.interface';
 import { TreeAbstract } from './tree.class';
 
 export type ExtractPosition<TR> = TR extends TreeAbstract<any, infer P, any> ? P : never;

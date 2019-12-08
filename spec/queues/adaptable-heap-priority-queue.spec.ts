@@ -1,5 +1,4 @@
-import { AdaptableHeapPriorityQueue } from 'src/queues';
-import { ComparisonResult } from 'src/comparators';
+import { AdaptableHeapPriorityQueue, ComparisonResult } from 'ads';
 import * as chai from 'chai';
 
 describe('AdaptableHeapPriorityQueue', function() {

@@ -4,7 +4,7 @@ import {
   TreeTraversalAbstract,
 } from './traversal.class';
 import { IContainer } from '../container.interface';
-import { IStructure } from '../queues';
+import { IStructure } from '../structure.interface';
 import { TreeAbstract } from './tree.class';
 
 /**

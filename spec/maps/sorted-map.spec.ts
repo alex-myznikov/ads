@@ -1,6 +1,5 @@
-import { SortedMap } from 'ads';
+import { SortedMap, ComparisonResult } from 'ads';
 import * as chai from 'chai';
-import { ComparisonResult } from 'src/comparators';
 
 describe('SortedMap', function() {
   let map: SortedMap<number, string>;

@@ -1,5 +1,4 @@
-import { GeneralTree, LinkedBinaryTree } from 'ads';
-import { PostorderTreeTraversal } from 'src/trees';
+import { GeneralTree, LinkedBinaryTree, PostorderTreeTraversal } from 'ads';
 import * as chai from 'chai';
 
 describe('PostorderTreeTraversal', function() {

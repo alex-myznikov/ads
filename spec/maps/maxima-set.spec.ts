@@ -1,6 +1,5 @@
-import { MaximaSet } from 'ads';
+import { MaximaSet, ComparisonResult } from 'ads';
 import * as chai from 'chai';
-import { ComparisonResult } from 'src/comparators';
 
 describe('MaximaSet', function() {
   let set: MaximaSet<number, number>;
@@ -12,7 +11,7 @@ describe('MaximaSet', function() {
   describe('constructor()', function() {
     it('should create a maxima set without elements', function() {
       set = new MaximaSet();
-      chai.expect(set.size).to.equal(0);
+      chai.expect(set.length).to.equal(0);
     });
 
     it('should accept custom comparison handlers', function() {
@@ -39,20 +38,20 @@ describe('MaximaSet', function() {
       set.add(5, 5);
       set.add(0, 1);
       set.add(-1, 0);
-      chai.expect(set.size).to.equal(6);
+      chai.expect(set.length).to.equal(6);
     });
 
     it('should delete pairs dominated by the new pair -' +
       'X (implied cost) is greater while Y (implied performance) is worse than new pair', function() {
       set.add(2, 4);
-      chai.expect(set.size).to.equal(2);
+      chai.expect(set.length).to.equal(2);
     });
 
     it('should not insert pair if it is dominated by any other pair in the set', function() {
       set.add(4, 4);
       set.add(5, 4);
       set.add(3, 3);
-      chai.expect(set.size).to.equal(3);
+      chai.expect(set.length).to.equal(3);
     });
   });
 
@@ -92,9 +91,9 @@ describe('MaximaSet', function() {
     });
   });
 
-  describe('size', function() {
+  describe('length', function() {
     it('should return count of elements in the set', function() {
-      chai.expect(set.size).to.equal(3);
+      chai.expect(set.length).to.equal(3);
     });
   });
 

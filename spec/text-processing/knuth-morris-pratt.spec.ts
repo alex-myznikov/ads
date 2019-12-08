@@ -1,4 +1,5 @@
-import { indexOfKMP, precomputePattern } from 'src/text-processing/knuth-morris-pratt';
+import { indexOfKMP } from 'ads';
+import { precomputePattern } from 'src/text-processing/knuth-morris-pratt';
 import * as chai from 'chai';
 
 describe('indexOfKMP()', function() {

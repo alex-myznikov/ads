@@ -1,4 +1,4 @@
-import { IStructure } from './structure.interface';
+import { IStructure } from '../structure.interface';
 
 /**
  * Provides implementation of the common behaviour for structures based on arrays.

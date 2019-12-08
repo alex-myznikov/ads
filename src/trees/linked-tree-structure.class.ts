@@ -1,5 +1,5 @@
 import { IContainer } from '../container.interface';
-import { IStructure } from '../queues';
+import { IStructure } from '../structure.interface';
 import { Position } from '../position.class';
 
 /**

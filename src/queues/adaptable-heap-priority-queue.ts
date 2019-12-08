@@ -17,7 +17,7 @@ export class AdaptableHeapPriorityQueue<K, V = never>
    */
   constructor(elements: K[] | [K, V][] = [], protected compare: CompareFunc<K> = compareAsNumbers) {
     super(new ArrayBasedStructure([]));
-    for (const val of elements) this.structure.arr.push(new Locator(val, this.length));
+    for (const el of elements) this.structure.arr.push(new Locator(el, this.length));
 
     if (this.length > 1) {
       const { index: start } = this.getParent(this.length - 1) as Locator<K | [K, V]>;

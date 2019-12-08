@@ -1,9 +1,10 @@
-import { IContainer } from 'src/container.interface';
+import { IContainer } from '../container.interface';
+import { IStructure } from '../structure.interface';
 
 /**
  * An abstract iterable chain of elements.
  */
-export abstract class LinkedListAbstract<T, N extends IContainer<T>> {
+export abstract class LinkedListAbstract<T, N extends IContainer<T>> implements IStructure {
 
   /**
    * Head node of the list.
@@ -31,7 +32,7 @@ export abstract class LinkedListAbstract<T, N extends IContainer<T>> {
    *
    * @readonly
    */
-  get length() {
+  get length(): number {
     return this.size;
   }
 
@@ -53,6 +54,6 @@ export abstract class LinkedListAbstract<T, N extends IContainer<T>> {
     return !this.size;
   }
 
-  abstract [Symbol.iterator](): Generator<T>;
+  abstract [Symbol.iterator](): IterableIterator<T>;
 
 }

@@ -1,4 +1,4 @@
-import { findLSC } from 'src/text-processing/lcs';
+import { findLSC } from 'ads';
 import * as chai from 'chai';
 
 describe('findLCS()', function() {

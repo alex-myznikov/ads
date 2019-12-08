@@ -34,12 +34,12 @@ describe('CircularlyLinkedList', function() {
 
     it('should link back with front on adding after the current back', function() {
       list.addAfter(list.previous()!, 'added element');
-      chai.expect(list.after(list.previous()!).element).to.be.equal(list.current()!.element);
+      chai.expect(list.after(list.previous()!).element).to.equal(list.current()!.element);
     });
 
     it('should throw if the specified position does not belong to this list', function() {
       chai.expect(list.addAfter.bind(list, anotherList.current()!, 'added element')).to
-        .throw('Position does not belong to this container');
+        .throw('Position does not belong to this list');
     });
 
     it('should increment the list length by one', function() {
@@ -71,7 +71,7 @@ describe('CircularlyLinkedList', function() {
 
     it('should link back with front', function() {
       list.addAfter(list.previous()!, 'added element');
-      chai.expect(list.after(list.previous()!).element).to.be.equal(list.current()!.element);
+      chai.expect(list.after(list.previous()!).element).to.equal(list.current()!.element);
     });
 
     it('should increment the list length by one', function() {
@@ -83,7 +83,7 @@ describe('CircularlyLinkedList', function() {
 
   describe('after()', function() {
     it('should return current front element after the current back', function() {
-      chai.expect(list.after(list.previous()!)!.element).to.be.equal(list.current()!.element);
+      chai.expect(list.after(list.previous()!)!.element).to.equal(list.current()!.element);
     });
 
     it('should return position of the element after the specified position', function() {
@@ -93,7 +93,7 @@ describe('CircularlyLinkedList', function() {
 
     it('should throw if the specified position does not belong to this list', function() {
       chai.expect(list.after.bind(list, anotherList.current()!)).to
-        .throw('Position does not belong to this container');
+        .throw('Position does not belong to this list');
     });
   });
 
@@ -109,7 +109,7 @@ describe('CircularlyLinkedList', function() {
       const positionAfter = list.after(position!);
 
       list.clear(true);
-      chai.expect(list.after(position!).element).to.be.equal(positionAfter.element);
+      chai.expect(list.after(position!).element).to.equal(positionAfter.element);
     });
 
     it('should deprecate existing positions if instant is FALSE', function() {
@@ -226,7 +226,7 @@ describe('CircularlyLinkedList', function() {
 
     it('should throw if the specified position does not belong to this list', function() {
       chai.expect(list.replace.bind(list, anotherList.current()!, 'replacement')).to
-        .throw('Position does not belong to this container');
+        .throw('Position does not belong to this list');
     });
 
     it('should not change the list length', function() {

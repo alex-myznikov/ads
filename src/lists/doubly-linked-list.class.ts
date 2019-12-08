@@ -30,7 +30,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
    */
   constructor(elements: T[] = []) {
     super();
-    for (const val of elements) this.addLast(val);
+    for (const el of elements) this.addLast(el);
   }
 
   /**

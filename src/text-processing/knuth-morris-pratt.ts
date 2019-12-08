@@ -1,4 +1,4 @@
-type PrecomputedPattern = [string, number[]];
+export type PrecomputedPattern = [string, number[]];
 
 /**
  * Finds pattern enclosure in the source string using Knuth-Morris-Pratt algorithm.

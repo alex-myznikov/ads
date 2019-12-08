@@ -1,9 +1,9 @@
-import { IStructure } from './structure.interface';
+import { IStructure } from '../structure.interface';
 
 /**
  * An abstract stack (LIFO) data structure.
  */
-export abstract class StackAbstract<T, S extends IStructure> {
+export abstract class StackAbstract<T, S extends IStructure> implements IStructure {
 
   /**
    * Number of elements in the stack.

@@ -1,4 +1,4 @@
-import { LinkedStack } from 'src/queues';
+import { LinkedStack } from 'ads';
 import * as chai from 'chai';
 
 describe('LinkedStack', function() {

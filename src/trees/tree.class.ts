@@ -1,5 +1,5 @@
 import { IContainer } from '../container.interface';
-import { IStructure } from '../queues'; // TODO: move IStructure to global level.
+import { IStructure } from '../structure.interface';
 import { TreeTraversalAbstract, ITraversalMetadata } from './traversal.class';
 
 /**

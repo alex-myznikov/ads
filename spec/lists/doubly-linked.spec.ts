@@ -49,7 +49,7 @@ describe('DoublyLinkedList', function() {
 
     it('should throw if the specified position does not belong to this list', function() {
       chai.expect(list.addAfter.bind(list, anotherList.first()!, 'added element')).to
-        .throw('Position does not belong to this container');
+        .throw('Position does not belong to this list');
     });
 
     it('should increment the list length by one', function() {
@@ -91,7 +91,7 @@ describe('DoublyLinkedList', function() {
 
     it('should throw if the specified position does not belong to this list', function() {
       chai.expect(list.addAfter.bind(list, anotherList.first()!, 'added element')).to
-        .throw('Position does not belong to this container');
+        .throw('Position does not belong to this list');
     });
 
     it('should increment the list length by one', function() {
@@ -170,7 +170,7 @@ describe('DoublyLinkedList', function() {
     });
 
     it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.after.bind(list, anotherList.first()!)).to.throw('Position does not belong to this container');
+      chai.expect(list.after.bind(list, anotherList.first()!)).to.throw('Position does not belong to this list');
     });
   });
 
@@ -185,7 +185,7 @@ describe('DoublyLinkedList', function() {
     });
 
     it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.before.bind(list, anotherList.first()!)).to.throw('Position does not belong to this container');
+      chai.expect(list.before.bind(list, anotherList.first()!)).to.throw('Position does not belong to this list');
     });
   });
 
@@ -202,7 +202,7 @@ describe('DoublyLinkedList', function() {
       const positionAfter = list.after(position!);
 
       list.clear(true);
-      chai.expect(list.after(position!)!.element).to.be.equal(positionAfter!.element);
+      chai.expect(list.after(position!)!.element).to.equal(positionAfter!.element);
     });
 
     it('should deprecate existing positions if instant is FALSE', function() {
@@ -238,7 +238,7 @@ describe('DoublyLinkedList', function() {
 
     it('should throw if the specified position does not belong to this list', function() {
       chai.expect(list.delete.bind(list, anotherList.first()!)).to
-        .throw('Position does not belong to this container');
+        .throw('Position does not belong to this list');
     });
 
     it('should decrement the list length by one', function() {
@@ -390,7 +390,7 @@ describe('DoublyLinkedList', function() {
 
     it('should throw if the specified position does not belong to this list', function() {
       chai.expect(list.replace.bind(list, anotherList.first()!, 'replacement')).to
-        .throw('Position does not belong to this container');
+        .throw('Position does not belong to this list');
     });
 
     it('should not change the list length', function() {

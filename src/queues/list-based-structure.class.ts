@@ -1,5 +1,5 @@
 import { IContainer } from '../container.interface';
-import { IStructure } from './structure.interface';
+import { IStructure } from '../structure.interface';
 import { LinkedListAbstract } from '../lists/linked-list.class';
 
 /**

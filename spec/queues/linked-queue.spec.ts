@@ -1,4 +1,4 @@
-import { LinkedQueue } from 'src/queues';
+import { LinkedQueue } from 'ads';
 import * as chai from 'chai';
 
 describe('LinkedQueue', function() {

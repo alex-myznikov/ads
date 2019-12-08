@@ -29,7 +29,7 @@ export class SinglyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
    */
   constructor(elements: T[] = []) {
     super();
-    for (const val of elements) this.addLast(val);
+    for (const el of elements) this.addLast(el);
   }
 
   /**
@@ -161,7 +161,7 @@ export class SinglyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     return replacedElement;
   }
 
-  *[Symbol.iterator]() {
+  *[Symbol.iterator](): IterableIterator<T> {
     if (!this.head) return;
 
     let node: Node<T> | undefined = this.head;

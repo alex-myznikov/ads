@@ -1,10 +1,11 @@
 import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
+import { IStructure } from '../structure.interface';
 import { SortedMap } from './sorted-map.class';
 
 /**
  * Implementation of a maxima set.
  */
-export class MaximaSet<X, Y> {
+export class MaximaSet<X, Y> implements IStructure {
 
   /**
    * Reference to the underlying sorted map.
@@ -18,7 +19,7 @@ export class MaximaSet<X, Y> {
    *
    * @readonly
    */
-  get size() {
+  get length() {
     return this.map.size;
   }
 
@@ -91,7 +92,7 @@ export class MaximaSet<X, Y> {
    * @returns TRUE if the map is empty, FALSE otherwise.
    */
   isEmpty(): boolean {
-    return !this.size;
+    return !this.length;
   }
 
   /**
@@ -103,7 +104,7 @@ export class MaximaSet<X, Y> {
     return this.map.findMax();
   }
 
-  *[Symbol.iterator](): Generator<[X, Y]> {
+  *[Symbol.iterator](): IterableIterator<[X, Y]> {
     for (const entry of this.map.entries()) yield entry;
   }
 

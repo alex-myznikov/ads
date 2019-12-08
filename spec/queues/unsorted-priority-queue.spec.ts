@@ -1,5 +1,4 @@
-import { ComparisonResult } from 'src/comparators';
-import { UnsortedPriorityQueue } from 'src/queues';
+import { ComparisonResult, UnsortedPriorityQueue } from 'ads';
 import * as chai from 'chai';
 
 describe('UnsortedPriorityQueue', function() {

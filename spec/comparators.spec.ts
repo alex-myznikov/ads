@@ -1,4 +1,4 @@
-import { compareAsNumbers } from 'src/comparators';
+import { compareAsNumbers } from 'ads';
 import * as chai from 'chai';
 
 describe('compareAsNumbers()', function() {

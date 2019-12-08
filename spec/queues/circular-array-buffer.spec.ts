@@ -1,4 +1,4 @@
-import { CircularArrayBuffer } from 'src/queues';
+import { CircularArrayBuffer } from 'ads';
 import * as chai from 'chai';
 
 describe('CircularArrayBuffer', function() {

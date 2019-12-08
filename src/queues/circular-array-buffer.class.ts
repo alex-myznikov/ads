@@ -24,7 +24,7 @@ export class CircularArrayBuffer<T> extends QueueAbstract<T, CircularArrayBasedS
    */
   constructor(len: number, elements: T[] = [], protected overwritable = false) {
     super(new CircularArrayBasedStructure(len));
-    for (const val of elements) this.enqueue(val);
+    for (const el of elements) this.enqueue(el);
   }
 
   /**

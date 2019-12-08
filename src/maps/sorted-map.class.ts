@@ -271,7 +271,7 @@ export class SortedMap<K, V> implements Map<K, V> {
     return iterator;
   }
 
-  *[Symbol.iterator](): Generator<[K, V]> {
+  *[Symbol.iterator](): IterableIterator<[K, V]> {
     for (const entry of this.entries()) yield entry;
   }
 

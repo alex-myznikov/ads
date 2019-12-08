@@ -1,4 +1,4 @@
-import { indexOfBM } from 'src/text-processing/boyer-moore';
+import { indexOfBM } from 'ads';
 import * as chai from 'chai';
 
 describe('indexOfBM()', function() {

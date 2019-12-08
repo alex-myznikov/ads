@@ -1,9 +1,9 @@
-import { IStructure } from './structure.interface';
+import { IStructure } from '../structure.interface';
 
 /**
  * An abstract queue (FIFO) data structure.
  */
-export abstract class QueueAbstract<T, S extends IStructure> {
+export abstract class QueueAbstract<T, S extends IStructure> implements IStructure {
 
   /**
    * Number of elements in the queue.

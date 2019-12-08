@@ -1,5 +1,4 @@
-import { binarySearch } from 'src/searches/binary-search';
-import { ComparisonResult } from 'src/comparators';
+import { binarySearch, ComparisonResult } from 'ads';
 import * as chai from 'chai';
 
 describe('binarySearch()', function() {

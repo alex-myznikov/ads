@@ -1,4 +1,4 @@
-import { CircularQueue } from 'src/queues';
+import { CircularQueue } from 'ads';
 import * as chai from 'chai';
 
 describe('CircularQueue', function() {

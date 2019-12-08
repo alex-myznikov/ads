@@ -1,5 +1,4 @@
-import { ComparisonResult } from 'src/comparators';
-import { quickSelect } from 'src/searches';
+import { ComparisonResult, quickSelect } from 'ads';
 import * as chai from 'chai';
 
 describe('quickSelect()', function() {
