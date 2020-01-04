@@ -94,6 +94,34 @@ export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, Lin
     return this.structure.validate(a) === this.structure.validate(b);
   }
 
+  attachLeft(position: Position<T, Node<T>>, tree: this) {
+    const parent = this.structure.validate(position);
+
+    if (parent.left) throw new Error('Left child already exists');
+
+    const root = tree.getRoot();
+
+    if (root) {
+      parent.left = Object.assign(root._internal.node, { parent });
+      this.structure.size += tree.length;
+      tree.clear(true);
+    }
+  }
+
+  attachRight(position: Position<T, Node<T>>, tree: this) {
+    const parent = this.structure.validate(position);
+
+    if (parent.right) throw new Error('Right child already exists');
+
+    const root = tree.getRoot();
+
+    if (root) {
+      parent.right = Object.assign(root._internal.node, { parent });
+      this.structure.size += tree.length;
+      tree.clear(true);
+    }
+  }
+
   /**
    * Clears the tree. If instant set TRUE it takes O(1) time but does not deprecate the existing positions.
    *

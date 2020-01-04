@@ -1,4 +1,5 @@
 import { GeneralTree, PreorderTreeTraversal } from 'ads';
+import { InorderTreeTraversal } from 'src/trees/inorder-traversal';
 import { Node } from 'src/trees/general-tree.class';
 import { Position } from 'src/position.class';
 import * as chai from 'chai';
@@ -131,6 +132,70 @@ describe('GeneralTree', function() {
       tree.clear();
       chai.expect(tree.areEqual.bind(tree, position!, position!)).to.throw('Position is deprecated');
     });
+  });
+
+  describe('attach()', function() {
+    let firstTree: GeneralTree<string>;
+    let secondTree: GeneralTree<string>;
+    let result: string[];
+    const traversal = new InorderTreeTraversal<string, GeneralTree<string>>(element => {
+      result.push(element);
+    });
+
+    beforeEach(() => {
+      firstTree = new GeneralTree<string>();
+      secondTree = new GeneralTree<string>();
+      firstTree.addChild(firstTree.addRoot('firstRoot'), 'firstChild');
+      secondTree.addChild(secondTree.addRoot('secondRoot'), 'secondChild');
+      result = [];
+    });
+
+    it('should add roots of the attached trees to the end of the specified position children list', function() {
+      const position = tree.getRoot()!;
+
+      tree.attach(position, firstTree, secondTree);
+      tree.traverse(traversal);
+      chai.expect(result).to.eql(['firstChild', 'firstRoot', 'root element', 'secondChild', 'secondRoot']);
+    });
+
+    it('should update parent link in attached roots properly', function() {
+      const position = tree.getRoot()!;
+      const firstTreeRoot = firstTree.getRoot()!;
+
+      tree.attach(position, firstTree);
+      chai.expect(firstTreeRoot._internal.node.parent).to.eql(position._internal.node);
+    });
+
+    it('should not attach the same tree several times', function() {
+      const position = tree.getRoot()!;
+
+      tree.attach(position, firstTree, firstTree);
+      tree.traverse(traversal);
+      chai.expect(result).to.eql(['firstChild', 'firstRoot', 'root element']);
+    });
+
+    it('should throw if the specified position does not belong to this tree', function() {
+      chai.expect(tree.attach.bind(tree, positionFromAnotherTree)).to
+        .throw('Position does not belong to this tree');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = tree.getRoot()!;
+
+      tree.clear();
+      chai.expect(tree.attach.bind(tree, position)).to.throw('Position is deprecated');
+    });
+
+    it('should increment the tree length by the sum of lengths of the attached trees', function() {
+      const position = tree.getRoot()!;
+
+      chai.expect(tree.length).to.equal(1);
+      tree.attach(position, firstTree, secondTree);
+      chai.expect(tree.length).to.equal(5);
+    });
+
+    // TODO: to docs -> 'positions from the attached tree does not get invalidated by default
+    // so you have to take care about them by yourself'
   });
 
   describe('clear()', function() {

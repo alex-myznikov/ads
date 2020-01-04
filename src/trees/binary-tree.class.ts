@@ -34,7 +34,23 @@ export abstract class BinaryTree<T, P extends IContainer<T> = IContainer<T>,
    */
   abstract addRoot(element: T): P;
 
-  // attach(position: P, treeLeft?: this, treeRight?: this) { ... } TODO: realization and tests
+  /**
+   * Attaches elements structure of the specified tree as the left child of the position.
+   * Throws an error if left child already exists.
+   *
+   * @param position Position in the tree.
+   * @param tree Tree to attach.
+   */
+  abstract attachLeft(position: P, tree: this): void;
+
+  /**
+   * Attaches elements structure of the specified tree as the right child of the position.
+   * Throws an error if right child already exists.
+   *
+   * @param position Position in the tree.
+   * @param tree Tree to attach.
+   */
+  abstract attachRight(position: P, tree: this): void;
 
   /**
    * Gets left child of the specified position.

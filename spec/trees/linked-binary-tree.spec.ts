@@ -195,6 +195,140 @@ describe('LinkedBinaryTree', function() {
     });
   });
 
+  describe('attachLeft()', function() {
+    let attacheTree: LinkedBinaryTree<string>;
+    let result: string[];
+    const traversal = new PreorderTreeTraversal<string, LinkedBinaryTree<string>>(element => {
+      result.push(element);
+    });
+
+    beforeEach(() => {
+      attacheTree = new LinkedBinaryTree<string>();
+      attacheTree.addLeft(attacheTree.addRoot('firstRoot'), 'firstChild');
+      result = [];
+    });
+
+    it('should add root of the attached tree as the left child to the specified position', function() {
+      const position = tree.getRoot()!;
+
+      tree.attachLeft(position, attacheTree);
+      tree.traverse(traversal);
+      chai.expect(result).to.eql(['root element', 'firstRoot', 'firstChild']);
+    });
+
+    it('should update parent link in attached root properly', function() {
+      const position = tree.getRoot()!;
+      const firstTreeRoot = attacheTree.getRoot()!;
+
+      tree.attachLeft(position, attacheTree);
+      chai.expect(firstTreeRoot._internal.node.parent).to.eql(position._internal.node);
+    });
+
+    it('should add no child if the attachable tree is empty', function() {
+      const position = tree.getRoot()!;
+
+      tree.attachLeft(position, new LinkedBinaryTree<string>());
+      chai.expect(tree.hasLeft(position)).to.be.false;
+    });
+
+    it('should throw if the specified position already has a left child', function() {
+      const position = tree.getRoot()!;
+
+      tree.attachLeft(position, attacheTree);
+      chai.expect(tree.attachLeft.bind(tree, position, attacheTree)).to.throw('Left child already exists');
+    });
+
+    it('should throw if the specified position does not belong to this tree', function() {
+      chai.expect(tree.attachLeft.bind(tree, positionFromAnotherTree)).to
+        .throw('Position does not belong to this tree');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = tree.getRoot()!;
+
+      tree.clear();
+      chai.expect(tree.attachLeft.bind(tree, position)).to.throw('Position is deprecated');
+    });
+
+    it('should increment the tree length by length of the attached tree', function() {
+      const position = tree.getRoot()!;
+
+      chai.expect(tree.length).to.equal(1);
+      tree.attachLeft(position, attacheTree);
+      chai.expect(tree.length).to.equal(3);
+    });
+
+    // TODO: to docs -> 'positions from the attached tree does not get invalidated by default
+    // so you have to take care about them by yourself'
+  });
+
+  describe('attachRight()', function() {
+    let attacheTree: LinkedBinaryTree<string>;
+    let result: string[];
+    const traversal = new PreorderTreeTraversal<string, LinkedBinaryTree<string>>(element => {
+      result.push(element);
+    });
+
+    beforeEach(() => {
+      attacheTree = new LinkedBinaryTree<string>();
+      attacheTree.addLeft(attacheTree.addRoot('firstRoot'), 'firstChild');
+      result = [];
+    });
+
+    it('should add root of the attached tree as the right child to the specified position', function() {
+      const position = tree.getRoot()!;
+
+      tree.attachRight(position, attacheTree);
+      tree.traverse(traversal);
+      chai.expect(result).to.eql(['root element', 'firstRoot', 'firstChild']);
+    });
+
+    it('should update parent link in attached root properly', function() {
+      const position = tree.getRoot()!;
+      const firstTreeRoot = attacheTree.getRoot()!;
+
+      tree.attachRight(position, attacheTree);
+      chai.expect(firstTreeRoot._internal.node.parent).to.eql(position._internal.node);
+    });
+
+    it('should add no child if the attachable tree is empty', function() {
+      const position = tree.getRoot()!;
+
+      tree.attachRight(position, new LinkedBinaryTree<string>());
+      chai.expect(tree.hasRight(position)).to.be.false;
+    });
+
+    it('should throw if the specified position already has a right child', function() {
+      const position = tree.getRoot()!;
+
+      tree.attachRight(position, attacheTree);
+      chai.expect(tree.attachRight.bind(tree, position, attacheTree)).to.throw('Right child already exists');
+    });
+
+    it('should throw if the specified position does not belong to this tree', function() {
+      chai.expect(tree.attachRight.bind(tree, positionFromAnotherTree)).to
+        .throw('Position does not belong to this tree');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = tree.getRoot()!;
+
+      tree.clear();
+      chai.expect(tree.attachRight.bind(tree, position)).to.throw('Position is deprecated');
+    });
+
+    it('should increment the tree length by length of the attached tree', function() {
+      const position = tree.getRoot()!;
+
+      chai.expect(tree.length).to.equal(1);
+      tree.attachRight(position, attacheTree);
+      chai.expect(tree.length).to.equal(3);
+    });
+
+    // TODO: to docs -> 'positions from the attached tree does not get invalidated by default
+    // so you have to take care about them by yourself'
+  });
+
   describe('clear()', function() {
     it('should clear the tree', function() {
       tree.clear();

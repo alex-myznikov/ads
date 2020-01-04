@@ -88,7 +88,26 @@ export class GeneralTree<T> extends TreeAbstract<T, Position<T, Node<T>>, Linked
     return this.structure.validate(a) === this.structure.validate(b);
   }
 
-  // attach(position: P, trees: this[]) { ... } TODO: realization and tests
+  /**
+   * Attaches element structures of the listed trees to the specified parent element.
+   *
+   * @param position Position of the parent element.
+   * @param trees List of trees.
+   */
+  attach(position: Position<T, Node<T>>, ...trees: this[]) {
+    const node = this.structure.validate(position);
+
+    for (const tree of trees) {
+      const root = tree.getRoot();
+
+      if (root) {
+        node.children.push(root._internal.node);
+        root._internal.node.parent = node;
+        this.structure.size += tree.length;
+        tree.clear(true);
+      }
+    }
+  }
 
   /**
    * Clears the tree. If instant set TRUE it takes O(1) time but does not deprecate the existing positions.
@@ -189,7 +208,7 @@ export class GeneralTree<T> extends TreeAbstract<T, Position<T, Node<T>>, Linked
   /**
    * Replaces element at the specified position.
    *
-   * @param position Position of an element.
+   * @param position Position of the element.
    * @param element Element to replace the existing with.
    * @returns Replaced element.
    */
