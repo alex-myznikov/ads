@@ -5,7 +5,8 @@ import { TreeAbstract } from './tree.class';
 /**
  * An abstract binary tree.
  */
-export abstract class BinaryTree<T, P extends IContainer<T>, S extends IStructure> extends TreeAbstract<T, P, S> {
+export abstract class BinaryTree<T, P extends IContainer<T> = IContainer<T>,
+  S extends IStructure = IStructure> extends TreeAbstract<T, P, S> {
 
   /**
    * Adds element as the left child of the specified position. Throws an error if left child already exists.
@@ -82,6 +83,24 @@ export abstract class BinaryTree<T, P extends IContainer<T>, S extends IStructur
    * @returns TRUE if position has sibling, FALSE otherwise.
    */
   abstract hasSibling(position: P): boolean;
+
+  /**
+   * Checks whether the first specified position is the left child of the second.
+   *
+   * @param a Position in the tree.
+   * @param b Position in the tree.
+   * @returns TRUE if the positions are in parent->left child relation, FALSE otherwise.
+   */
+   abstract isLeftChild(a: P, b: P): boolean;
+
+   /**
+   * Checks whether the first specified position is the right child of the second.
+   *
+   * @param a Position in the tree.
+   * @param b Position in the tree.
+   * @returns TRUE if the positions are in parent->right child relation, FALSE otherwise.
+   */
+   abstract isRightChild(a: P, b: P): boolean;
 
   /**
    * Removes element from the tree by position and returns it. Throws an error if the position is not valid

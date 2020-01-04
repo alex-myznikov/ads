@@ -76,18 +76,6 @@ export class SinglyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     return this.createPosition(this.tail);
   }
 
-  /**
-   * Gets position after the specified position in the list.
-   *
-   * @param position Position in the list.
-   * @returns Position or undefined if the specified position is the last.
-   */
-  after(position: Position<T, Node<T>>): Position<T, Node<T>> | undefined {
-    const next = this.validate(position).next;
-
-    return next ? this.createPosition(next) : next;
-  }
-
   clear(instant = false) {
     if (!instant && this.head) {
       let node: Node<T> | undefined = this.head;
@@ -103,6 +91,18 @@ export class SinglyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     delete this.tail;
     delete this.head;
     this.size = 0;
+  }
+
+  /**
+   * Gets position after the specified position in the list.
+   *
+   * @param position Position in the list.
+   * @returns Position or undefined if the specified position is the last.
+   */
+  getAfter(position: Position<T, Node<T>>): Position<T, Node<T>> | undefined {
+    const next = this.validate(position).next;
+
+    return next ? this.createPosition(next) : next;
   }
 
   /**

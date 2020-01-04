@@ -1,6 +1,26 @@
 import { GeneralTree, PreorderTreeTraversal } from 'ads';
+import { Node } from 'src/trees/general-tree.class';
 import { Position } from 'src/position.class';
 import * as chai from 'chai';
+
+describe('GeneralTree - Node', function() {
+  it('should accept structural links to other nodes', function() {
+    const first = new Node('first');
+    const second = new Node('second');
+    const parent = new Node('parent');
+    const node = new Node('element', [first, second], parent);
+
+    chai.expect(node.children).to.eql([first, second]);
+    chai.expect(node.parent).to.equal(parent);
+  });
+
+  it('should structural links be not defined by default', function() {
+    const node = new Node('element');
+
+    chai.expect('_children' in node).to.be.false;
+    chai.expect('parent' in node).to.be.false;
+  });
+});
 
 describe('GeneralTree', function() {
   const positionFromAnotherTree = new GeneralTree<string>().addRoot('root element');
@@ -82,6 +102,34 @@ describe('GeneralTree', function() {
       chai.expect(tree.length).to.equal(0);
       tree.addRoot('new root element');
       chai.expect(tree.length).to.equal(1);
+    });
+  });
+
+  describe('areEqual()', function() {
+    it('should return true if positions are of the same element node in the tree', function() {
+      const position = tree.getRoot();
+
+      chai.expect(tree.areEqual(position!, tree.getRoot()!)).to.be.true;
+    });
+
+    it('should return false if positions are not the same', function() {
+      const position = tree.addChild(tree.getRoot()!, 'child element');
+
+      chai.expect(tree.areEqual(position, tree.getRoot()!)).to.be.false;
+    });
+
+    it('should throw if one of the specified positions does not belong to this tree', function() {
+      chai.expect(tree.areEqual.bind(tree, positionFromAnotherTree, tree.getRoot()!)).to
+        .throw('Position does not belong to this tree');
+      chai.expect(tree.areEqual.bind(tree, tree.getRoot()!, positionFromAnotherTree)).to
+        .throw('Position does not belong to this tree');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = tree.getRoot()!;
+
+      tree.clear();
+      chai.expect(tree.areEqual.bind(tree, position!, position!)).to.throw('Position is deprecated');
     });
   });
 
@@ -250,7 +298,7 @@ describe('GeneralTree', function() {
       const parent = tree.getRoot()!;
       const child = tree.addChild(parent, 'child element');
 
-      chai.expect(tree.getParent(child)).to.eql(parent);
+      chai.expect(tree.areEqual(parent, tree.getParent(child)!)).to.be.true;
     });
 
     it('should return undefined if the specified position is of the root of the tree', function() {
@@ -369,23 +417,23 @@ describe('GeneralTree', function() {
       const parent = tree.getRoot()!;
       const child = tree.addChild(parent, 'child element');
 
+      chai.expect(tree.getNumChildren(parent)).to.equal(1);
       chai.expect(tree.remove(child)).to.equal('child element');
+      chai.expect(tree.getNumChildren(parent)).to.equal(0);
       chai.expect(tree.remove(parent)).to.equal('root element');
     });
 
     it('should replace the removed element with its child if it has any', function() {
       const parent = tree.getRoot()!;
-      let child = tree.addChild(parent, 'child element');
+      const child = tree.addChild(parent, 'child element');
+      const grandChild = tree.addChild(child, 'grand child element');
 
       tree.remove(child);
-      chai.expect(tree.getNumChildren(parent)).to.equal(0);
-      child = tree.addChild(parent, 'child element');
-      tree.addChild(child, 'grand child element');
-      tree.remove(child);
-      chai.expect(tree.getRoot()!.element).to.equal('root element');
-      chai.expect(tree.getChildren(parent).next().value.element).to.equal('grand child element');
+      chai.expect(tree.areEqual(grandChild, tree.getChildren(parent).next().value)).to.be.true;
+      chai.expect(tree.areEqual(tree.getParent(grandChild)!, parent)).to.be.true;
       tree.remove(parent);
       chai.expect(tree.getRoot()!.element).to.equal('grand child element');
+      chai.expect(tree.getParent(grandChild)).to.be.undefined;
     });
 
     it('should remove the element with no replacement if it has no children', function() {

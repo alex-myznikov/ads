@@ -1,6 +1,40 @@
 import { LinkedBinaryTree, PreorderTreeTraversal } from 'ads';
+import { Node } from 'src/trees/linked-binary-tree.class';
 import { Position } from 'src/position.class';
 import * as chai from 'chai';
+
+describe('LinkedBinaryTree - Node', function() {
+  it('should accept and store arbitrary metadata', function() {
+    const node = new Node('element', { some: 'sort of', data: [] });
+
+    chai.expect(node.meta).to.eql({ some: 'sort of', data: [] });
+  });
+
+  it('should metadata be undefined by default', function() {
+    const node = new Node('element');
+
+    chai.expect(node.meta).to.be.undefined;
+  });
+
+  it('should accept structural links to other nodes', function() {
+    const left = new Node('left');
+    const right = new Node('right');
+    const parent = new Node('parent');
+    const node = new Node('element', { left, right, parent });
+
+    chai.expect(node.left).to.equal(left);
+    chai.expect(node.right).to.equal(right);
+    chai.expect(node.parent).to.equal(parent);
+  });
+
+  it('should structural links be not defined by default', function() {
+    const node = new Node('element');
+
+    chai.expect('left' in node).to.be.false;
+    chai.expect('right' in node).to.be.false;
+    chai.expect('parent' in node).to.be.false;
+  });
+});
 
 describe('LinkedBinaryTree', function() {
   const anotherTree = new LinkedBinaryTree<string>();
@@ -130,6 +164,34 @@ describe('LinkedBinaryTree', function() {
       chai.expect(tree.length).to.equal(0);
       tree.addRoot('new root element');
       chai.expect(tree.length).to.equal(1);
+    });
+  });
+
+  describe('areEqual()', function() {
+    it('should return true if positions are of the same element node in the tree', function() {
+      const position = tree.getRoot();
+
+      chai.expect(tree.areEqual(position!, tree.getRoot()!)).to.be.true;
+    });
+
+    it('should return false if positions are not the same', function() {
+      const position = tree.addLeft(tree.getRoot()!, 'child element');
+
+      chai.expect(tree.areEqual(position, tree.getRoot()!)).to.be.false;
+    });
+
+    it('should throw if one of the specified positions does not belong to this tree', function() {
+      chai.expect(tree.areEqual.bind(tree, positionFromAnotherTree, tree.getRoot()!)).to
+        .throw('Position does not belong to this tree');
+      chai.expect(tree.areEqual.bind(tree, tree.getRoot()!, positionFromAnotherTree)).to
+        .throw('Position does not belong to this tree');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = tree.getRoot()!;
+
+      tree.clear();
+      chai.expect(tree.areEqual.bind(tree, position!, position!)).to.throw('Position is deprecated');
     });
   });
 
@@ -326,7 +388,7 @@ describe('LinkedBinaryTree', function() {
       const parent = tree.getRoot()!;
       const child = tree.addLeft(parent, 'child element');
 
-      chai.expect(tree.getParent(child)).to.eql(parent);
+      chai.expect(tree.areEqual(parent, tree.getParent(child)!)).to.be.true;
     });
 
     it('should return undefined if the specified position is of the root of the tree', function() {
@@ -546,6 +608,66 @@ describe('LinkedBinaryTree', function() {
     });
   });
 
+  describe('isLeftChild()', function() {
+    it(`should return true if the first specified position is of the node that is
+      the left child of the node of the second position`, function() {
+      const position = tree.getRoot();
+
+      chai.expect(tree.isLeftChild(tree.addLeft(position!, 'child element'), position!)).to.be.true;
+    });
+
+    it(`should return false if the first specified position is of the node that is not
+      the left child of the node of the second position`, function() {
+      const position = tree.getRoot();
+
+      chai.expect(tree.isLeftChild(tree.addRight(position!, 'child element'), position!)).to.be.false;
+    });
+
+    it('should throw if one of the specified positions does not belong to this tree', function() {
+      chai.expect(tree.isLeftChild.bind(tree, positionFromAnotherTree, tree.getRoot()!)).to
+        .throw('Position does not belong to this tree');
+      chai.expect(tree.isLeftChild.bind(tree, tree.getRoot()!, positionFromAnotherTree)).to
+        .throw('Position does not belong to this tree');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = tree.getRoot()!;
+
+      tree.clear();
+      chai.expect(tree.isLeftChild.bind(tree, position!, position!)).to.throw('Position is deprecated');
+    });
+  });
+
+  describe('isRightChild()', function() {
+    it(`should return true if the first specified position is of the node that is
+      the right child of the node of the second position`, function() {
+      const position = tree.getRoot();
+
+      chai.expect(tree.isRightChild(tree.addRight(position!, 'child element'), position!)).to.be.true;
+    });
+
+    it(`should return false if the first specified position is of the node that is not
+      the right child of the node of the second position`, function() {
+      const position = tree.getRoot();
+
+      chai.expect(tree.isRightChild(tree.addLeft(position!, 'child element'), position!)).to.be.false;
+    });
+
+    it('should throw if one of the specified positions does not belong to this tree', function() {
+      chai.expect(tree.isRightChild.bind(tree, positionFromAnotherTree, tree.getRoot()!)).to
+        .throw('Position does not belong to this tree');
+      chai.expect(tree.isRightChild.bind(tree, tree.getRoot()!, positionFromAnotherTree)).to
+        .throw('Position does not belong to this tree');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = tree.getRoot()!;
+
+      tree.clear();
+      chai.expect(tree.isRightChild.bind(tree, position!, position!)).to.throw('Position is deprecated');
+    });
+  });
+
   describe('isRoot()', function() {
     it('should return true if the specified position is of the root element in the tree', function() {
       chai.expect(tree.isRoot(tree.getRoot()!)).to.equal(true);
@@ -592,19 +714,26 @@ describe('LinkedBinaryTree', function() {
     });
 
     it('should remove and return element at the specified position from the tree', function() {
-      chai.expect(tree.remove(tree.getRoot()!)).to.equal('root element');
+      const parent = tree.getRoot()!;
+      const child = tree.addRight(parent, 'child element');
+
+      chai.expect(tree.getNumChildren(parent)).to.equal(1);
+      chai.expect(tree.remove(child)).to.equal('child element');
+      chai.expect(tree.getNumChildren(parent)).to.equal(0);
+      chai.expect(tree.remove(parent)).to.equal('root element');
     });
 
     it('should replace the removed element with its child if it has any', function() {
       const parent = tree.getRoot()!;
       const child = tree.addLeft(parent, 'child element');
+      const grandChild = tree.addLeft(child, 'grand child element');
 
-      tree.addLeft(child, 'grand child element');
       tree.remove(child);
-      chai.expect(tree.getRoot()!.element).to.equal('root element');
-      chai.expect(tree.getChildren(parent).next().value.element).to.equal('grand child element');
+      chai.expect(tree.areEqual(grandChild, tree.getLeft(parent)!)).to.be.true;
+      chai.expect(tree.areEqual(tree.getParent(grandChild)!, parent)).to.be.true;
       tree.remove(parent);
       chai.expect(tree.getRoot()!.element).to.equal('grand child element');
+      chai.expect(tree.getParent(grandChild)).to.be.undefined;
     });
 
     it('should remove the element with no replacement if it has no children', function() {

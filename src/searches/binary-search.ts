@@ -11,12 +11,12 @@ import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators'
  * @returns Object with 'index' field representing an item the search has stopped at
  * and 'exact' field telling whether the target was matched exactly.
  */
-export function binarySearch<T>(
+export function binarySearch<T, K = T>(
   arr: T[],
-  target: T,
+  target: K,
   from?: number,
   to?: number,
-  compare: CompareFunc<T> = compareAsNumbers,
+  compare: CompareFunc<T, K> = compareAsNumbers,
 ): { index: number, exact: boolean } {
   let low = Math.max(from || 0, 0);
   let high = (to ? Math.min(to, arr.length) : arr.length) - 1;

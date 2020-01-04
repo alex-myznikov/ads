@@ -6,7 +6,7 @@ import { PreorderTreeTraversal } from './preorder-traversal';
 import { TreeTraversalAbstract, IBinaryTreeTraversable, ITraversalMetadata } from './traversal.class';
 
 /**
- * Stores element and basic structure of a tree.
+ * Stores element and basic structure of a binary tree.
  */
 export class Node<T> implements IContainer<T> {
 
@@ -26,6 +26,11 @@ export class Node<T> implements IContainer<T> {
   parent?: Node<T>;
 
   /**
+   * Stores metadata for this node for various use-cases.
+   */
+  meta?: { [key: string]: any };
+
+  /**
    * Creates an instance of Node.
    *
    * @param element Element of the tree.
@@ -33,10 +38,14 @@ export class Node<T> implements IContainer<T> {
    * @param right Reference to the node's right child.
    * @param parent Reference to the node's parent.
    */
-  constructor(public element: T, { left, right, parent }: { left?: Node<T>, right?: Node<T>, parent?: Node<T> }) {
-    this.left = left;
-    this.right = right;
-    this.parent = parent;
+  constructor(
+    public element: T,
+    { left, right, parent, ...meta }: { left?: Node<T>, right?: Node<T>, parent?: Node<T>, [key: string]: any } = {},
+  ) {
+    if (left) this.left = left;
+    if (right) this.right = right;
+    if (parent) this.parent = parent;
+    if (Object.keys(meta).length) this.meta = meta;
   }
 
 }
@@ -75,10 +84,14 @@ export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, Lin
   addRoot(element: T): Position<T, Node<T>> {
     if (!this.isEmpty()) throw new Error('Root already exists');
 
-    this.structure.root = new Node(element, {});
+    this.structure.root = new Node(element);
     this.structure.size++;
 
     return this.structure.createPosition(this.structure.root);
+  }
+
+  areEqual(a: Position<T, Node<T>>, b: Position<T, Node<T>>): boolean {
+    return this.structure.validate(a) === this.structure.validate(b);
   }
 
   /**
@@ -202,6 +215,14 @@ export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, Lin
     return Boolean(parent.left);
   }
 
+  isLeftChild(a: Position<T, Node<T>>, b: Position<T, Node<T>>): boolean {
+    return this.structure.validate(a) === this.structure.validate(b).left;
+  }
+
+  isRightChild(a: Position<T, Node<T>>, b: Position<T, Node<T>>): boolean {
+    return this.structure.validate(a) === this.structure.validate(b).right;
+  }
+
   isRoot(position: Position<T, Node<T>>): boolean {
     return this.structure.validate(position) === this.structure.root;
   }
@@ -217,7 +238,7 @@ export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, Lin
     if (!parent) this.structure.root = child;
     else if (parent.left === node) parent.left = child;
     else parent.right = child;
-
+    if (child) child.parent = parent;
     node.parent = position._internal.node;
     this.structure.size--;
 

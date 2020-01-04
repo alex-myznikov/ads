@@ -3,6 +3,11 @@ import { IStructure } from '../structure.interface';
 import { TreeTraversalAbstract, ITraversalMetadata } from './traversal.class';
 
 /**
+ * Extracts position type from the specified tree type.
+ */
+export type ExtractPosition<TR> = TR extends TreeAbstract<any, infer P, any> ? P : never;
+
+/**
  * An abstract tree.
  */
 export abstract class TreeAbstract<T, P extends IContainer<T> = IContainer<T>,
@@ -25,6 +30,15 @@ export abstract class TreeAbstract<T, P extends IContainer<T> = IContainer<T>,
   constructor(protected structure: S) { }
 
   /**
+   * Checks whether the specified positions are of the same element.
+   *
+   * @param a Position in the tree.
+   * @param b Position in the tree.
+   * @returns TRUE if the positions are the same, FALSE otherwise.
+   */
+  abstract areEqual(a: P, b: P): boolean;
+
+  /**
    * Clears the tree.
    */
   clear() {
@@ -35,7 +49,7 @@ export abstract class TreeAbstract<T, P extends IContainer<T> = IContainer<T>,
    * Gets iteration of children of the specified position in the tree.
    *
    * @param position Position in the tree.
-   * @returns Iterable of positions.
+   * @returns Iterable iterator of positions.
    */
   abstract getChildren(position: P): IterableIterator<P>;
 

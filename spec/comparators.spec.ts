@@ -1,4 +1,4 @@
-import { compareAsNumbers } from 'ads';
+import { compareAsNumbers, compareAsStrings } from 'ads';
 import * as chai from 'chai';
 
 describe('compareAsNumbers()', function() {
@@ -40,5 +40,36 @@ describe('compareAsNumbers()', function() {
     chai.expect(compareAsNumbers.bind(this, NaN, 5)).to.throw('Can not compare with NaN');
     chai.expect(compareAsNumbers.bind(this, 'not correct number', 'not correct number')).to
       .throw('Can not compare with NaN');
+  });
+});
+
+describe('compareAsStrings()', function() {
+  it('should return -1 if a is less than b', function() {
+    chai.expect(compareAsStrings('abc', 'acc')).to.equal(-1);
+    chai.expect(compareAsStrings('abc', 'cd')).to.equal(-1);
+    chai.expect(compareAsStrings('abc', 'abcd')).to.equal(-1);
+    chai.expect(compareAsStrings('', '0')).to.equal(-1);
+    chai.expect(compareAsStrings('11', '2')).to.equal(-1);
+  });
+
+  it('should return 1 if a is greater than b', function() {
+    chai.expect(compareAsStrings('acc', 'abc')).to.equal(1);
+    chai.expect(compareAsStrings('cd', 'abc')).to.equal(1);
+    chai.expect(compareAsStrings('abcd', 'abc')).to.equal(1);
+    chai.expect(compareAsStrings('0', '')).to.equal(1);
+    chai.expect(compareAsStrings('2', '11')).to.equal(1);
+  });
+
+  it('should return 0 if a is equal b', function() {
+    chai.expect(compareAsStrings('abc', 'abc')).to.equal(0);
+    chai.expect(compareAsStrings('0', '0')).to.equal(0);
+    chai.expect(compareAsStrings('', '')).to.equal(0);
+  });
+
+  it('should convert parameters of arbitrary types to strings', function() {
+    chai.expect(compareAsStrings('0', 0)).to.equal(0);
+    chai.expect(compareAsStrings('2', 11)).to.equal(1);
+    chai.expect(compareAsStrings({}, '[object Object]')).to.equal(0);
+    chai.expect(compareAsStrings('NaN', NaN)).to.equal(0);
   });
 });

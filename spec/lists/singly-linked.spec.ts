@@ -21,8 +21,8 @@ describe('SinglyLinkedList', function() {
     it('should insert element after the specified position in the list', function() {
       const position = list.addAfter(list.getFirst()!, 'added element');
 
-      chai.expect(list.after(position)!.element).to.equal('bar');
-      chai.expect(list.after(list.getFirst()!)!.element).to.equal('added element');
+      chai.expect(list.getAfter(position)!.element).to.equal('bar');
+      chai.expect(list.getAfter(list.getFirst()!)!.element).to.equal('added element');
     });
 
     it('should return position of the added element', function() {
@@ -48,7 +48,7 @@ describe('SinglyLinkedList', function() {
     it('should prepend element to the list', function() {
       list.addFirst('added element');
       chai.expect(list.getFirst()!.element).to.equal('added element');
-      chai.expect(list.after(list.getFirst()!)!.element).to.equal('foo');
+      chai.expect(list.getAfter(list.getFirst()!)!.element).to.equal('foo');
     });
 
     it('should init both head and tail if the list is empty', function() {
@@ -99,16 +99,16 @@ describe('SinglyLinkedList', function() {
 
   describe('after()', function() {
     it('should return undefined if there is no element after the position', function() {
-      chai.expect(list.after(list.getLast()!)).to.be.undefined;
+      chai.expect(list.getAfter(list.getLast()!)).to.be.undefined;
     });
 
     it('should return position of the element after the specified position', function() {
-      chai.expect(list.after(list.getFirst()!)).to.be.instanceOf(Position);
-      chai.expect(list.after(list.getFirst()!)!.element).to.equal('bar');
+      chai.expect(list.getAfter(list.getFirst()!)).to.be.instanceOf(Position);
+      chai.expect(list.getAfter(list.getFirst()!)!.element).to.equal('bar');
     });
 
     it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.after.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
+      chai.expect(list.getAfter.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
     });
   });
 
@@ -122,17 +122,17 @@ describe('SinglyLinkedList', function() {
 
     it('should not deprecate existing positions if instant is TRUE', function() {
       const position = list.getFirst();
-      const positionAfter = list.after(position!);
+      const positionAfter = list.getAfter(position!);
 
       list.clear(true);
-      chai.expect(list.after(position!)!.element).to.equal(positionAfter!.element);
+      chai.expect(list.getAfter(position!)!.element).to.equal(positionAfter!.element);
     });
 
     it('should deprecate existing positions if instant is FALSE', function() {
       const position = list.getFirst();
 
       list.clear();
-      chai.expect(list.after.bind(list, position!)).to.throw('Position is deprecated');
+      chai.expect(list.getAfter.bind(list, position!)).to.throw('Position is deprecated');
     });
 
     it('should reduce the list length to 0', function() {
@@ -226,7 +226,7 @@ describe('SinglyLinkedList', function() {
       const position = list.getFirst();
 
       list.removeFirst();
-      chai.expect(list.after.bind(list, position!)).to.throw('Position is deprecated');
+      chai.expect(list.getAfter.bind(list, position!)).to.throw('Position is deprecated');
     });
   });
 

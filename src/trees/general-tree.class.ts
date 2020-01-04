@@ -6,9 +6,28 @@ import { TreeAbstract } from './tree.class';
 import { TreeTraversalAbstract, IGeneralTreeTraversable, ITraversalMetadata } from './traversal.class';
 
 /**
- * Stores element and basic structure of a tree.
+ * Stores element and basic structure of a general tree.
  */
 export class Node<T> implements IContainer<T> {
+
+  /**
+   * Reference to an array of the node's children.
+   */
+  protected _children?: Node<T>[];
+
+  /**
+   * Reference to the node's parent.
+   */
+  parent?: Node<T>;
+
+  /**
+   * Reference to an array of the node's children.
+   */
+  get children() {
+    if (!this._children) this._children = [];
+
+    return this._children;
+  }
 
   /**
    * Creates an instance of Node.
@@ -17,7 +36,10 @@ export class Node<T> implements IContainer<T> {
    * @param children Reference to an array of the node's children.
    * @param parent Reference to the node's parent.
    */
-  constructor(public element: T, public children: Node<T>[] = [], public parent?: Node<T>) { }
+  constructor(public element: T, children?: Node<T>[], parent?: Node<T>) {
+    if (children) this._children = children;
+    if (parent) this.parent = parent;
+  }
 
 }
 
@@ -60,6 +82,10 @@ export class GeneralTree<T> extends TreeAbstract<T, Position<T, Node<T>>, Linked
     this.structure.size++;
 
     return this.structure.createPosition(this.structure.root);
+  }
+
+  areEqual(a: Position<T, Node<T>>, b: Position<T, Node<T>>): boolean {
+    return this.structure.validate(a) === this.structure.validate(b);
   }
 
   // attach(position: P, trees: this[]) { ... } TODO: realization and tests
@@ -144,7 +170,7 @@ export class GeneralTree<T> extends TreeAbstract<T, Position<T, Node<T>>, Linked
   remove(position: Position<T, Node<T>>): T {
     const node = this.structure.validate(position);
     const parent = node.parent;
-    const child = node.children[0];
+    const child: Node<T> | undefined = node.children[0];
 
     if (node.children.length > 1) throw new Error('Position has more than one child');
     else if (parent) {
@@ -153,6 +179,7 @@ export class GeneralTree<T> extends TreeAbstract<T, Position<T, Node<T>>, Linked
       if (child) parent.children[index] = child;
       else parent.children.splice(index, 1);
     } else this.structure.root = child;
+    if (child) child.parent = parent;
     node.parent = position._internal.node;
     this.structure.size--;
 

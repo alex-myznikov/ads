@@ -1,16 +1,16 @@
-import { SortedMap, ComparisonResult } from 'ads';
+import { RedBlackTreeMap, ComparisonResult } from 'ads';
 import * as chai from 'chai';
 
-describe('SortedMap', function() {
-  let map: SortedMap<number, string>;
+describe('RedBlackTreeMap', function() {
+  let map: RedBlackTreeMap<number, string>;
 
   beforeEach(() => {
-    map = new SortedMap([[1, 'val'], [2, 'val'], [7, 'val']]);
+    map = new RedBlackTreeMap([[1, 'val'], [2, 'val'], [7, 'val']]);
   });
 
   describe('constructor()', function() {
-    it('should create a sorted map without elements', function() {
-      map = new SortedMap();
+    it('should create a red-black tree map without elements', function() {
+      map = new RedBlackTreeMap();
       chai.expect(map.size).to.equal(0);
     });
 
@@ -21,7 +21,7 @@ describe('SortedMap', function() {
 
         return ComparisonResult.EQUAL;
       };
-      const stringMap = new SortedMap<string, number>([], compareAsStrings);
+      const stringMap = new RedBlackTreeMap<string, number>([], compareAsStrings);
 
       stringMap.set('c', 3).set('a', 1).set('b', 2);
       chai.expect(Array.from(stringMap)).to.eql([['a', 1], ['b', 2], ['c', 3]]);
@@ -29,7 +29,7 @@ describe('SortedMap', function() {
   });
 
   describe('set()', function() {
-    it('should insert new key-value pair to sorted map on proper place', function() {
+    it('should insert new key-value pair to red-black tree map on proper place', function() {
       map.set(5, 'val');
       map.set(0, 'val');
       map.set(-1, 'another val');
@@ -46,6 +46,26 @@ describe('SortedMap', function() {
     it('should support operation chaining', function() {
       map.set(4, 'val').set(5, 'val');
       chai.expect(map.size).to.equal(5);
+    });
+
+    it('should rebalance the tree after adding a new element', function() {
+      let root = map['tree'].getRoot()!['node'];
+
+      chai.expect(root.left!.element).to.eql([1, 'val']);
+      chai.expect(root.right!.element).to.eql([7, 'val']);
+      map.set(5, 'val').set(8, 'val').set(6, 'val');
+      chai.expect(root.left!.element).to.eql([1, 'val']);
+      chai.expect(root.left!.meta!).to.eql({ black: true });
+      root = root.right!;
+      chai.expect(root.element).to.eql([7, 'val']);
+      chai.expect(root.meta!).to.eql({ black: false });
+      chai.expect(root.left!.element).to.eql([5, 'val']);
+      chai.expect(root.left!.meta!).to.eql({ black: true });
+      chai.expect(root.right!.element).to.eql([8, 'val']);
+      chai.expect(root.right!.meta!).to.eql({ black: true });
+      root = root.left!;
+      chai.expect(root.right!.element).to.eql([6, 'val']);
+      chai.expect(root.right!.meta!).to.be.undefined;
     });
   });
 
@@ -85,6 +105,79 @@ describe('SortedMap', function() {
     it('should return true if key-value pair for the specified key was deleted', function() {
       chai.expect(map.delete(1)).to.be.true;
       chai.expect(map.delete(2)).to.be.true;
+    });
+
+    it('should rebalance the tree after deleting an element', function() {
+      map.set(0, 'val').set(4, 'val').set(9, 'val').set(8, 'val')
+        .set(3, 'val').set(6, 'val').set(5, 'val').set(10, 'val');
+
+      let root = map['tree'].getRoot()!['node'];
+
+      map.delete(5);
+      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [7, 'val'] });
+      chai.expect(root.right!.left!).to.deep.include({ meta: { black: true }, element: [6, 'val'] });
+      map.delete(8);
+      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [7, 'val'] });
+      chai.expect(root.right!.right!).to.deep.include({ meta: { black: true }, element: [9, 'val'] });
+      map.delete(6);
+      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [9, 'val'] });
+      chai.expect(root.right!.left!).to.deep.include({ meta: { black: true }, element: [7, 'val'] });
+      chai.expect(root.right!.right!).to.deep.include({ meta: { black: true }, element: [10, 'val'] });
+      map.delete(0);
+      chai.expect(root.left!).to.deep.include({ meta: { black: false }, element: [2, 'val'] });
+      chai.expect(root.left!.left!).to.deep.include({ meta: { black: true }, element: [1, 'val'] });
+      map.delete(1);
+      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [2, 'val'] });
+      chai.expect(root.left!.right!).to.deep.include({ meta: { black: false }, element: [3, 'val'] });
+      map.delete(3);
+      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [2, 'val'] });
+      map.delete(2);
+      root = map['tree'].getRoot()!['node'];
+      chai.expect(root).to.deep.include({ meta: { black: true }, element: [9, 'val'] });
+      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [4, 'val'] });
+      chai.expect(root.left!.right!).to.deep.include({ meta: { black: false }, element: [7, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { black: true }, element: [10, 'val'] });
+      map.delete(4);
+      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [7, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { black: true }, element: [10, 'val'] });
+      map.set(11, 'val');
+      map.delete(10);
+      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [7, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { black: true }, element: [11, 'val'] });
+      // map.set(8, 'val').set(2, 'val').set(1, 'val').set(4, 'val').set(5, 'val').set(3, 'val').set(6, 'val');
+      map.set(8, 'val').set(5, 'val').set(6, 'val').set(3, 'val').set(2, 'val').set(1, 'val').set(4, 'val');
+      root = map['tree'].getRoot()!['node'];
+      map.delete(6);
+      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [2, 'val'] });
+      chai.expect(root.left!.left!).to.deep.include({ meta: { black: true }, element: [1, 'val'] });
+      chai.expect(root.left!.right!).to.deep.include({ meta: { black: false }, element: [4, 'val'] });
+      chai.expect(root.left!.right!.right!).to.deep.include({ meta: { black: true }, element: [5, 'val'] });
+      map.delete(3);
+      map.delete(5);
+      map.delete(1);
+      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [2, 'val'] });
+      chai.expect(root.left!.right!).to.deep.include({ meta: { black: false }, element: [4, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [9, 'val'] });
+      map.delete(7);
+      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [2, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [9, 'val'] });
+
+      map.delete(2);
+      root = map['tree'].getRoot()!['node'];
+      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [4, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { black: true }, element: [11, 'val'] });
+      map.delete(9);
+      root = map['tree'].getRoot()!['node'];
+      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [4, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { black: true }, element: [11, 'val'] });
+      map.delete(8);
+      root = map['tree'].getRoot()!['node'];
+      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [11, 'val'] });
+      map.delete(4);
+      root = map['tree'].getRoot()!['node'];
+      chai.expect(root).to.deep.include({ meta: { black: true }, element: [11, 'val'] });
+      map.delete(11);
+      chai.expect(map['tree'].getRoot()!).to.be.undefined;
     });
   });
 
@@ -148,11 +241,12 @@ describe('SortedMap', function() {
     it('should return iteration through all values in the map', function() {
       const values = map.values();
 
+      map.set(7, 'another val');
       chai.expect(values.next()).to.eql({ value: 'val', done: false });
       chai.expect(values.next()).to.eql({ value: 'val', done: false });
-      chai.expect(values.next()).to.eql({ value: 'val', done: false });
+      chai.expect(values.next()).to.eql({ value: 'another val', done: false });
       chai.expect(values.next().done).to.be.true;
-      chai.expect(Array.from(map.values())).to.eql(['val', 'val', 'val']);
+      chai.expect(Array.from(map.values())).to.eql(['val', 'val', 'another val']);
     });
   });
 
@@ -178,14 +272,25 @@ describe('SortedMap', function() {
 
   describe('forEach()', function() {
     it('should apply the specified function to each key-value pair in the map', function() {
-      map.forEach((value, key, self) => self.set(key * 2, value + ' changed'));
+      // TODO: to docs -> 'due to complex rebalancing do not self-modify without a purpose'
+      map.forEach((value, key, self) => self.set(key * 2, value + ' changed'), this);
       chai.expect(Array.from(map)).to.eql([
-        [1, 'val'],
-        [2, 'val changed'], // changes self pairs
-        [4, 'val changed changed'], // the last handled pair because of initial map length equal 3
-        [7, 'val'], // this pair is not handled
-        [8, 'val changed changed changed'], // result of the last handled pair of [4, 'val changed changed']
+        [1, 'val'], // updates pair with key 2
+        [2, 'val changed'], // creates pair with key 4, recoloring 1,7 black
+        [4, 'val changed changed'], // creates pair with key 8
+        [7, 'val'], // creates pair with key 14, recoloring 4,8 black, 7 red
+        [8, 'val changed changed changed'], // this pair has no left initially, then after creating pair with key 14 and rebalancing it has no right so iteration stops
+        [14, 'val changed'], // this pair is not handled
+        [16, 'val changed changed changed changed'], // this pair is not handled
       ]);
+    });
+
+    it('should apply the specified thisArg to callback function passed', function() {
+      const callback = function(this: any, _value: any, key: any) {
+        return chai.expect(this.has(key)).to.be.true;
+      };
+
+      map.forEach(callback, map);
     });
   });
 
@@ -199,6 +304,12 @@ describe('SortedMap', function() {
     it('should return undefined if the specified key is the greatest or greater than any in the map', function() {
       chai.expect(map.findGreater(7)).to.be.undefined;
       chai.expect(map.findGreater(8)).to.be.undefined;
+    });
+
+    it('should return undefined if the map is empty', function() {
+      map.clear();
+      chai.expect(map.findGreater(5)).to.be.undefined;
+      chai.expect(map.findGreater(7)).to.be.undefined;
     });
 
     it('should disallow editing pair', function() {
@@ -219,6 +330,12 @@ describe('SortedMap', function() {
     });
 
     it('should return undefined if the specified key is greater than any in the map', function() {
+      chai.expect(map.findGreaterOrEqual(8)).to.be.undefined;
+    });
+
+    it('should return undefined if the map is empty', function() {
+      map.clear();
+      chai.expect(map.findGreaterOrEqual(5)).to.be.undefined;
       chai.expect(map.findGreaterOrEqual(8)).to.be.undefined;
     });
 
@@ -243,6 +360,12 @@ describe('SortedMap', function() {
       chai.expect(map.findLess(0)).to.be.undefined;
     });
 
+    it('should return undefined if the map is empty', function() {
+      map.clear();
+      chai.expect(map.findLess(2)).to.be.undefined;
+      chai.expect(map.findLess(1)).to.be.undefined;
+    });
+
     it('should disallow editing pair', function() {
       const pair = map.findLess(2)!;
 
@@ -261,6 +384,12 @@ describe('SortedMap', function() {
     });
 
     it('should return undefined if the specified key is less than any in the map', function() {
+      chai.expect(map.findLessOrEqual(0)).to.be.undefined;
+    });
+
+    it('should return undefined if the map is empty', function() {
+      map.clear();
+      chai.expect(map.findLessOrEqual(5)).to.be.undefined;
       chai.expect(map.findLessOrEqual(0)).to.be.undefined;
     });
 
@@ -356,9 +485,9 @@ describe('SortedMap', function() {
 
   describe('toString', function() {
     it('should explain itself type via toString call', function() {
-      chai.expect(map.toString()).to.equal('[object SortedMap]');
-      chai.expect(String(map)).to.equal('[object SortedMap]');
-      chai.expect(map + '').to.equal('[object SortedMap]');
+      chai.expect(map.toString()).to.equal('[object RedBlackTreeMap]');
+      chai.expect(String(map)).to.equal('[object RedBlackTreeMap]');
+      chai.expect(map + '').to.equal('[object RedBlackTreeMap]');
     });
   });
 });

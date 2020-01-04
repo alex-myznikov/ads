@@ -70,4 +70,9 @@ describe('binarySearch()', function() {
     chai.expect(binarySearch(arr, 8, 0, 10)).to.eql({ index: 6, exact: false });
     chai.expect(binarySearch(arr, 7, 0, 10)).to.eql({ index: 5, exact: true });
   });
+
+  it('should return zero index if array is empty whatever boundaries are', function() {
+    chai.expect(binarySearch([], 1)).to.eql({ index: 0, exact: false });
+    chai.expect(binarySearch([], 1, 2, 5)).to.eql({ index: 0, exact: false });
+  });
 });

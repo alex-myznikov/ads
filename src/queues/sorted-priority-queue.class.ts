@@ -61,7 +61,7 @@ export class SortedPriorityQueue<K, V = never>
         Array.isArray(position.element) ? position.element[0] : position.element,
         Array.isArray(element) ? element[0] : element,
       ) === ComparisonResult.GREATER) return position;
-      position = this.structure.list.after(position);
+      position = this.structure.list.getAfter(position);
     }
 
     return;

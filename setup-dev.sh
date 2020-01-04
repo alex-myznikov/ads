@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Sets up SAYMON development environment.
+# Sets up development environment.
 #
 
 echo -n "Installing Git commit hook...   "

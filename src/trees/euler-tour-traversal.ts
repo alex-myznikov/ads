@@ -1,11 +1,10 @@
 import {
-  ExtractPosition,
   IBinaryTreeTraversable,
   IGeneralTreeTraversable,
   ITraversalMetadata,
   TreeTraversalAbstract,
 } from './traversal.class';
-import { TreeAbstract } from './tree.class';
+import { TreeAbstract, ExtractPosition } from './tree.class';
 
 /**
  * Metadata interface for Euler Tour traversal step.

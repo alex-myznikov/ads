@@ -21,8 +21,8 @@ describe('CircularlyLinkedList', function() {
     it('should insert element after the specified position in the list', function() {
       const position = list.addAfter(list.current()!, 'added element');
 
-      chai.expect(list.after(position)!.element).to.equal('bar');
-      chai.expect(list.after(list.current()!)!.element).to.equal('added element');
+      chai.expect(list.getAfter(position)!.element).to.equal('bar');
+      chai.expect(list.getAfter(list.current()!)!.element).to.equal('added element');
     });
 
     it('should return position of the added element', function() {
@@ -34,7 +34,7 @@ describe('CircularlyLinkedList', function() {
 
     it('should link back with front on adding after the current back', function() {
       list.addAfter(list.previous()!, 'added element');
-      chai.expect(list.after(list.previous()!).element).to.equal(list.current()!.element);
+      chai.expect(list.getAfter(list.previous()!).element).to.equal(list.current()!.element);
     });
 
     it('should throw if the specified position does not belong to this list', function() {
@@ -53,13 +53,14 @@ describe('CircularlyLinkedList', function() {
     it('should prepend element to the list', function() {
       list.addCurrent('added element');
       chai.expect(list.current()!.element).to.equal('added element');
-      chai.expect(list.after(list.current()!)!.element).to.equal('foo');
+      chai.expect(list.getAfter(list.current()!)!.element).to.equal('foo');
     });
 
     it('should init circular relation if the list is empty', function() {
       list.clear();
       list.addCurrent('added element');
-      chai.expect(list.after(list.current()!).element).to.equal(list.current()!.element).and.to.equal('added element');
+      chai.expect(list.getAfter(list.current()!).element)
+        .to.equal(list.current()!.element).and.to.equal('added element');
     });
 
     it('should return position of the added element', function() {
@@ -71,7 +72,7 @@ describe('CircularlyLinkedList', function() {
 
     it('should link back with front', function() {
       list.addAfter(list.previous()!, 'added element');
-      chai.expect(list.after(list.previous()!).element).to.equal(list.current()!.element);
+      chai.expect(list.getAfter(list.previous()!).element).to.equal(list.current()!.element);
     });
 
     it('should increment the list length by one', function() {
@@ -83,16 +84,16 @@ describe('CircularlyLinkedList', function() {
 
   describe('after()', function() {
     it('should return current front element after the current back', function() {
-      chai.expect(list.after(list.previous()!)!.element).to.equal(list.current()!.element);
+      chai.expect(list.getAfter(list.previous()!)!.element).to.equal(list.current()!.element);
     });
 
     it('should return position of the element after the specified position', function() {
-      chai.expect(list.after(list.current()!)).to.be.instanceOf(Position);
-      chai.expect(list.after(list.current()!)!.element).to.equal('bar');
+      chai.expect(list.getAfter(list.current()!)).to.be.instanceOf(Position);
+      chai.expect(list.getAfter(list.current()!)!.element).to.equal('bar');
     });
 
     it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.after.bind(list, anotherList.current()!)).to
+      chai.expect(list.getAfter.bind(list, anotherList.current()!)).to
         .throw('Position does not belong to this list');
     });
   });
@@ -106,17 +107,17 @@ describe('CircularlyLinkedList', function() {
 
     it('should not deprecate existing positions if instant is TRUE', function() {
       const position = list.current();
-      const positionAfter = list.after(position!);
+      const positionAfter = list.getAfter(position!);
 
       list.clear(true);
-      chai.expect(list.after(position!).element).to.equal(positionAfter.element);
+      chai.expect(list.getAfter(position!).element).to.equal(positionAfter.element);
     });
 
     it('should deprecate existing positions if instant is FALSE', function() {
       const position = list.current();
 
       list.clear();
-      chai.expect(list.after.bind(list, position!)).to.throw('Position is deprecated');
+      chai.expect(list.getAfter.bind(list, position!)).to.throw('Position is deprecated');
     });
 
     it('should reduce the list length to 0', function() {
@@ -210,7 +211,7 @@ describe('CircularlyLinkedList', function() {
       const position = list.current();
 
       list.removeCurrent();
-      chai.expect(list.after.bind(list, position!)).to.throw('Position is deprecated');
+      chai.expect(list.getAfter.bind(list, position!)).to.throw('Position is deprecated');
     });
   });
 

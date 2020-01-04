@@ -20,23 +20,23 @@ describe('DoublyLinkedList', function() {
   describe('addAfter()', function() {
     it('should insert element after the specified position in the list', function() {
       const position = list.addAfter(list.getFirst()!, 'added element');
-      const afterPosition = list.after(position);
-      const beforePosition = list.before(position);
+      const afterPosition = list.getAfter(position);
+      const beforePosition = list.getBefore(position);
 
       chai.expect(afterPosition!.element).to.equal('bar');
       chai.expect(beforePosition!.element).to.equal('foo');
-      chai.expect(list.before(afterPosition!)!.element).to.equal('added element');
-      chai.expect(list.after(beforePosition!)!.element).to.equal('added element');
+      chai.expect(list.getBefore(afterPosition!)!.element).to.equal('added element');
+      chai.expect(list.getAfter(beforePosition!)!.element).to.equal('added element');
     });
 
     it('should insert element after the list tail and reassign it', function() {
       const position = list.addAfter(list.getLast()!, 'added element');
-      const afterPosition = list.after(position);
-      const beforePosition = list.before(position);
+      const afterPosition = list.getAfter(position);
+      const beforePosition = list.getBefore(position);
 
       chai.expect(beforePosition!.element).to.equal('baz');
       chai.expect(afterPosition).to.be.undefined;
-      chai.expect(list.after(beforePosition!)!.element).to.equal('added element');
+      chai.expect(list.getAfter(beforePosition!)!.element).to.equal('added element');
       chai.expect(list.getLast()!.element).to.equal('added element');
     });
 
@@ -62,23 +62,23 @@ describe('DoublyLinkedList', function() {
   describe('addBefore()', function() {
     it('should insert element before the specified position in the list', function() {
       const position = list.addBefore(list.getLast()!, 'added element');
-      const afterPosition = list.after(position);
-      const beforePosition = list.before(position);
+      const afterPosition = list.getAfter(position);
+      const beforePosition = list.getBefore(position);
 
       chai.expect(afterPosition!.element).to.equal('baz');
       chai.expect(beforePosition!.element).to.equal('bar');
-      chai.expect(list.before(afterPosition!)!.element).to.equal('added element');
-      chai.expect(list.after(beforePosition!)!.element).to.equal('added element');
+      chai.expect(list.getBefore(afterPosition!)!.element).to.equal('added element');
+      chai.expect(list.getAfter(beforePosition!)!.element).to.equal('added element');
     });
 
     it('should insert element before the list head and reassign it', function() {
       const position = list.addBefore(list.getFirst()!, 'added element');
-      const afterPosition = list.after(position);
-      const beforePosition = list.before(position);
+      const afterPosition = list.getAfter(position);
+      const beforePosition = list.getBefore(position);
 
       chai.expect(afterPosition!.element).to.equal('foo');
       chai.expect(beforePosition).to.be.undefined;
-      chai.expect(list.before(afterPosition!)!.element).to.equal('added element');
+      chai.expect(list.getBefore(afterPosition!)!.element).to.equal('added element');
       chai.expect(list.getFirst()!.element).to.equal('added element');
     });
 
@@ -103,11 +103,11 @@ describe('DoublyLinkedList', function() {
 
   describe('addFirst()', function() {
     it('should prepend element to the list', function() {
-      const positionAfter = list.after(list.addFirst('added element'));
+      const positionAfter = list.getAfter(list.addFirst('added element'));
 
       chai.expect(list.getFirst()!.element).to.equal('added element');
-      chai.expect(list.after(list.getFirst()!)!.element).to.equal('foo');
-      chai.expect(list.before(positionAfter!)!.element).to.equal('added element');
+      chai.expect(list.getAfter(list.getFirst()!)!.element).to.equal('foo');
+      chai.expect(list.getBefore(positionAfter!)!.element).to.equal('added element');
     });
 
     it('should init both head and tail if the list is empty', function() {
@@ -132,11 +132,11 @@ describe('DoublyLinkedList', function() {
 
   describe('addLast()', function() {
     it('should append element to the list', function() {
-      const positionBefore = list.before(list.addLast('added element'));
+      const positionBefore = list.getBefore(list.addLast('added element'));
 
       chai.expect(list.getLast()!.element).to.equal('added element');
-      chai.expect(list.before(list.getLast()!)!.element).to.equal('baz');
-      chai.expect(list.after(positionBefore!)!.element).to.equal('added element');
+      chai.expect(list.getBefore(list.getLast()!)!.element).to.equal('baz');
+      chai.expect(list.getAfter(positionBefore!)!.element).to.equal('added element');
     });
 
     it('should init both head and tail if the list is empty', function() {
@@ -161,31 +161,31 @@ describe('DoublyLinkedList', function() {
 
   describe('after()', function() {
     it('should return undefined if there is no element after the position', function() {
-      chai.expect(list.after(list.getLast()!)).to.be.undefined;
+      chai.expect(list.getAfter(list.getLast()!)).to.be.undefined;
     });
 
     it('should return position of the element after the specified position', function() {
-      chai.expect(list.after(list.getFirst()!)).to.be.instanceOf(Position);
-      chai.expect(list.after(list.getFirst()!)!.element).to.equal('bar');
+      chai.expect(list.getAfter(list.getFirst()!)).to.be.instanceOf(Position);
+      chai.expect(list.getAfter(list.getFirst()!)!.element).to.equal('bar');
     });
 
     it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.after.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
+      chai.expect(list.getAfter.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
     });
   });
 
   describe('before()', function() {
     it('should return undefined if there is no element before the position', function() {
-      chai.expect(list.before(list.getFirst()!)).to.be.undefined;
+      chai.expect(list.getBefore(list.getFirst()!)).to.be.undefined;
     });
 
     it('should return position of the element before the specified position', function() {
-      chai.expect(list.before(list.getLast()!)).to.be.instanceOf(Position);
-      chai.expect(list.before(list.getLast()!)!.element).to.equal('bar');
+      chai.expect(list.getBefore(list.getLast()!)).to.be.instanceOf(Position);
+      chai.expect(list.getBefore(list.getLast()!)!.element).to.equal('bar');
     });
 
     it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.before.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
+      chai.expect(list.getBefore.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
     });
   });
 
@@ -199,17 +199,17 @@ describe('DoublyLinkedList', function() {
 
     it('should not deprecate existing positions if instant is TRUE', function() {
       const position = list.getFirst();
-      const positionAfter = list.after(position!);
+      const positionAfter = list.getAfter(position!);
 
       list.clear(true);
-      chai.expect(list.after(position!)!.element).to.equal(positionAfter!.element);
+      chai.expect(list.getAfter(position!)!.element).to.equal(positionAfter!.element);
     });
 
     it('should deprecate existing positions if instant is FALSE', function() {
       const position = list.getFirst();
 
       list.clear();
-      chai.expect(list.after.bind(list, position!)).to.throw('Position is deprecated');
+      chai.expect(list.getAfter.bind(list, position!)).to.throw('Position is deprecated');
     });
 
     it('should reduce the list length to 0', function() {
@@ -221,17 +221,17 @@ describe('DoublyLinkedList', function() {
 
   describe('delete()', function() {
     it('should delete element from the specified position in the list', function() {
-      const position = list.after(list.getFirst()!);
-      const afterPosition = list.after(position!);
-      const beforePosition = list.before(position!);
+      const position = list.getAfter(list.getFirst()!);
+      const afterPosition = list.getAfter(position!);
+      const beforePosition = list.getBefore(position!);
 
       list.delete(position!);
-      chai.expect(list.before(afterPosition!)!.element).to.equal(beforePosition!.element);
-      chai.expect(list.after(beforePosition!)!.element).to.equal(afterPosition!.element);
+      chai.expect(list.getBefore(afterPosition!)!.element).to.equal(beforePosition!.element);
+      chai.expect(list.getAfter(beforePosition!)!.element).to.equal(afterPosition!.element);
     });
 
     it('should return deleted element', function() {
-      const position = list.after(list.getFirst()!);
+      const position = list.getAfter(list.getFirst()!);
 
       chai.expect(list.delete(position!)).to.equal('bar');
     });
@@ -248,10 +248,10 @@ describe('DoublyLinkedList', function() {
     });
 
     it('should deprecate the deleted node', function() {
-      const position = list.after(list.getFirst()!);
+      const position = list.getAfter(list.getFirst()!);
 
       list.delete(position!);
-      chai.expect(list.before.bind(list, position!)).to.throw('Position is deprecated');
+      chai.expect(list.getBefore.bind(list, position!)).to.throw('Position is deprecated');
     });
   });
 

@@ -70,16 +70,6 @@ export class CircularlyLinkedList<T> extends PositionalListAbstract<T, Node<T>> 
     return this.createPosition(this.tail.next);
   }
 
-  /**
-   * Gets position after the specified position in the list.
-   *
-   * @param position Position in the list.
-   * @returns Position after the specified position.
-   */
-  after(position: Position<T, Node<T>>): Position<T, Node<T>> {
-    return this.createPosition(this.validate(position).next);
-  }
-
   clear(instant = false) {
     if (!instant && this.tail) {
       let node = this.tail.next;
@@ -103,6 +93,16 @@ export class CircularlyLinkedList<T> extends PositionalListAbstract<T, Node<T>> 
    */
   current(): Position<T, Node<T>> | undefined {
     return this.tail ? this.createPosition(this.tail.next) : this.tail;
+  }
+
+  /**
+   * Gets position after the specified position in the list.
+   *
+   * @param position Position in the list.
+   * @returns Position after the specified position.
+   */
+  getAfter(position: Position<T, Node<T>>): Position<T, Node<T>> {
+    return this.createPosition(this.validate(position).next);
   }
 
   isDeprecated(node: Node<T>): boolean {

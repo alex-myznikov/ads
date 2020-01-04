@@ -1,1 +1,1 @@
-// TODO: export class LinkedTreeStructure<T, N extends IContainer<T>> implements IStructure
+// TODO: export class ArrayTreeStructure<T, N extends IContainer<T>> implements IStructure

@@ -45,14 +45,14 @@ export class UnsortedPriorityQueue<K, V = never>
 
     if (!min) throw new Error('Queue is empty');
 
-    let position = this.structure.list.after(min);
+    let position = this.structure.list.getAfter(min);
 
     while (position) {
       if (this.compare(
         Array.isArray(position.element) ? position.element[0] : position.element,
         Array.isArray(min.element) ? min.element[0] : min.element,
       ) === ComparisonResult.LESS) min = position;
-      position = this.structure.list.after(position);
+      position = this.structure.list.getAfter(position);
     }
 
     return min;

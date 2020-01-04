@@ -79,30 +79,6 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     return this.createPosition(this.insertBetween(element, this.tail));
   }
 
-  /**
-   * Gets position after the specified position in the list.
-   *
-   * @param position Position in the list.
-   * @returns Position or undefined if the specified position is the last.
-   */
-  after(position: Position<T, Node<T>>): Position<T, Node<T>> | undefined {
-    const next = this.validate(position).next;
-
-    return next ? this.createPosition(next) : next;
-  }
-
-  /**
-   * Gets position before the specified position in the list.
-   *
-   * @param position Position in the list.
-   * @returns Position or undefined if the specified position is the first.
-   */
-  before(position: Position<T, Node<T>>): Position<T, Node<T>> | undefined {
-    const prev = this.validate(position).prev;
-
-    return prev ? this.createPosition(prev) : prev;
-  }
-
   clear(instant = false) {
     if (!instant && this.head) {
       let node: Node<T> | undefined = this.head;
@@ -152,12 +128,45 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
   }
 
   /**
+   * Gets position after the specified position in the list.
+   *
+   * @param position Position in the list.
+   * @returns Position or undefined if the specified position is the last.
+   */
+  getAfter(position: Position<T, Node<T>>): Position<T, Node<T>> | undefined {
+    const next = this.validate(position).next;
+
+    return next ? this.createPosition(next) : next;
+  }
+
+  /**
+   * Gets position before the specified position in the list.
+   *
+   * @param position Position in the list.
+   * @returns Position or undefined if the specified position is the first.
+   */
+  getBefore(position: Position<T, Node<T>>): Position<T, Node<T>> | undefined {
+    const prev = this.validate(position).prev;
+
+    return prev ? this.createPosition(prev) : prev;
+  }
+
+  /**
    * Gets position of the first element in the list.
    *
    * @returns Position of the element or undefined if the list is empty.
    */
   getFirst(): Position<T, Node<T>> | undefined {
     return this.head ? this.createPosition(this.head) : this.head;
+  }
+
+  /**
+   * Gets position of the last element in the list.
+   *
+   * @returns Position of the element or undefined if the list is empty.
+   */
+  getLast(): Position<T, Node<T>> | undefined {
+    return this.tail ? this.createPosition(this.tail) : this.tail;
   }
 
   /**
@@ -184,15 +193,6 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
 
   isDeprecated(node: Node<T>): boolean {
     return node.next === node;
-  }
-
-  /**
-   * Gets position of the last element in the list.
-   *
-   * @returns Position of the element or undefined if the list is empty.
-   */
-  getLast(): Position<T, Node<T>> | undefined {
-    return this.tail ? this.createPosition(this.tail) : this.tail;
   }
 
   /**
