@@ -109,7 +109,7 @@ export class RedBlackTreeMap<K, V> extends TreeMap<K, V, RelinkableBinaryTree<[K
   }
 
   /**
-   * Get color to a node of the specified position.
+   * Get color of a node of the specified position.
    *
    * @protected
    * @param position Position in the tree.

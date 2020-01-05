@@ -1,16 +1,16 @@
-import { RedBlackTreeMap, ComparisonResult } from 'ads';
+import { AVLTreeMap, ComparisonResult } from 'ads';
 import * as chai from 'chai';
 
-describe('RedBlackTreeMap', function() {
-  let map: RedBlackTreeMap<number, string>;
+describe('AVLTreeMap', function() {
+  let map: AVLTreeMap<number, string>;
 
   beforeEach(() => {
-    map = new RedBlackTreeMap([[1, 'val'], [2, 'val'], [7, 'val']]);
+    map = new AVLTreeMap([[1, 'val'], [2, 'val'], [7, 'val']]);
   });
 
   describe('constructor()', function() {
-    it('should create a red-black tree map without elements', function() {
-      map = new RedBlackTreeMap();
+    it('should create a AVL tree map without elements', function() {
+      map = new AVLTreeMap();
       chai.expect(map.size).to.equal(0);
     });
 
@@ -21,7 +21,7 @@ describe('RedBlackTreeMap', function() {
 
         return ComparisonResult.EQUAL;
       };
-      const stringMap = new RedBlackTreeMap<string, number>([], compareAsStrings);
+      const stringMap = new AVLTreeMap<string, number>([], compareAsStrings);
 
       stringMap.set('c', 3).set('a', 1).set('b', 2);
       chai.expect(Array.from(stringMap)).to.eql([['a', 1], ['b', 2], ['c', 3]]);
@@ -29,7 +29,7 @@ describe('RedBlackTreeMap', function() {
   });
 
   describe('set()', function() {
-    it('should insert new key-value pair to red-black tree map on proper place', function() {
+    it('should insert new key-value pair to AVL tree map on proper place', function() {
       map.set(5, 'val');
       map.set(0, 'val');
       map.set(-1, 'another val');
@@ -51,21 +51,17 @@ describe('RedBlackTreeMap', function() {
     it('should rebalance the tree after adding a new element', function() {
       let root = map['tree'].getRoot()!['node'];
 
-      chai.expect(root.left!.element).to.eql([1, 'val']);
-      chai.expect(root.right!.element).to.eql([7, 'val']);
+      chai.expect(root).to.deep.include({ meta: { height: 2 }, element: [2, 'val'] });
+      chai.expect(root.left!).to.deep.include({ element: [1, 'val'] });
+      chai.expect(root.right!).to.deep.include({ element: [7, 'val'] });
       map.set(5, 'val').set(8, 'val').set(6, 'val');
-      chai.expect(root.left!.element).to.eql([1, 'val']);
-      chai.expect(root.left!.meta!).to.eql({ black: true });
-      root = root.right!;
-      chai.expect(root.element).to.eql([7, 'val']);
-      chai.expect(root.meta!).to.eql({ black: false });
-      chai.expect(root.left!.element).to.eql([5, 'val']);
-      chai.expect(root.left!.meta!).to.eql({ black: true });
-      chai.expect(root.right!.element).to.eql([8, 'val']);
-      chai.expect(root.right!.meta!).to.eql({ black: true });
-      root = root.left!;
-      chai.expect(root.right!.element).to.eql([6, 'val']);
-      chai.expect(root.right!.meta!).to.be.undefined;
+      root = map['tree'].getRoot()!['node'];
+      chai.expect(root).to.deep.include({ meta: { height: 3 }, element: [5, 'val'] });
+      chai.expect(root.left!).to.deep.include({ meta: { height: 2 }, element: [2, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { height: 2 }, element: [7, 'val'] });
+      chai.expect(root.left!.left!).to.deep.include({ meta: { height: 1 }, element: [1, 'val'] });
+      chai.expect(root.right!.left!).to.deep.include({ element: [6, 'val'] });
+      chai.expect(root.right!.right!).to.deep.include({ element: [8, 'val'] });
     });
   });
 
@@ -113,68 +109,42 @@ describe('RedBlackTreeMap', function() {
 
       let root = map['tree'].getRoot()!['node'];
 
-      map.delete(5);
-      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [7, 'val'] });
-      chai.expect(root.right!.left!).to.deep.include({ meta: { black: true }, element: [6, 'val'] });
-      map.delete(8);
-      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [7, 'val'] });
-      chai.expect(root.right!.right!).to.deep.include({ meta: { black: true }, element: [9, 'val'] });
-      map.delete(6);
-      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [9, 'val'] });
-      chai.expect(root.right!.left!).to.deep.include({ meta: { black: true }, element: [7, 'val'] });
-      chai.expect(root.right!.right!).to.deep.include({ meta: { black: true }, element: [10, 'val'] });
-      map.delete(0);
-      chai.expect(root.left!).to.deep.include({ meta: { black: false }, element: [2, 'val'] });
-      chai.expect(root.left!.left!).to.deep.include({ meta: { black: true }, element: [1, 'val'] });
-      map.delete(1);
-      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [2, 'val'] });
-      chai.expect(root.left!.right!).to.deep.include({ meta: { black: false }, element: [3, 'val'] });
-      map.delete(3);
-      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [2, 'val'] });
-      map.delete(2);
-      root = map['tree'].getRoot()!['node'];
-      chai.expect(root).to.deep.include({ meta: { black: true }, element: [9, 'val'] });
-      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [4, 'val'] });
-      chai.expect(root.left!.right!).to.deep.include({ meta: { black: false }, element: [7, 'val'] });
-      chai.expect(root.right!).to.deep.include({ meta: { black: true }, element: [10, 'val'] });
-      map.delete(4);
-      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [7, 'val'] });
-      chai.expect(root.right!).to.deep.include({ meta: { black: true }, element: [10, 'val'] });
-      map.set(11, 'val');
-      map.delete(10);
-      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [7, 'val'] });
-      chai.expect(root.right!).to.deep.include({ meta: { black: true }, element: [11, 'val'] });
-      map.set(8, 'val').set(5, 'val').set(6, 'val').set(3, 'val').set(2, 'val').set(1, 'val').set(4, 'val');
-      root = map['tree'].getRoot()!['node'];
-      map.delete(6);
-      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [2, 'val'] });
-      chai.expect(root.left!.left!).to.deep.include({ meta: { black: true }, element: [1, 'val'] });
-      chai.expect(root.left!.right!).to.deep.include({ meta: { black: false }, element: [4, 'val'] });
-      chai.expect(root.left!.right!.right!).to.deep.include({ meta: { black: true }, element: [5, 'val'] });
-      map.delete(3);
-      map.delete(5);
-      map.delete(1);
-      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [2, 'val'] });
-      chai.expect(root.left!.right!).to.deep.include({ meta: { black: false }, element: [4, 'val'] });
-      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [9, 'val'] });
       map.delete(7);
-      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [2, 'val'] });
-      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [9, 'val'] });
-      map.delete(2);
-      root = map['tree'].getRoot()!['node'];
-      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [4, 'val'] });
-      chai.expect(root.right!).to.deep.include({ meta: { black: true }, element: [11, 'val'] });
+      chai.expect(root).to.deep.include({ meta: { height: 4 }, element: [4, 'val'] });
+      chai.expect(root.left!).to.deep.include({ meta: { height: 3 }, element: [2, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { height: 3 }, element: [6, 'val'] });
+      map.delete(5);
+      chai.expect(root.left!).to.deep.include({ meta: { height: 3 }, element: [2, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { height: 3 }, element: [9, 'val'] });
+      map.delete(10);
+      chai.expect(root.left!).to.deep.include({ meta: { height: 3 }, element: [2, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { height: 2 }, element: [8, 'val'] });
+      map.delete(6);
       map.delete(9);
       root = map['tree'].getRoot()!['node'];
-      chai.expect(root.left!).to.deep.include({ meta: { black: true }, element: [4, 'val'] });
-      chai.expect(root.right!).to.deep.include({ meta: { black: true }, element: [11, 'val'] });
+      chai.expect(root).to.deep.include({ meta: { height: 3 }, element: [2, 'val'] });
+      chai.expect(root.left!).to.deep.include({ meta: { height: 2 }, element: [1, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { height: 2 }, element: [4, 'val'] });
+      map.delete(2);
+      root = map['tree'].getRoot()!['node'];
+      chai.expect(root).to.deep.include({ meta: { height: 3 }, element: [1, 'val'] });
+      chai.expect(root.left!).to.deep.include({ element: [0, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { height: 2 }, element: [4, 'val'] });
+      map.delete(0);
+      root = map['tree'].getRoot()!['node'];
+      chai.expect(root).to.deep.include({ meta: { height: 3 }, element: [4, 'val'] });
+      chai.expect(root.left!).to.deep.include({ meta: { height: 2 }, element: [1, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { height: 1 }, element: [8, 'val'] });
       map.delete(8);
       root = map['tree'].getRoot()!['node'];
-      chai.expect(root.right!).to.deep.include({ meta: { black: false }, element: [11, 'val'] });
-      map.delete(4);
+      chai.expect(root).to.deep.include({ meta: { height: 2 }, element: [3, 'val'] });
+      chai.expect(root.left!).to.deep.include({ meta: { height: 1 }, element: [1, 'val'] });
+      chai.expect(root.right!).to.deep.include({ meta: { height: 1 }, element: [4, 'val'] });
+      map.delete(1);
+      map.delete(3);
       root = map['tree'].getRoot()!['node'];
-      chai.expect(root).to.deep.include({ meta: { black: true }, element: [11, 'val'] });
-      map.delete(11);
+      chai.expect(root).to.deep.include({ meta: { height: 1 }, element: [4, 'val'] });
+      map.delete(4);
       chai.expect(map['tree'].getRoot()!).to.be.undefined;
     });
   });
@@ -484,9 +454,9 @@ describe('RedBlackTreeMap', function() {
 
   describe('toString', function() {
     it('should explain itself type via toString call', function() {
-      chai.expect(map.toString()).to.equal('[object RedBlackTreeMap]');
-      chai.expect(String(map)).to.equal('[object RedBlackTreeMap]');
-      chai.expect(map + '').to.equal('[object RedBlackTreeMap]');
+      chai.expect(map.toString()).to.equal('[object AVLTreeMap]');
+      chai.expect(String(map)).to.equal('[object AVLTreeMap]');
+      chai.expect(map + '').to.equal('[object AVLTreeMap]');
     });
   });
 });
