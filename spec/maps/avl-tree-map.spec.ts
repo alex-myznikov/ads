@@ -73,6 +73,8 @@ describe('AVLTreeMap', function() {
 
     it('should throw if the key not found', function() {
       chai.expect(map.get.bind(map, 0)).to.throw('Key not found');
+      map.clear();
+      chai.expect(map.get.bind(map, 1)).to.throw('Key not found');
     });
   });
 
@@ -83,6 +85,8 @@ describe('AVLTreeMap', function() {
 
     it('should return false if the map has no pair with the specified key', function() {
       chai.expect(map.has(0)).to.be.false;
+      map.clear();
+      chai.expect(map.has(1)).to.be.false;
     });
   });
 
@@ -244,9 +248,9 @@ describe('AVLTreeMap', function() {
       map.forEach((value, key, self) => self.set(key * 2, value + ' changed'), this);
       chai.expect(Array.from(map)).to.eql([
         [1, 'val'], // updates pair with key 2
-        [2, 'val changed'], // creates pair with key 4, recoloring 1,7 black
+        [2, 'val changed'], // creates pair with key 4
         [4, 'val changed changed'], // creates pair with key 8
-        [7, 'val'], // creates pair with key 14, recoloring 4,8 black, 7 red
+        [7, 'val'], // creates pair with key 14
         [8, 'val changed changed changed'], // this pair has no left initially,
         // then after creating pair with key 14 and rebalancing it has no right so iteration stops
         [14, 'val changed'], // this pair is not handled

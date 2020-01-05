@@ -134,14 +134,16 @@ export abstract class TreeMap<K, V, TR extends BinaryTree<[K, V]> = BinaryTree<[
   get(key: K): V {
     const position = this.search(key);
 
+    if (position) this.rebalanceOnGet(position);
     if (!position || this.compare(position.element, key) !== ComparisonResult.EQUAL) throw new Error('Key not found');
-    this.rebalanceOnGet(position);
 
     return position.element[1];
   }
 
   has(key: K): boolean {
     const position = this.search(key);
+
+    if (position) this.rebalanceOnGet(position);
 
     return !position || this.compare(position.element, key) !== ComparisonResult.EQUAL ? false : true;
   }

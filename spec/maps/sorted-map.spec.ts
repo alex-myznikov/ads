@@ -57,6 +57,8 @@ describe('SortedMap', function() {
 
     it('should throw if the key not found', function() {
       chai.expect(map.get.bind(map, 0)).to.throw('Key not found');
+      map.clear();
+      chai.expect(map.get.bind(map, 1)).to.throw('Key not found');
     });
   });
 
@@ -67,6 +69,8 @@ describe('SortedMap', function() {
 
     it('should return false if the map has no pair with the specified key', function() {
       chai.expect(map.has(0)).to.be.false;
+      map.clear();
+      chai.expect(map.has(1)).to.be.false;
     });
   });
 
