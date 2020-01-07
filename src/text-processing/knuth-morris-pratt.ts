@@ -1,3 +1,5 @@
+import { ADSError } from '../ads-error.class';
+
 export type PrecomputedPattern = [string, number[]];
 
 /**
@@ -39,7 +41,7 @@ export function indexOfKMP(source: string, pattern: string | PrecomputedPattern)
  * @returns Precomputed pattern.
  */
 export function precomputePattern(pattern: string): PrecomputedPattern {
-  if (!pattern.length) throw new Error('Can not precompute an empty pattern');
+  if (!pattern.length) throw new ADSError('Can not precompute an empty pattern');
 
   const overlaps = [0];
   let i = 1;

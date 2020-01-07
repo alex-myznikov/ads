@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { BinaryTree } from './binary-tree.class';
 import { IContainer } from '../container.interface';
 import { LinkedTreeStructure } from './linked-tree-structure.class';
@@ -62,7 +63,7 @@ export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, Lin
   addLeft(position: Position<T, Node<T>>, element: T): Position<T, Node<T>> {
     const parent = this.structure.validate(position);
 
-    if (parent.left) throw new Error('Left child already exists');
+    if (parent.left) throw new ADSError('Left child already exists');
 
     parent.left = new Node(element, { parent });
     this.structure.size++;
@@ -73,7 +74,7 @@ export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, Lin
   addRight(position: Position<T, Node<T>>, element: T): Position<T, Node<T>> {
     const parent = this.structure.validate(position);
 
-    if (parent.right) throw new Error('Right child already exists');
+    if (parent.right) throw new ADSError('Right child already exists');
 
     parent.right = new Node(element, { parent });
     this.structure.size++;
@@ -82,7 +83,7 @@ export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, Lin
   }
 
   addRoot(element: T): Position<T, Node<T>> {
-    if (!this.isEmpty()) throw new Error('Root already exists');
+    if (!this.isEmpty()) throw new ADSError('Root already exists');
 
     this.structure.root = new Node(element);
     this.structure.size++;
@@ -97,7 +98,7 @@ export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, Lin
   attachLeft(position: Position<T, Node<T>>, tree: this) {
     const parent = this.structure.validate(position);
 
-    if (parent.left) throw new Error('Left child already exists');
+    if (parent.left) throw new ADSError('Left child already exists');
 
     const root = tree.getRoot();
 
@@ -111,7 +112,7 @@ export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, Lin
   attachRight(position: Position<T, Node<T>>, tree: this) {
     const parent = this.structure.validate(position);
 
-    if (parent.right) throw new Error('Right child already exists');
+    if (parent.right) throw new ADSError('Right child already exists');
 
     const root = tree.getRoot();
 
@@ -259,7 +260,7 @@ export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, Lin
     const node = this.structure.validate(position);
     const parent = node.parent;
 
-    if (node.left && node.right) throw new Error('Position has more than one child');
+    if (node.left && node.right) throw new ADSError('Position has more than one child');
 
     const child = node.left || node.right;
 
@@ -285,7 +286,7 @@ export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, Lin
   traverse<R, M extends ITraversalMetadata>(traversal: TreeTraversalAbstract<T, R, LinkedBinaryTree<T>, M>): R {
     const node = this.structure.root;
 
-    if (!node) throw new Error('Tree is empty');
+    if (!node) throw new ADSError('Tree is empty');
 
     return traversal.traverseBinary(this.createBinaryTraversable(node, { index: 0 }));
   }

@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { ListBasedStructure } from './list-based-structure.class';
 import { QueueAbstract } from './queue.class';
 import { SinglyLinkedList } from '../lists';
@@ -20,7 +21,7 @@ export class LinkedQueue<T> extends QueueAbstract<T, ListBasedStructure<T, Singl
     try {
       return this.structure.list.removeFirst();
     } catch (err) {
-      throw new Error('Queue is empty');
+      throw new ADSError('Queue is empty');
     }
   }
 
@@ -31,7 +32,7 @@ export class LinkedQueue<T> extends QueueAbstract<T, ListBasedStructure<T, Singl
   getFirst(): T {
     const position = this.structure.list.getFirst();
 
-    if (!position) throw new Error('Queue is empty');
+    if (!position) throw new ADSError('Queue is empty');
 
     return position.element;
   }

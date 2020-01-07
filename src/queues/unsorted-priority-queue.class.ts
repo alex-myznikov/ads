@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { compareAsNumbers, CompareFunc, ComparisonResult } from '../comparators';
 import { DoublyLinkedList } from '../lists';
 import { ListBasedStructure } from './list-based-structure.class';
@@ -43,7 +44,7 @@ export class UnsortedPriorityQueue<K, V = never>
   protected findMin(): Position<K | [K, V], Node<K | [K, V]>> {
     let min = this.structure.list.getFirst();
 
-    if (!min) throw new Error('Queue is empty');
+    if (!min) throw new ADSError('Queue is empty');
 
     let position = this.structure.list.getAfter(min);
 

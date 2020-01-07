@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { LinkedBinaryTree, Node } from './linked-binary-tree.class';
 import { Position } from '../position.class';
 
@@ -31,7 +32,7 @@ export class RelinkableBinaryTree<T> extends LinkedBinaryTree<T> {
   rotate(position: Position<T, Node<T>>) {
     const [node, parentNode, grandParentNode] = this.trackNodes(position);
 
-    if (!parentNode) throw new Error('Node has no parent');
+    if (!parentNode) throw new ADSError('Node has no parent');
 
     if (!grandParentNode) {
       this.structure.root = node;
@@ -56,8 +57,8 @@ export class RelinkableBinaryTree<T> extends LinkedBinaryTree<T> {
   restructure(position: Position<T, Node<T>>): Position<T, Node<T>> {
     const [node, parentNode, grandParentNode] = this.trackNodes(position);
 
-    if (!parentNode) throw new Error('Node has no parent');
-    else if (!grandParentNode) throw new Error('Node has no grand parent');
+    if (!parentNode) throw new ADSError('Node has no parent');
+    else if (!grandParentNode) throw new ADSError('Node has no grand parent');
 
     if (node === parentNode.right && parentNode === grandParentNode.right ||
       node === parentNode.left && parentNode === grandParentNode.left) {

@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { IContainer } from '../container.interface';
 import { LinkedTreeStructure } from './linked-tree-structure.class';
 import { Position } from '../position.class';
@@ -76,7 +77,7 @@ export class GeneralTree<T> extends TreeAbstract<T, Position<T, Node<T>>, Linked
    * @returns Position of the added element.
    */
   addRoot(element: T): Position<T, Node<T>> {
-    if (!this.isEmpty()) throw new Error('Root already exists');
+    if (!this.isEmpty()) throw new ADSError('Root already exists');
 
     this.structure.root = new Node(element);
     this.structure.size++;
@@ -191,7 +192,7 @@ export class GeneralTree<T> extends TreeAbstract<T, Position<T, Node<T>>, Linked
     const parent = node.parent;
     const child: Node<T> | undefined = node.children[0];
 
-    if (node.children.length > 1) throw new Error('Position has more than one child');
+    if (node.children.length > 1) throw new ADSError('Position has more than one child');
     else if (parent) {
       const index = parent.children.indexOf(node);
 
@@ -224,7 +225,7 @@ export class GeneralTree<T> extends TreeAbstract<T, Position<T, Node<T>>, Linked
   traverse<R, M extends ITraversalMetadata>(traversal: TreeTraversalAbstract<T, R, GeneralTree<T>, M>): R {
     const node = this.structure.root;
 
-    if (!node) throw new Error('Tree is empty');
+    if (!node) throw new ADSError('Tree is empty');
 
     return traversal.traverseGeneral(this.createGeneralTraversable(node, { index: 0 }));
   }

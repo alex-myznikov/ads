@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { IContainer } from '../container.interface';
 import { Position } from '../position.class';
 import { PositionalListAbstract } from './positional-list.class';
@@ -201,7 +202,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
    * @returns Removed element.
    */
   removeFirst(): T {
-    if (!this.head) throw new Error('List is empty');
+    if (!this.head) throw new ADSError('List is empty');
 
     return this.deleteNode(this.head);
   }
@@ -212,7 +213,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
    * @returns Removed element.
    */
   removeLast(): T {
-    if (!this.tail) throw new Error('List is empty');
+    if (!this.tail) throw new ADSError('List is empty');
 
     return this.deleteNode(this.tail);
   }

@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { binarySearch } from '../searches/binary-search';
 import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
 import { ISortedMap } from './sorted-map.interface';
@@ -128,7 +129,7 @@ export class SortedMap<K, V> implements ISortedMap<K, V> {
   get(key: K): V {
     const { index, exact } = this.findIndex(key);
 
-    if (!exact) throw new Error('Key not found');
+    if (!exact) throw new ADSError('Key not found');
 
     return this.arr[index][1];
   }

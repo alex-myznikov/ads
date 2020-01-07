@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { compareAsNumbers, CompareFunc, ComparisonResult } from '../comparators';
 import { DoublyLinkedList } from '../lists';
 import { ListBasedStructure } from './list-based-structure.class';
@@ -32,14 +33,14 @@ export class SortedPriorityQueue<K, V = never>
     try {
       return this.structure.list.removeFirst();
     } catch (err) {
-      throw new Error('Queue is empty');
+      throw new ADSError('Queue is empty');
     }
   }
 
   getFirst(): K | [K, V] {
     const position = this.structure.list.getFirst();
 
-    if (!position) throw new Error('Queue is empty');
+    if (!position) throw new ADSError('Queue is empty');
 
     return position.element;
   }

@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { DoublyLinkedList } from '../lists';
 import { ListBasedStructure } from './list-based-structure.class';
 import { QueueAbstract } from './queue.class';
@@ -20,7 +21,7 @@ export class LinkedDeque<T> extends QueueAbstract<T, ListBasedStructure<T, Doubl
     try {
       return this.structure.list.removeFirst();
     } catch (err) {
-      throw new Error('Queue is empty');
+      throw new ADSError('Queue is empty');
     }
   }
 
@@ -33,7 +34,7 @@ export class LinkedDeque<T> extends QueueAbstract<T, ListBasedStructure<T, Doubl
     try {
       return this.structure.list.removeLast();
     } catch (err) {
-      throw new Error('Queue is empty');
+      throw new ADSError('Queue is empty');
     }
   }
 
@@ -53,7 +54,7 @@ export class LinkedDeque<T> extends QueueAbstract<T, ListBasedStructure<T, Doubl
   getFirst(): T {
     const position = this.structure.list.getFirst();
 
-    if (!position) throw new Error('Queue is empty');
+    if (!position) throw new ADSError('Queue is empty');
 
     return position.element;
   }
@@ -66,7 +67,7 @@ export class LinkedDeque<T> extends QueueAbstract<T, ListBasedStructure<T, Doubl
   getLast(): T {
     const position = this.structure.list.getLast();
 
-    if (!position) throw new Error('Queue is empty');
+    if (!position) throw new ADSError('Queue is empty');
 
     return position.element;
   }

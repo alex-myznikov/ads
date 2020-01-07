@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { CircularArrayBasedStructure } from './circular-array-based-structure.class';
 import { QueueAbstract } from './queue.class';
 
@@ -46,7 +47,7 @@ export class CircularArrayBuffer<T> extends QueueAbstract<T, CircularArrayBasedS
   }
 
   dequeue(): T {
-    if (this.isEmpty()) throw new Error('Buffer is empty');
+    if (this.isEmpty()) throw new ADSError('Buffer is empty');
 
     const element = this.structure.arr[this.structure.front];
 
@@ -58,14 +59,14 @@ export class CircularArrayBuffer<T> extends QueueAbstract<T, CircularArrayBasedS
 
   enqueue(element: T) {
     if (!this.isFull()) this.structure.size++;
-    else if (!this.isOverwritable()) throw new Error('Buffer is full');
+    else if (!this.isOverwritable()) throw new ADSError('Buffer is full');
     else this.structure.front = (this.structure.front + 1) % this.maxLength;
     this.structure.arr[this.structure.rear] = element;
     this.structure.rear = (this.structure.rear + 1) % this.maxLength;
   }
 
   getFirst(): T {
-    if (this.isEmpty()) throw new Error('Buffer is empty');
+    if (this.isEmpty()) throw new ADSError('Buffer is empty');
 
     return this.structure.arr[this.structure.front];
   }

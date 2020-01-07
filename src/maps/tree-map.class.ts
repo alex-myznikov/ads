@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { BinaryTree } from '../trees/binary-tree.class';
 import { CompareFunc, ComparisonResult } from '../comparators';
 import { ExtractPosition } from '../trees/tree.class';
@@ -135,7 +136,8 @@ export abstract class TreeMap<K, V, TR extends BinaryTree<[K, V]> = BinaryTree<[
     const position = this.search(key);
 
     if (position) this.rebalanceOnGet(position);
-    if (!position || this.compare(position.element, key) !== ComparisonResult.EQUAL) throw new Error('Key not found');
+    if (!position || this.compare(position.element, key) !== ComparisonResult.EQUAL)
+      throw new ADSError('Key not found');
 
     return position.element[1];
   }

@@ -1,7 +1,7 @@
+import { ADSError } from '../ads-error.class';
 import { IContainer } from '../container.interface';
 import { Position } from '../position.class';
 import { PositionalListAbstract } from './positional-list.class';
-
 /**
  * Stores element and basic structure of a list.
  */
@@ -124,7 +124,7 @@ export class CircularlyLinkedList<T> extends PositionalListAbstract<T, Node<T>> 
    * @returns Removed element.
    */
   removeCurrent(): T {
-    if (!this.tail) throw new Error('List is empty');
+    if (!this.tail) throw new ADSError('List is empty');
 
     const node = this.tail.next;
 

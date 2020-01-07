@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { CircularlyLinkedList } from '../lists';
 import { ListBasedStructure } from './list-based-structure.class';
 import { QueueAbstract } from './queue.class';
@@ -20,7 +21,7 @@ export class CircularQueue<T> extends QueueAbstract<T, ListBasedStructure<T, Cir
     try {
       return this.structure.list.removeCurrent();
     } catch (err) {
-      throw new Error('Queue is empty');
+      throw new ADSError('Queue is empty');
     }
   }
 
@@ -32,7 +33,7 @@ export class CircularQueue<T> extends QueueAbstract<T, ListBasedStructure<T, Cir
   getFirst(): T {
     const position = this.structure.list.current();
 
-    if (!position) throw new Error('Queue is empty');
+    if (!position) throw new ADSError('Queue is empty');
 
     return position.element;
   }

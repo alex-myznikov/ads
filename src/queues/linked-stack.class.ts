@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { ListBasedStructure } from './list-based-structure.class';
 import { SinglyLinkedList } from '../lists';
 import { StackAbstract } from './stack.class';
@@ -20,7 +21,7 @@ export class LinkedStack<T> extends StackAbstract<T, ListBasedStructure<T, Singl
     try {
       return this.structure.list.removeFirst();
     } catch (err) {
-      throw new Error('Stack is empty');
+      throw new ADSError('Stack is empty');
     }
   }
 
@@ -31,7 +32,7 @@ export class LinkedStack<T> extends StackAbstract<T, ListBasedStructure<T, Singl
   top(): T {
     const position = this.structure.list.getFirst();
 
-    if (!position) throw new Error('Stack is empty');
+    if (!position) throw new ADSError('Stack is empty');
 
     return position.element;
   }

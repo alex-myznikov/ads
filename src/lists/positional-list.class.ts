@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { IContainer } from '../container.interface';
 import { LinkedListAbstract } from './linked-list.class';
 import { Position } from '../position.class';
@@ -45,8 +46,8 @@ export abstract class PositionalListAbstract<T, N extends IContainer<T>> extends
   protected validate(position: Position<T, N>): N {
     const { node, container } = position._internal;
 
-    if (container !== this) throw new Error('Position does not belong to this list');
-    else if (this.isDeprecated(node)) throw new Error('Position is deprecated');
+    if (container !== this) throw new ADSError('Position does not belong to this list');
+    else if (this.isDeprecated(node)) throw new ADSError('Position is deprecated');
 
     return node;
   }

@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { IContainer } from '../container.interface';
 import { IStructure } from '../structure.interface';
 import { Position } from '../position.class';
@@ -66,8 +67,8 @@ export class LinkedTreeStructure<T, N extends IContainer<T>> implements IStructu
   validate(position: Position<T, N>): N {
     const { node, container } = position._internal;
 
-    if (container !== this) throw new Error('Position does not belong to this tree');
-    else if (this.isDeprecated(node)) throw new Error('Position is deprecated');
+    if (container !== this) throw new ADSError('Position does not belong to this tree');
+    else if (this.isDeprecated(node)) throw new ADSError('Position is deprecated');
 
     return node;
   }

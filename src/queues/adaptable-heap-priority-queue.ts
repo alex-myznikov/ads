@@ -1,3 +1,4 @@
+import { ADSError } from '../ads-error.class';
 import { ArrayBasedStructure } from './array-based-structure.class';
 import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
 import { Locator } from '../locator.class';
@@ -41,7 +42,7 @@ export class AdaptableHeapPriorityQueue<K, V = never>
   }
 
   dequeue(): K | [K, V] {
-    if (this.isEmpty()) throw new Error('Queue is empty');
+    if (this.isEmpty()) throw new ADSError('Queue is empty');
 
     this.swap(0, this.length - 1);
 
@@ -100,7 +101,7 @@ export class AdaptableHeapPriorityQueue<K, V = never>
   }
 
   getFirst(): K | [K, V] {
-    if (this.isEmpty()) throw new Error('Queue is empty');
+    if (this.isEmpty()) throw new ADSError('Queue is empty');
 
     return this.structure.arr[0].element;
   }
@@ -172,7 +173,7 @@ export class AdaptableHeapPriorityQueue<K, V = never>
 
     if (elementIndex < 0 ||
       elementIndex > this.length ||
-      this.structure.arr[elementIndex] !== locator) throw new Error('Locator is not valid.');
+      this.structure.arr[elementIndex] !== locator) throw new ADSError('Locator is not valid.');
     else if (elementIndex === this.length - 1) this.structure.arr.pop();
     else {
       this.swap(elementIndex, this.length - 1);
@@ -231,7 +232,7 @@ export class AdaptableHeapPriorityQueue<K, V = never>
 
     if (elementIndex < 0 ||
       elementIndex > this.length ||
-      this.structure.arr[elementIndex] !== locator) throw new Error('Locator is not valid.');
+      this.structure.arr[elementIndex] !== locator) throw new ADSError('Locator is not valid.');
     locator._internal.element = element;
     this.bubble(elementIndex);
   }
