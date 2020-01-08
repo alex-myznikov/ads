@@ -12,7 +12,6 @@
     "noUnusedParameters": true,
     "suppressImplicitAnyIndexErrors": true,
     "stripInternal": false,
-    "downlevelIteration": true,
-    "outDir": "./dist"
+    "downlevelIteration": true
   }
 }
