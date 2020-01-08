@@ -22,8 +22,8 @@ aliases
 
 // Strip unnecessary sections out of published package.json version
 fs.copyFileSync(manifestFile, cachedManifestFile);
-Object.entries(fs.readJSONSync(manifestFile)).reduce((acc, cur) => {
+fs.writeJSONSync(manifestFile, Object.entries(fs.readJSONSync(manifestFile)).reduce((acc, cur) => {
   if (!devManifestFields.includes(cur[0])) acc[cur[0]] = cur[1];
 
   return acc;
-}, {});
+}, {}), { spaces: 2, flag: 'w' });

@@ -6,22 +6,22 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
   "scripts": {
-    "build": "npm-run-all clean build:cjs build:esm build:types && node ./tools/prepare-package.js",
+    "build": "npm-run-all clean build:cjs build:esm build:types build:bundles && node ./tools/prepare-package.js",
     "build:cjs": "npm-run-all clean:cjs compile:cjs",
     "build:spec": "npm-run-all clean:spec compile:spec",
     "build:esm": "npm-run-all clean:esm compile:esm",
-    "build:bundle": "echo \"Error: not implemented\" && exit 1",
+    "build:bundles": "npm-run-all clean:bundles compile:bundles",
     "build:types": "npm-run-all clean:types compile:types",
     "clean": "shx rm -rf ./dist",
     "clean:cjs": "shx rm -rf ./dist/cjs",
     "clean:spec": "shx rm -rf ./dist/spec ./dist/src",
     "clean:esm": "shx rm -rf ./dist/esm",
-    "clean:bundle": "echo \"Error: not implemented\" && exit 1",
+    "clean:bundles": "shx rm -rf ./dist/bundles",
     "clean:types": "shx rm -rf ./dist/types",
     "compile:cjs": "tsc -p ./tsconfig.cjs.json",
     "compile:spec": "tsc -p ./tsconfig.spec.json",
     "compile:esm": "tsc -p ./tsconfig.esm.json",
-    "compile:bundle": "echo \"Error: not implemented\" && exit 1",
+    "compile:bundles": "rollup -cm",
     "compile:types": "tsc -p ./tsconfig.types.json",
     "lint": "npm-run-all --parallel lint:*",
     "lint:spec": "tslint -c tslint.json \"./spec/**/*.ts\"",
@@ -43,6 +43,7 @@
   "author": "Alexander Myznikov",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^7.0.0",
     "@types/chai": "^4.2.3",
     "@types/mocha": "^5.2.7",
     "@typescript-eslint/eslint-plugin": "^2.3.1",
@@ -53,6 +54,8 @@
     "mocha": "^6.2.0",
     "npm-run-all": "^4.1.5",
     "nyc": "^14.1.1",
+    "rollup": "^1.29.0",
+    "rollup-plugin-terser": "^5.1.3",
     "shx": "^0.3.2",
     "ts-node": "^8.4.1",
     "tsconfig-paths": "^3.9.0",
@@ -84,6 +87,6 @@
     "text-processing",
     "trees",
     "errors",
-    "comparators" 
+    "comparators"
   ]
 }
