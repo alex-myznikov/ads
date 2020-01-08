@@ -74,8 +74,6 @@
     "dist/types",
     "LICENSE.md",
     "package.json",
-    "README.md",
-    "src",
-    "tsconfig.json"
+    "README.md"
   ]
 }

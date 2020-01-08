@@ -159,7 +159,7 @@ export class CircularlyLinkedList<T> extends PositionalListAbstract<T, Node<T>> 
     if (this.tail) this.tail = this.tail.next;
   }
 
-  *[Symbol.iterator]() {
+  *[Symbol.iterator](): IterableIterator<T> {
     if (!this.tail) return;
 
     let node = this.tail.next;

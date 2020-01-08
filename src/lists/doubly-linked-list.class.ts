@@ -234,7 +234,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     return replacedElement;
   }
 
-  *[Symbol.iterator]() {
+  *[Symbol.iterator](): IterableIterator<T> {
     if (!this.head) return;
 
     let node: Node<T> | undefined = this.head;
