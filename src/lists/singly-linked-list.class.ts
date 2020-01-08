@@ -115,7 +115,7 @@ export class SinglyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     return this.head ? this.createPosition(this.head) : this.head;
   }
 
-  isDeprecated(node: Node<T>): boolean {
+  protected isDeprecated(node: Node<T>): boolean {
     return node.next === node;
   }
 

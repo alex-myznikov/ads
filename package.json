@@ -3,25 +3,32 @@
   "version": "0.0.0",
   "description": "Algorithms and data structures for JS/TS",
   "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
-    "build": "npm-run-all clean build:cjs",
+    "build": "npm-run-all clean build:cjs build:esm build:types",
     "build:cjs": "npm-run-all clean:cjs compile:cjs",
-    "build:es": "echo \"Error: not implemented\" && exit 1",
+    "build:spec": "npm-run-all clean:spec compile:spec",
+    "build:esm": "npm-run-all clean:esm compile:esm",
     "build:bundle": "echo \"Error: not implemented\" && exit 1",
     "build:types": "npm-run-all clean:types compile:types",
     "clean": "shx rm -rf ./dist",
     "clean:cjs": "shx rm -rf ./dist/cjs",
-    "clean:es": "echo \"Error: not implemented\" && exit 1",
+    "clean:spec": "shx rm -rf ./dist/spec ./dist/src",
+    "clean:esm": "shx rm -rf ./dist/esm",
     "clean:bundle": "echo \"Error: not implemented\" && exit 1",
     "clean:types": "shx rm -rf ./dist/types",
     "compile:cjs": "tsc -p ./tsconfig.cjs.json",
-    "compile:es": "echo \"Error: not implemented\" && exit 1",
+    "compile:spec": "tsc -p ./tsconfig.spec.json",
+    "compile:esm": "tsc -p ./tsconfig.esm.json",
     "compile:bundle": "echo \"Error: not implemented\" && exit 1",
     "compile:types": "tsc -p ./tsconfig.types.json",
     "lint": "npm-run-all --parallel lint:*",
     "lint:spec": "tslint -c tslint.json \"./spec/**/*.ts\"",
     "lint:src": "tslint -c tslint.json \"./src/**/*.ts\"",
-    "test": "nyc mocha \"./spec/**/*.spec.ts\"",
+    "prepublishOnly": "npm-run-all test build",
+    "test": "npm run build:spec && mocha \"./dist/spec/**/*.spec.js\"",
+    "test:ts": "nyc mocha \"./spec/**/*.spec.ts\"",
     "test:debug": "node --inspect-brk ./node_modules/.bin/mocha \"./spec/**/*.spec.ts\""
   },
   "repository": {
@@ -50,7 +57,6 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {},
-  "types": "./dist/types/index.d.ts",
   "nyc": {
     "extension": [
       ".ts"
@@ -64,6 +70,7 @@
   "files": [
     "CHANGELOG.md",
     "dist/cjs",
+    "dist/esm",
     "dist/types",
     "LICENSE.md",
     "package.json",

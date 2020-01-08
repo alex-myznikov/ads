@@ -192,7 +192,7 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
     return node;
   }
 
-  isDeprecated(node: Node<T>): boolean {
+  protected isDeprecated(node: Node<T>): boolean {
     return node.next === node;
   }
 

@@ -1,11 +1,9 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "module": "es2015",
-    "target": "esnext",
     "removeComments": false,
     "declaration": true,
-    "declarationDir": "./dist/typings",
+    "declarationDir": "./dist/types",
     "emitDeclarationOnly": true
   }
 }
