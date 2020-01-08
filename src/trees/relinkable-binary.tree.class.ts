@@ -1,4 +1,4 @@
-import { ADSError } from '../ads-error.class';
+import { ADSError } from '../errors';
 import { LinkedBinaryTree, Node } from './linked-binary-tree.class';
 import { Position } from '../position.class';
 

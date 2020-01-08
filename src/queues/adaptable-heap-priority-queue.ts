@@ -1,4 +1,4 @@
-import { ADSError } from '../ads-error.class';
+import { ADSError } from '../errors';
 import { ArrayBasedStructure } from './array-based-structure.class';
 import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
 import { Locator } from '../locator.class';

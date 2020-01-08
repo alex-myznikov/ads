@@ -76,6 +76,14 @@
     "dist/types",
     "LICENSE.md",
     "package.json",
-    "README.md"
+    "README.md",
+    "lists",
+    "maps",
+    "queues",
+    "searches",
+    "text-processing",
+    "trees",
+    "errors",
+    "comparators" 
   ]
 }

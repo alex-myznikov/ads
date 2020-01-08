@@ -1,4 +1,4 @@
-export * from './ads-error.class';
+export * from './errors';
 export * from './comparators';
 export * from './lists';
 export * from './maps';

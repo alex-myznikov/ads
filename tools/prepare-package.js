@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const cachedManifestFile = path.resolve(__dirname, '../cached-package.json');
 const manifestFile = path.resolve(__dirname, '../package.json');
-const aliases = ['lists', 'maps', 'queues', 'searches', 'text-processing', 'trees'];
+const aliases = ['lists', 'maps', 'queues', 'searches', 'text-processing', 'trees', 'errors', 'comparators'];
 const devManifestFields = ['scripts', 'devDependencies', 'nyc'];
 
 // Prepare aliases to import sources from 'ads-js/<source_group_name>'

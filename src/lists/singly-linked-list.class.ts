@@ -1,4 +1,4 @@
-import { ADSError } from '../ads-error.class';
+import { ADSError } from '../errors';
 import { IContainer } from '../container.interface';
 import { Position } from '../position.class';
 import { PositionalListAbstract } from './positional-list.class';

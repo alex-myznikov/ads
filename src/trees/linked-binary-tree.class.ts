@@ -1,4 +1,4 @@
-import { ADSError } from '../ads-error.class';
+import { ADSError } from '../errors';
 import { BinaryTree } from './binary-tree.class';
 import { IContainer } from '../container.interface';
 import { LinkedTreeStructure } from './linked-tree-structure.class';

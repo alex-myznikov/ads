@@ -1,4 +1,4 @@
-import { ADSError } from '../ads-error.class';
+import { ADSError } from '../errors';
 import { BinaryTree } from '../trees/binary-tree.class';
 import { CompareFunc, ComparisonResult } from '../comparators';
 import { ExtractPosition } from '../trees/tree.class';

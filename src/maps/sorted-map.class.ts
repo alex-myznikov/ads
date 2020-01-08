@@ -1,4 +1,4 @@
-import { ADSError } from '../ads-error.class';
+import { ADSError } from '../errors';
 import { binarySearch } from '../searches/binary-search';
 import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
 import { ISortedMap } from './sorted-map.interface';

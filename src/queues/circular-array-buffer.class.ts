@@ -1,4 +1,4 @@
-import { ADSError } from '../ads-error.class';
+import { ADSError } from '../errors';
 import { CircularArrayBasedStructure } from './circular-array-based-structure.class';
 import { QueueAbstract } from './queue.class';
 

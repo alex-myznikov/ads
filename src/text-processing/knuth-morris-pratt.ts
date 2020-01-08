@@ -1,4 +1,4 @@
-import { ADSError } from '../ads-error.class';
+import { ADSError } from '../errors';
 
 export type PrecomputedPattern = [string, number[]];
 

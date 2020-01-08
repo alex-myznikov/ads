@@ -1,4 +1,4 @@
-import { ADSError } from '../ads-error.class';
+import { ADSError } from '../errors';
 import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
 
 /**

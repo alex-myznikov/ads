@@ -1,4 +1,4 @@
-import { ADSError } from '../ads-error.class';
+import { ADSError } from '../errors';
 import { ListBasedStructure } from './list-based-structure.class';
 import { SinglyLinkedList } from '../lists';
 import { StackAbstract } from './stack.class';
