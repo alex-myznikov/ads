@@ -9,12 +9,14 @@ export default aliases.map(alias => ({
     {
       file: `dist/bundles/ads-js${alias ? '-' + alias : ''}.js`,
       format: 'umd',
-      name: `ads-js${alias ? '/' + alias : ''}`,
+      name: 'adsjs',
+      extend: true,
     },
     {
       file: `dist/bundles/ads-js${alias ? '-' + alias : ''}.min.js`,
       format: 'umd',
-      name: `ads-js${alias ? '/' + alias : ''}`,
+      name: 'adsjs',
+      extend: true,
       plugins: [terser()],
     },
   ],
