@@ -4,7 +4,7 @@ import { Position } from '../position.class';
 import { PositionalListAbstract } from './positional-list.class';
 
 /**
- * Stores element and basic structure of a list.
+ * Stores element and basic structure of a doubly linked list.
  */
 export class Node<T> implements IContainer<T> {
 
@@ -12,22 +12,24 @@ export class Node<T> implements IContainer<T> {
    * Creates an instance of Node.
    *
    * @param element Element of the list.
-   * @param next Reference to the next node in the list.
-   * @param prev Reference to the previous node in the list.
+   * @param next Reference to the next node.
+   * @param prev Reference to the previous node.
    */
   constructor(public element: T, public next?: Node<T>, public prev?: Node<T>) { }
 
 }
 
 /**
- * Implementation of a doubly linked positional list.
+ * Positional linked list with nodes linked in both directions from head to tail and vice versa.
+ *
+ * @template T Type of elements stored in the list.
  */
 export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
 
   /**
    * Creates an instance of DoublyLinkedList.
    *
-   * @param elements List of elements to create the new list with.
+   * @param elements Array of elements to create the new linked list with.
    */
   constructor(elements: T[] = []) {
     super();
@@ -35,7 +37,8 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
   }
 
   /**
-   * Adds element after the specified position in the list.
+   * Adds element after the specified position in the list. Throws an error if the position
+   * does not belong to this list or its element has been removed.
    *
    * @param position Position in the list.
    * @param element Element to add after the position.
@@ -48,7 +51,8 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
   }
 
   /**
-   * Adds element before the specified position in the list.
+   * Adds element before the specified position in the list. Throws an error if the position
+   * does not belong to this list or its element has been removed.
    *
    * @param position Position in the list.
    * @param element Element to add before the position.
@@ -98,9 +102,10 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
   }
 
   /**
-   * Deletes element at the specified position.
+   * Deletes element at the specified position. Deprecates all positions pointing to that element.
+   * Throws an error if the position does not belong to this list or its element has been removed.
    *
-   * @param position Position of an element.
+   * @param position Position in the list.
    * @returns Deleted element.
    */
   delete(position: Position<T, Node<T>>): T {
@@ -129,10 +134,11 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
   }
 
   /**
-   * Gets position after the specified position in the list.
+   * Gets position after the specified position in the list. Throws an error if the position
+   * does not belong to this list or its element has been removed.
    *
    * @param position Position in the list.
-   * @returns Position or undefined if the specified position is the last.
+   * @returns Position of the element next to the specified or undefined if the specified position is the last.
    */
   getAfter(position: Position<T, Node<T>>): Position<T, Node<T>> | undefined {
     const next = this.validate(position).next;
@@ -141,7 +147,8 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
   }
 
   /**
-   * Gets position before the specified position in the list.
+   * Gets position before the specified position in the list. Throws an error if the position
+   * does not belong to this list or its element has been removed.
    *
    * @param position Position in the list.
    * @returns Position or undefined if the specified position is the first.
@@ -197,7 +204,8 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
   }
 
   /**
-   * Removes the first element from the list and returns it. Throws an error if the list is empty.
+   * Removes the first element from the list and returns it. Deprecates all positions pointing to that element.
+   * Throws an error if the list is empty.
    *
    * @returns Removed element.
    */
@@ -208,7 +216,8 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
   }
 
   /**
-   * Removes the last element from the list and returns it. Throws an error if the list is empty.
+   * Removes the last element from the list and returns it. Deprecates all positions pointing to that element.
+   * Throws an error if the list is empty.
    *
    * @returns Removed element.
    */
@@ -219,9 +228,10 @@ export class DoublyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
   }
 
   /**
-   * Replaces element at the specified position.
+   * Replaces element at the specified position. Throws an error if the position
+   * does not belong to this list or its element has been removed.
    *
-   * @param position Position of an element.
+   * @param position Position in the list.
    * @param element Element to replace the existing with.
    * @returns Replaced element.
    */

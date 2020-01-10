@@ -31,7 +31,7 @@ export class CircularQueue<T> extends QueueAbstract<T, ListBasedStructure<T, Cir
   }
 
   getFirst(): T {
-    const position = this.structure.list.current();
+    const position = this.structure.list.getCurrent();
 
     if (!position) throw new ADSError('Queue is empty');
 

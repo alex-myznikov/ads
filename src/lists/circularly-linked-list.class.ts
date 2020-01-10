@@ -2,18 +2,22 @@ import { ADSError } from '../errors';
 import { IContainer } from '../container.interface';
 import { Position } from '../position.class';
 import { PositionalListAbstract } from './positional-list.class';
+
 /**
- * Stores element and basic structure of a list.
+ * Stores element and basic structure of a circularly linked list.
  */
 export class Node<T> implements IContainer<T> {
 
+  /**
+   * Reference to the next node. The only node in the list references himself.
+   */
   next: Node<T>;
 
   /**
    * Creates an instance of Node.
    *
    * @param element Element of the list.
-   * @param next Reference to the next node in the list.
+   * @param next Reference to the next node.
    */
   constructor(public element: T, next?: Node<T>) {
     this.next = next || this;
@@ -22,14 +26,16 @@ export class Node<T> implements IContainer<T> {
 }
 
 /**
- * Implementation of a circularly linked positional list.
+ * Positional linked list with nodes linked in one direction from head to tail and tail linked to head.
+ *
+ * @template T Type of elements stored in the list.
  */
 export class CircularlyLinkedList<T> extends PositionalListAbstract<T, Node<T>> {
 
   /**
    * Creates an instance of CircularlyLinkedList.
    *
-   * @param elements List of elements to create the new list with.
+   * @param elements Array of elements to create the new linked list with.
    */
   constructor(elements: T[] = []) {
     super();
@@ -41,7 +47,8 @@ export class CircularlyLinkedList<T> extends PositionalListAbstract<T, Node<T>> 
   }
 
   /**
-   * Adds element after the specified position in the list.
+   * Adds element after the specified position in the list. Throws an error if the position
+   * does not belong to this list or its element has been removed.
    *
    * @param position Position in the list.
    * @param element Element to add after the position.
@@ -87,19 +94,11 @@ export class CircularlyLinkedList<T> extends PositionalListAbstract<T, Node<T>> 
   }
 
   /**
-   * Gets position of the current front element in the list.
-   *
-   * @returns Position of the element or undefined if the list is empty.
-   */
-  current(): Position<T, Node<T>> | undefined {
-    return this.tail ? this.createPosition(this.tail.next) : this.tail;
-  }
-
-  /**
-   * Gets position after the specified position in the list.
+   * Gets position after the specified position in the list. Throws an error if the position
+   * does not belong to this list or its element has been removed.
    *
    * @param position Position in the list.
-   * @returns Position after the specified position.
+   * @returns Position of the element next to the specified.
    */
   getAfter(position: Position<T, Node<T>>): Position<T, Node<T>> {
     return this.createPosition(this.validate(position).next);
@@ -110,16 +109,26 @@ export class CircularlyLinkedList<T> extends PositionalListAbstract<T, Node<T>> 
   }
 
   /**
-   * Gets position of the current back element from the list.
+   * Gets position of the current front element in the list.
    *
    * @returns Position of the element or undefined if the list is empty.
    */
-  previous(): Position<T, Node<T>> | undefined {
+  getCurrent(): Position<T, Node<T>> | undefined {
+    return this.tail ? this.createPosition(this.tail.next) : this.tail;
+  }
+
+  /**
+   * Gets position of the current last element in the list.
+   *
+   * @returns Position of the element or undefined if the list is empty.
+   */
+  getLast(): Position<T, Node<T>> | undefined {
     return this.tail ? this.createPosition(this.tail) : this.tail;
   }
 
   /**
-   * Removes current front element from the list and returns it. Throws an error if the list is empty.
+   * Removes current front element from the list and returns it. Deprecates all positions pointing to that element.
+   * Throws an error if the list is empty.
    *
    * @returns Removed element.
    */
@@ -137,9 +146,10 @@ export class CircularlyLinkedList<T> extends PositionalListAbstract<T, Node<T>> 
   }
 
   /**
-   * Replaces element at the specified position.
+   * Replaces element at the specified position. Throws an error if the position
+   * does not belong to this list or its element has been removed.
    *
-   * @param position Position of an element.
+   * @param position Position in the list.
    * @param element Element to replace the existing with.
    * @returns Replaced element.
    */

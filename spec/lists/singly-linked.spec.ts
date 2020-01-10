@@ -25,6 +25,17 @@ describe('SinglyLinkedList', function() {
       chai.expect(list.getAfter(list.getFirst()!)!.element).to.equal('added element');
     });
 
+    it('should insert element after the list tail and reassign it', function() {
+      const tailPosition = list.getLast()!;
+      const position = list.addAfter(tailPosition, 'added element');
+      const afterPosition = list.getAfter(position);
+
+      chai.expect(tailPosition.element).to.equal('baz');
+      chai.expect(afterPosition).to.be.undefined;
+      chai.expect(list.getAfter(tailPosition)!.element).to.equal('added element');
+      chai.expect(list.getLast()!.element).to.equal('added element');
+    });
+
     it('should return position of the added element', function() {
       const position = list.addAfter(list.getFirst()!, 'added element');
 
@@ -35,6 +46,13 @@ describe('SinglyLinkedList', function() {
     it('should throw if the specified position does not belong to this list', function() {
       chai.expect(list.addAfter.bind(list, anotherList.getFirst()!, 'added element')).to
         .throw('Position does not belong to this list');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = list.getFirst()!;
+
+      list.clear();
+      chai.expect(list.addAfter.bind(list, position, 'added element')).to.throw('Position is deprecated');
     });
 
     it('should increment the list length by one', function() {
@@ -97,21 +115,6 @@ describe('SinglyLinkedList', function() {
     });
   });
 
-  describe('after()', function() {
-    it('should return undefined if there is no element after the position', function() {
-      chai.expect(list.getAfter(list.getLast()!)).to.be.undefined;
-    });
-
-    it('should return position of the element after the specified position', function() {
-      chai.expect(list.getAfter(list.getFirst()!)).to.be.instanceOf(Position);
-      chai.expect(list.getAfter(list.getFirst()!)!.element).to.equal('bar');
-    });
-
-    it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.getAfter.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
-    });
-  });
-
   describe('clear()', function() {
     it('should clear the list', function() {
       list.clear();
@@ -142,9 +145,25 @@ describe('SinglyLinkedList', function() {
     });
   });
 
-  describe('length', function() {
-    it('should return count of elements in the list', function() {
-      chai.expect(list.length).to.equal(3);
+  describe('getAfter()', function() {
+    it('should return undefined if there is no element after the position', function() {
+      chai.expect(list.getAfter(list.getLast()!)).to.be.undefined;
+    });
+
+    it('should return position of the element after the specified position', function() {
+      chai.expect(list.getAfter(list.getFirst()!)).to.be.instanceOf(Position);
+      chai.expect(list.getAfter(list.getFirst()!)!.element).to.equal('bar');
+    });
+
+    it('should throw if the specified position does not belong to this list', function() {
+      chai.expect(list.getAfter.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = list.getFirst()!;
+
+      list.clear();
+      chai.expect(list.getAfter.bind(list, position, 'added element')).to.throw('Position is deprecated');
     });
   });
 
@@ -190,6 +209,18 @@ describe('SinglyLinkedList', function() {
 
     it('should return false if the list has elements', function() {
       chai.expect(list.isEmpty()).to.equal(false);
+    });
+  });
+
+  describe('iterator', function() {
+    it('should iterate through all values from the list', function() {
+      chai.expect(Array.from(list)).to.eql(['foo', 'bar', 'baz']);
+    });
+  });
+
+  describe('length', function() {
+    it('should return count of elements in the list', function() {
+      chai.expect(list.length).to.equal(3);
     });
   });
 
@@ -245,16 +276,17 @@ describe('SinglyLinkedList', function() {
         .throw('Position does not belong to this list');
     });
 
+    it('should throw if the specified position is deprecated', function() {
+      const position = list.getFirst()!;
+
+      list.clear();
+      chai.expect(list.replace.bind(list, position, 'added element')).to.throw('Position is deprecated');
+    });
+
     it('should not change the list length', function() {
       chai.expect(list.length).to.equal(3);
       list.replace(list.getFirst()!, 'replacement');
       chai.expect(list.length).to.equal(3);
-    });
-  });
-
-  describe('iterator', function() {
-    it('should iterate through all values from the list', function() {
-      chai.expect(Array.from(list)).to.eql(['foo', 'bar', 'baz']);
     });
   });
 });

@@ -4,7 +4,7 @@ import { LinkedListAbstract } from './linked-list.class';
 import { Position } from '../position.class';
 
 /**
- * An abstract chain of elements allowing access by position.
+ * An abstract linked chain of elements allowing access by position pointer.
  */
 export abstract class PositionalListAbstract<T, N extends IContainer<T>> extends LinkedListAbstract<T, N> {
 

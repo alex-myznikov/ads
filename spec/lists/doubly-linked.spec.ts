@@ -52,6 +52,13 @@ describe('DoublyLinkedList', function() {
         .throw('Position does not belong to this list');
     });
 
+    it('should throw if the specified position is deprecated', function() {
+      const position = list.getFirst()!;
+
+      list.clear();
+      chai.expect(list.addAfter.bind(list, position, 'added element')).to.throw('Position is deprecated');
+    });
+
     it('should increment the list length by one', function() {
       chai.expect(list.length).to.equal(3);
       list.addAfter(list.getFirst()!, 'added element');
@@ -83,20 +90,27 @@ describe('DoublyLinkedList', function() {
     });
 
     it('should return position of the added element', function() {
-      const position = list.addAfter(list.getFirst()!, 'added element');
+      const position = list.addBefore(list.getFirst()!, 'added element');
 
       chai.expect(position).to.be.instanceOf(Position);
       chai.expect(position.element).to.equal('added element');
     });
 
     it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.addAfter.bind(list, anotherList.getFirst()!, 'added element')).to
+      chai.expect(list.addBefore.bind(list, anotherList.getFirst()!, 'added element')).to
         .throw('Position does not belong to this list');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = list.getFirst()!;
+
+      list.clear();
+      chai.expect(list.addBefore.bind(list, position, 'added element')).to.throw('Position is deprecated');
     });
 
     it('should increment the list length by one', function() {
       chai.expect(list.length).to.equal(3);
-      list.addAfter(list.getFirst()!, 'added element');
+      list.addBefore(list.getFirst()!, 'added element');
       chai.expect(list.length).to.equal(4);
     });
   });
@@ -156,36 +170,6 @@ describe('DoublyLinkedList', function() {
       chai.expect(list.length).to.equal(3);
       list.addLast('added element');
       chai.expect(list.length).to.equal(4);
-    });
-  });
-
-  describe('after()', function() {
-    it('should return undefined if there is no element after the position', function() {
-      chai.expect(list.getAfter(list.getLast()!)).to.be.undefined;
-    });
-
-    it('should return position of the element after the specified position', function() {
-      chai.expect(list.getAfter(list.getFirst()!)).to.be.instanceOf(Position);
-      chai.expect(list.getAfter(list.getFirst()!)!.element).to.equal('bar');
-    });
-
-    it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.getAfter.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
-    });
-  });
-
-  describe('before()', function() {
-    it('should return undefined if there is no element before the position', function() {
-      chai.expect(list.getBefore(list.getFirst()!)).to.be.undefined;
-    });
-
-    it('should return position of the element before the specified position', function() {
-      chai.expect(list.getBefore(list.getLast()!)).to.be.instanceOf(Position);
-      chai.expect(list.getBefore(list.getLast()!)!.element).to.equal('bar');
-    });
-
-    it('should throw if the specified position does not belong to this list', function() {
-      chai.expect(list.getBefore.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
     });
   });
 
@@ -255,9 +239,47 @@ describe('DoublyLinkedList', function() {
     });
   });
 
-  describe('length', function() {
-    it('should return count of elements in the list', function() {
-      chai.expect(list.length).to.equal(3);
+  describe('getAfter()', function() {
+    it('should return undefined if there is no element after the position', function() {
+      chai.expect(list.getAfter(list.getLast()!)).to.be.undefined;
+    });
+
+    it('should return position of the element after the specified position', function() {
+      chai.expect(list.getAfter(list.getFirst()!)).to.be.instanceOf(Position);
+      chai.expect(list.getAfter(list.getFirst()!)!.element).to.equal('bar');
+    });
+
+    it('should throw if the specified position does not belong to this list', function() {
+      chai.expect(list.getAfter.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = list.getFirst()!;
+
+      list.clear();
+      chai.expect(list.getAfter.bind(list, position, 'added element')).to.throw('Position is deprecated');
+    });
+  });
+
+  describe('getBefore()', function() {
+    it('should return undefined if there is no element before the position', function() {
+      chai.expect(list.getBefore(list.getFirst()!)).to.be.undefined;
+    });
+
+    it('should return position of the element before the specified position', function() {
+      chai.expect(list.getBefore(list.getLast()!)).to.be.instanceOf(Position);
+      chai.expect(list.getBefore(list.getLast()!)!.element).to.equal('bar');
+    });
+
+    it('should throw if the specified position does not belong to this list', function() {
+      chai.expect(list.getBefore.bind(list, anotherList.getFirst()!)).to.throw('Position does not belong to this list');
+    });
+
+    it('should throw if the specified position is deprecated', function() {
+      const position = list.getLast()!;
+
+      list.clear();
+      chai.expect(list.getBefore.bind(list, position, 'added element')).to.throw('Position is deprecated');
     });
   });
 
@@ -303,6 +325,18 @@ describe('DoublyLinkedList', function() {
 
     it('should return false if the list has elements', function() {
       chai.expect(list.isEmpty()).to.equal(false);
+    });
+  });
+
+  describe('iterator', function() {
+    it('should iterate through all values from the list', function() {
+      chai.expect(Array.from(list)).to.eql(['foo', 'bar', 'baz']);
+    });
+  });
+
+  describe('length', function() {
+    it('should return count of elements in the list', function() {
+      chai.expect(list.length).to.equal(3);
     });
   });
 
@@ -393,16 +427,17 @@ describe('DoublyLinkedList', function() {
         .throw('Position does not belong to this list');
     });
 
+    it('should throw if the specified position is deprecated', function() {
+      const position = list.getFirst()!;
+
+      list.clear();
+      chai.expect(list.replace.bind(list, position, 'added element')).to.throw('Position is deprecated');
+    });
+
     it('should not change the list length', function() {
       chai.expect(list.length).to.equal(3);
       list.replace(list.getFirst()!, 'replacement');
       chai.expect(list.length).to.equal(3);
-    });
-  });
-
-  describe('iterator', function() {
-    it('should iterate through all values from the list', function() {
-      chai.expect(Array.from(list)).to.eql(['foo', 'bar', 'baz']);
     });
   });
 });

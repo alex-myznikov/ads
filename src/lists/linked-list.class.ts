@@ -2,7 +2,7 @@ import { IContainer } from '../container.interface';
 import { IStructure } from '../structure.interface';
 
 /**
- * An abstract iterable chain of elements.
+ * An abstract iterable linked chain of elements.
  */
 export abstract class LinkedListAbstract<T, N extends IContainer<T>> implements IStructure {
 
