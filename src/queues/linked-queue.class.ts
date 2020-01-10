@@ -1,10 +1,11 @@
 import { ADSError } from '../errors';
 import { ListBasedStructure } from './list-based-structure.class';
 import { QueueAbstract } from './queue.class';
-import { SinglyLinkedList } from '../lists';
+import { SinglyLinkedList } from '../lists/singly-linked-list.class';
 
 /**
- * Implementation of a linked queue.
+ * Container of elements that are inserted and removed according to the FIFO principle.
+ * This structure is based on SinglyLinkedList.
  */
 export class LinkedQueue<T> extends QueueAbstract<T, ListBasedStructure<T, SinglyLinkedList<T>>> {
 

@@ -1,13 +1,13 @@
 import { ADSError } from '../errors';
 import { compareAsNumbers, CompareFunc, ComparisonResult } from '../comparators';
-import { DoublyLinkedList } from '../lists';
 import { ListBasedStructure } from './list-based-structure.class';
-import { Node } from '../lists/doubly-linked-list.class';
+import { Node, DoublyLinkedList } from '../lists/doubly-linked-list.class';
 import { Position } from '../position.class';
 import { QueueAbstract } from './queue.class';
 
 /**
- * Implementation of an unsorted priority queue.
+ * Container of elements which grants access to the least item stored in linear time and takes constant time
+ * for insertion. This structure is based on DoublyLinkedList.
  */
 export class UnsortedPriorityQueue<K, V = never>
   extends QueueAbstract<K | [K, V], ListBasedStructure<K | [K, V], DoublyLinkedList<K | [K, V]>>> {
@@ -28,10 +28,6 @@ export class UnsortedPriorityQueue<K, V = never>
 
   enqueue(element: K | [K, V]) {
     this.structure.list.addLast(element);
-  }
-
-  getFirst(): K | [K, V] {
-    return this.findMin().element;
   }
 
   /**
@@ -57,6 +53,10 @@ export class UnsortedPriorityQueue<K, V = never>
     }
 
     return min;
+  }
+
+  getFirst(): K | [K, V] {
+    return this.findMin().element;
   }
 
 }

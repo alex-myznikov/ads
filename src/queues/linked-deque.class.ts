@@ -1,10 +1,10 @@
 import { ADSError } from '../errors';
-import { DoublyLinkedList } from '../lists';
+import { DoublyLinkedList } from '../lists/doubly-linked-list.class';
 import { ListBasedStructure } from './list-based-structure.class';
 import { QueueAbstract } from './queue.class';
 
 /**
- * Implementation of a linked deque.
+ * Container of elements that are inserted and removed on either side. This structure is based on DoublyLinkedList.
  */
 export class LinkedDeque<T> extends QueueAbstract<T, ListBasedStructure<T, DoublyLinkedList<T>>> {
 

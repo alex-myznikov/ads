@@ -1,13 +1,13 @@
 import { ADSError } from '../errors';
 import { compareAsNumbers, CompareFunc, ComparisonResult } from '../comparators';
-import { DoublyLinkedList } from '../lists';
 import { ListBasedStructure } from './list-based-structure.class';
-import { Node } from '../lists/doubly-linked-list.class';
+import { Node, DoublyLinkedList } from '../lists/doubly-linked-list.class';
 import { Position } from '../position.class';
 import { QueueAbstract } from './queue.class';
 
 /**
- * Implementation of a sorted priority queue.
+ * Container of elements which grants access to the least item stored in constant time and takes linear time
+ * for insertion. This structure is based on DoublyLinkedList.
  */
 export class SortedPriorityQueue<K, V = never>
   extends QueueAbstract<K | [K, V], ListBasedStructure<K | [K, V], DoublyLinkedList<K | [K, V]>>> {
@@ -22,13 +22,6 @@ export class SortedPriorityQueue<K, V = never>
     super(new ListBasedStructure(new DoublyLinkedList<K | [K, V]>(elements)));
   }
 
-  enqueue(element: K | [K, V]) {
-    const position = this.findPosition(element);
-
-    if (!position) this.structure.list.addLast(element);
-    else this.structure.list.addBefore(position, element);
-  }
-
   dequeue(): K | [K, V] {
     try {
       return this.structure.list.removeFirst();
@@ -37,12 +30,11 @@ export class SortedPriorityQueue<K, V = never>
     }
   }
 
-  getFirst(): K | [K, V] {
-    const position = this.structure.list.getFirst();
+  enqueue(element: K | [K, V]) {
+    const position = this.findPosition(element);
 
-    if (!position) throw new ADSError('Queue is empty');
-
-    return position.element;
+    if (!position) this.structure.list.addLast(element);
+    else this.structure.list.addBefore(position, element);
   }
 
   /**
@@ -66,6 +58,14 @@ export class SortedPriorityQueue<K, V = never>
     }
 
     return;
+  }
+
+  getFirst(): K | [K, V] {
+    const position = this.structure.list.getFirst();
+
+    if (!position) throw new ADSError('Queue is empty');
+
+    return position.element;
   }
 
 }

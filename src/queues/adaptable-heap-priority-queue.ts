@@ -5,7 +5,10 @@ import { Locator } from '../locator.class';
 import { QueueAbstract } from './queue.class';
 
 /**
- * Implementation of an adaptable heap priority queue.
+ * Container of elements which grants access to the least item stored in logarithmic time. Insertion operation
+ * has logarithmic complexity as well. This structure is based on binary heap and can afford constant time insertion
+ * if all queued elements are given in advance. It also allows to update elements after insertion and
+ * keeps itself sorted.
  */
 export class AdaptableHeapPriorityQueue<K, V = never>
   extends QueueAbstract<K | [K, V], ArrayBasedStructure<Locator<K | [K, V]>>> {

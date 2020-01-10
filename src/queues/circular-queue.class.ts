@@ -1,10 +1,11 @@
 import { ADSError } from '../errors';
-import { CircularlyLinkedList } from '../lists';
+import { CircularlyLinkedList } from '../lists/circularly-linked-list.class';
 import { ListBasedStructure } from './list-based-structure.class';
 import { QueueAbstract } from './queue.class';
 
 /**
- * Implementation of a linked circular queue.
+ * Container of elements in which operations are performed based on FIFO principle and the last position
+ * is connected back to the first position to make a circle. This structure is based on CircularlyLinkedList.
  */
 export class CircularQueue<T> extends QueueAbstract<T, ListBasedStructure<T, CircularlyLinkedList<T>>> {
 

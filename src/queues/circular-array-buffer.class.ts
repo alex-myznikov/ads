@@ -3,7 +3,7 @@ import { CircularArrayBasedStructure } from './circular-array-based-structure.cl
 import { QueueAbstract } from './queue.class';
 
 /**
- * Implementation of a circular array buffer.
+ * Array-based implementation of circular FIFO data structure.
  */
 export class CircularArrayBuffer<T> extends QueueAbstract<T, CircularArrayBasedStructure<T>> {
 
@@ -12,7 +12,7 @@ export class CircularArrayBuffer<T> extends QueueAbstract<T, CircularArrayBasedS
    *
    * @readonly
    */
-  get maxLength() {
+  get maxLength(): number {
     return this.structure.len;
   }
 
@@ -26,24 +26,6 @@ export class CircularArrayBuffer<T> extends QueueAbstract<T, CircularArrayBasedS
   constructor(len: number, elements: T[] = [], protected overwritable = false) {
     super(new CircularArrayBasedStructure(len));
     for (const el of elements) this.enqueue(el);
-  }
-
-  /**
-   * Checks whether the buffer can store any more values without overwriting itself.
-   *
-   * @returns TRUE if the buffer is full, FALSE otherwise.
-   */
-  isFull(): boolean {
-    return this.length === this.maxLength;
-  }
-
-  /**
-   * Checks whether the buffer can overwrite itself if its capacity is exhausted.
-   *
-   * @returns TRUE if the buffer allows overwriting, FALSE otherwise.
-   */
-  isOverwritable(): boolean {
-    return this.overwritable;
   }
 
   dequeue(): T {
@@ -69,6 +51,24 @@ export class CircularArrayBuffer<T> extends QueueAbstract<T, CircularArrayBasedS
     if (this.isEmpty()) throw new ADSError('Buffer is empty');
 
     return this.structure.arr[this.structure.front];
+  }
+
+  /**
+   * Checks whether the buffer can store any more values without overwriting itself.
+   *
+   * @returns TRUE if the buffer is full, FALSE otherwise.
+   */
+  isFull(): boolean {
+    return this.length === this.maxLength;
+  }
+
+  /**
+   * Checks whether the buffer can overwrite itself if its capacity is exhausted.
+   *
+   * @returns TRUE if the buffer allows overwriting, FALSE otherwise.
+   */
+  isOverwritable(): boolean {
+    return this.overwritable;
   }
 
 }
