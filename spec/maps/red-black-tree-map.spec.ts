@@ -1,11 +1,11 @@
-import { RedBlackTreeMap, ComparisonResult } from 'ads';
+import { RedBlackTreeMap, compareAsNumbers } from 'ads';
 import * as chai from 'chai';
 
 describe('RedBlackTreeMap', function() {
   let map: RedBlackTreeMap<number, string>;
 
   beforeEach(() => {
-    map = new RedBlackTreeMap([[1, 'val'], [2, 'val'], [7, 'val']]);
+    map = new RedBlackTreeMap([[1, 'val'], [2, 'val'], [7, 'val']], compareAsNumbers);
   });
 
   describe('constructor()', function() {
@@ -14,14 +14,8 @@ describe('RedBlackTreeMap', function() {
       chai.expect(map.size).to.equal(0);
     });
 
-    it('should accept custom comparison handler', function() {
-      const compareAsStrings = (a: string, b: string) => {
-        if (a > b) return ComparisonResult.GREATER;
-        else if (a < b) return ComparisonResult.LESS;
-
-        return ComparisonResult.EQUAL;
-      };
-      const stringMap = new RedBlackTreeMap<string, number>([], compareAsStrings);
+    it('should be using string comparator by default', function() {
+      const stringMap = new RedBlackTreeMap<string, number>();
 
       stringMap.set('c', 3).set('a', 1).set('b', 2);
       chai.expect(Array.from(stringMap)).to.eql([['a', 1], ['b', 2], ['c', 3]]);

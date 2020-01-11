@@ -8,12 +8,14 @@ export enum ComparisonResult {
 }
 
 /**
- * Compares a and b.
+ * Compares elements a and b.
  *
- * @param a Comparison parameter.
- * @param b Comparison parameter.
+ * @template T Type of compared elements.
+ * @template K Optional type for element b used if comparator does support type conversion.
+ * @param a Compared element.
+ * @param b Compared element.
  * @returns Result of comparison (1 if a is greater than b, -1 if a is less than b, 0 if they are equal).
  */
-export interface CompareFunc<T, K = T> {
+export interface IComparator<T, K = T> {
   (a: T, b: K): ComparisonResult;
 }

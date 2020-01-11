@@ -1,6 +1,6 @@
 import { ADSError } from '../errors';
 import { ArrayBasedStructure } from './array-based-structure.class';
-import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
+import { IComparator, compareAsNumbers, ComparisonResult } from '../comparators';
 import { Locator } from '../locator.class';
 import { QueueAbstract } from './queue.class';
 
@@ -19,7 +19,7 @@ export class AdaptableHeapPriorityQueue<K, V = never>
    * @param elements List of elements to create the new priority queue with.
    * @param compare Comparison function for element search. Elements are compared as numbers by default.
    */
-  constructor(elements: K[] | [K, V][] = [], protected compare: CompareFunc<K> = compareAsNumbers) {
+  constructor(elements: K[] | [K, V][] = [], protected compare: IComparator<K> = compareAsNumbers) {
     super(new ArrayBasedStructure([]));
     for (const el of elements) this.structure.arr.push(new Locator(el, this.length));
 

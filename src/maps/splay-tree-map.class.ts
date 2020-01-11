@@ -1,4 +1,4 @@
-import { compareAsNumbers, CompareFunc } from '../comparators';
+import { IComparator, compareAsStrings } from '../comparators';
 import { ISortedMap } from './sorted-map.interface';
 import { Node } from '../trees/linked-binary-tree.class';
 import { Position } from '../position.class';
@@ -20,9 +20,9 @@ export class SplayTreeMap<K, V> extends TreeMap<K, V, RelinkableBinaryTree<[K, V
    * Creates an instance of SplayTreeMap.
    *
    * @param iterable Iterable of pairs to create the new map with.
-   * @param compare Comparison function for key-value pairs sorting by key. Keys are compared as numbers by default.
+   * @param compare Comparison function for key-value pairs sorting by key. Keys are compared as strings by default.
    */
-  constructor(iterable: Iterable<[K, V]> = [], compare: CompareFunc<K> = compareAsNumbers) {
+  constructor(iterable: Iterable<[K, V]> = [], compare: IComparator<K> = compareAsStrings) {
     super(new RelinkableBinaryTree(), compare);
     for (const pair of iterable) this.set(...pair);
   }

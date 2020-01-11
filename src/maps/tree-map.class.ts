@@ -1,6 +1,6 @@
 import { ADSError } from '../errors';
 import { BinaryTree } from '../trees/binary-tree.class';
-import { CompareFunc, ComparisonResult } from '../comparators';
+import { ComparisonResult, IComparator } from '../comparators';
 import { ExtractPosition } from '../trees/tree.class';
 import { InorderTreeTraversal } from '../trees';
 import { ISortedMap } from './sorted-map.interface';
@@ -29,7 +29,7 @@ export abstract class TreeMap<K, V, TR extends BinaryTree<[K, V]> = BinaryTree<[
    * @param tree Binary tree.
    * @param compare Comparison function for key-value pairs sorting by key. Keys are compared as numbers by default.
    */
-  constructor(protected tree: TR, compare: CompareFunc<K>) {
+  constructor(protected tree: TR, compare: IComparator<K>) {
     super(tree, (a: [K, V], b: K) => compare(a[0], b));
   }
 

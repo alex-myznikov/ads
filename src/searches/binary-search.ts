@@ -1,4 +1,4 @@
-import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
+import { IComparator, compareAsNumbers, ComparisonResult } from '../comparators';
 
 /**
  * Finds item in sorted array greater than or equal to the specified target.
@@ -16,7 +16,7 @@ export function binarySearch<T, K = T>(
   target: K,
   from?: number,
   to?: number,
-  compare: CompareFunc<T, K> = compareAsNumbers,
+  compare: IComparator<T, K> = compareAsNumbers,
 ): { index: number, exact: boolean } {
   let low = Math.max(from || 0, 0);
   let high = (to ? Math.min(to, arr.length) : arr.length) - 1;

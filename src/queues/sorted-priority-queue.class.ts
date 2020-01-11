@@ -1,5 +1,5 @@
 import { ADSError } from '../errors';
-import { compareAsNumbers, CompareFunc, ComparisonResult } from '../comparators';
+import { compareAsNumbers, IComparator, ComparisonResult } from '../comparators';
 import { ListBasedStructure } from './list-based-structure.class';
 import { Node, DoublyLinkedList } from '../lists/doubly-linked-list.class';
 import { Position } from '../position.class';
@@ -18,7 +18,7 @@ export class SortedPriorityQueue<K, V = never>
    * @param elements List of elements to create the new priority queue with.
    * @param compare Comparison function for element search. Elements are compared as numbers by default.
    */
-  constructor(elements: K[] | [K, V][] = [], protected compare: CompareFunc<K> = compareAsNumbers) {
+  constructor(elements: K[] | [K, V][] = [], protected compare: IComparator<K> = compareAsNumbers) {
     super(new ListBasedStructure(new DoublyLinkedList<K | [K, V]>(elements)));
   }
 

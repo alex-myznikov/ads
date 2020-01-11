@@ -1,6 +1,6 @@
 import { ADSError } from '../errors';
 import { binarySearch } from '../searches/binary-search';
-import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
+import { IComparator, ComparisonResult, compareAsStrings } from '../comparators';
 import { ISortedMap } from './sorted-map.interface';
 
 /**
@@ -33,9 +33,9 @@ export class SortedMap<K, V> implements ISortedMap<K, V> {
    * Creates an instance of SortedMap.
    *
    * @param iterable Iterable of pairs to create the new map with.
-   * @param compare Comparison function for key-value pairs sorting by key. Keys are compared as numbers by default.
+   * @param compare Comparison function for key-value pairs sorting by key. Keys are compared as strings by default.
    */
-  constructor(iterable: Iterable<[K, V]> = [], protected compare: CompareFunc<K> = compareAsNumbers) {
+  constructor(iterable: Iterable<[K, V]> = [], protected compare: IComparator<K> = compareAsStrings) {
     this.arr = [];
     for (const pair of iterable) this.set(...pair);
   }

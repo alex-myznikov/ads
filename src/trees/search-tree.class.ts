@@ -1,5 +1,5 @@
 import { BinaryTree } from './binary-tree.class';
-import { CompareFunc, ComparisonResult } from '../comparators';
+import { ComparisonResult, IComparator } from '../comparators';
 import { ExtractPosition } from './tree.class';
 
 type E<TR> = ExtractPosition<TR>;
@@ -15,7 +15,7 @@ export abstract class SearchTreeAbstract<T, K = T, TR extends BinaryTree<T> = Bi
    * @param tree Binary tree.
    * @param compare Comparison function for element search. Elements are compared as numbers by default.
    */
-  constructor(protected tree: TR, protected compare: CompareFunc<T, K>) { }
+  constructor(protected tree: TR, protected compare: IComparator<T, K>) { }
 
   /**
    * Performs rebalancing of the tree after adding a new element.

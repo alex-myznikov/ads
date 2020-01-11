@@ -1,5 +1,5 @@
 import { ADSError } from '../errors';
-import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
+import { IComparator, compareAsNumbers, ComparisonResult } from '../comparators';
 
 /**
  * Selects the nth smallest item in unsorted array. Throws an error if array is empty or
@@ -10,7 +10,7 @@ import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators'
  * @param compare Comparison function. Items are compared as numbers by default.
  * @returns Selected item.
  */
-export function quickSelect<T>(arr: T[], n: number = 0, compare: CompareFunc<T> = compareAsNumbers): T {
+export function quickSelect<T>(arr: T[], n: number = 0, compare: IComparator<T> = compareAsNumbers): T {
   if (!arr.length) throw new ADSError('Can not select from an empty array');
   else if (n < 0 || n >= arr.length) throw new ADSError('Can not select item from outside of the array bounds');
 

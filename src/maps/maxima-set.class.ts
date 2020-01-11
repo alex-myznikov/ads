@@ -1,4 +1,4 @@
-import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators';
+import { IComparator, compareAsNumbers, ComparisonResult } from '../comparators';
 import { IStructure } from '../structure.interface';
 import { SortedMap } from './sorted-map.class';
 
@@ -33,8 +33,8 @@ export class MaximaSet<X, Y> implements IStructure {
    */
   constructor(
     iterable: Iterable<[X, Y]> = [],
-    protected compareX: CompareFunc<X> = compareAsNumbers,
-    protected compareY: CompareFunc<Y> = compareAsNumbers,
+    protected compareX: IComparator<X> = compareAsNumbers,
+    protected compareY: IComparator<Y> = compareAsNumbers,
   ) {
     this.map = new SortedMap([], compareX);
     for (const pair of iterable) this.add(...pair);
