@@ -17,4 +17,4 @@ For contributors visit [how to contribute](https://alex-myznikov.gitbook.io/adsj
 
 ## Support
 
-This project is going to be supported for long time. Incoming issues will be reacted on regular basis. More work on improving performance and memory efficiency is expected. New functional will be released after the existing one be considered stable enough and performant. So please expect this package to be developed first in depth then in width and visit [changelog](https://app.gitbook.com/@alex-myznikov/s/adsjs/~/drafts/-LyEW78GjUEgupT41dr1/changelog/@drafts) for details of the upcoming functional releases.
+This project is going to be supported for long time. Incoming issues will be reacted on regular basis. More work on improving performance and memory efficiency is expected. New functional will be released after the existing one be considered stable enough and performant. So please expect this package to be developed first in depth then in width and visit [changelog](https://alex-myznikov.gitbook.io/adsjs/changelog) for details of the upcoming functional releases.
