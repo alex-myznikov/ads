@@ -15,6 +15,7 @@
 *.launch
 .settings/
 *.sublime-workspace
+.coveralls.yml
 
 # IDE - VSCode
 .vscode/*

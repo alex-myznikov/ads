@@ -1,4 +1,5 @@
 # ADSJS - algorithms and data structures for JavaScript and TypeScript
+[![Coverage Status](https://coveralls.io/repos/github/alex-myznikov/ads-js/badge.svg?branch=master)](https://coveralls.io/github/alex-myznikov/ads-js?branch=master)
 
 <img src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/spaces%2F-Lxzf4cV7ERPgE26oJ60%2Favatar.png?alt=media" alt="ADSJS logo" width="60">
 
