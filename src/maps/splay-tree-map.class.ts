@@ -8,7 +8,7 @@ import { TreeMap } from './tree-map.class';
 type P<K, V> = Position<[K, V], Node<[K, V]>>;
 
 /**
- * Implementation of a splay tree map.
+ * Sorted map based on a splay binary tree structure.
  */
 export class SplayTreeMap<K, V> extends TreeMap<K, V, RelinkableBinaryTree<[K, V]>> implements ISortedMap<K, V> {
 

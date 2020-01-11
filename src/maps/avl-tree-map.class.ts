@@ -8,7 +8,7 @@ import { TreeMap } from './tree-map.class';
 type P<K, V> = Position<[K, V], Node<[K, V]>>;
 
 /**
- * Implementation of an AVL tree map.
+ * Sorted map based on an AVL binary tree structure.
  */
 export class AVLTreeMap<K, V> extends TreeMap<K, V, RelinkableBinaryTree<[K, V]>> implements ISortedMap<K, V> {
 

@@ -12,8 +12,6 @@ Information about public API classes and functions available for client code is 
 
 ## Contributing
 
-More details about the whole project architecture as well as classes and interfaces which are not part of the public API are in the [design details](https://alex-myznikov.gitbook.io/adsjs/contribution-notes/design-details) section.
-
 For contributors visit [how to contribute](https://alex-myznikov.gitbook.io/adsjs/contribution-notes/how-to-contribute) and [project structure](https://alex-myznikov.gitbook.io/adsjs/contribution-notes/project-structure).
 
 ## Support

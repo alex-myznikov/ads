@@ -3,7 +3,8 @@ import { IStructure } from '../structure.interface';
 import { SortedMap } from './sorted-map.class';
 
 /**
- * Implementation of a maxima set.
+ * Container which stores only pairs forming strictly increasing trend in both keys and values.
+ * This structure is based on SortedMap.
  */
 export class MaximaSet<X, Y> implements IStructure {
 
@@ -19,7 +20,7 @@ export class MaximaSet<X, Y> implements IStructure {
    *
    * @readonly
    */
-  get length() {
+  get length(): number {
     return this.map.size;
   }
 
@@ -87,21 +88,21 @@ export class MaximaSet<X, Y> implements IStructure {
   }
 
   /**
+   * Gets X, Y pair with greatest X.
+   *
+   * @returns X, Y pair or undefined if the set is empty.
+   */
+  getLast(): [X, Y] | undefined {
+    return this.map.findMax();
+  }
+
+  /**
    * Checks whether the set is empty or not.
    *
    * @returns TRUE if the map is empty, FALSE otherwise.
    */
   isEmpty(): boolean {
     return !this.length;
-  }
-
-  /**
-   * Gets X, Y pair with greatest X.
-   *
-   * @returns X, Y pair or undefined if the set is empty.
-   */
-  getLast() {
-    return this.map.findMax();
   }
 
   *[Symbol.iterator](): IterableIterator<[X, Y]> {

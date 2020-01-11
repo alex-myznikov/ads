@@ -4,7 +4,8 @@ import { CompareFunc, compareAsNumbers, ComparisonResult } from '../comparators'
 import { ISortedMap } from './sorted-map.interface';
 
 /**
- * Implementation of a sorted map.
+ * A map that provides ordering on its keys. Keys are ordered by a comparator provided at map creation time
+ * or by default as strings.
  */
 export class SortedMap<K, V> implements ISortedMap<K, V> {
 
@@ -15,7 +16,12 @@ export class SortedMap<K, V> implements ISortedMap<K, V> {
    */
   protected arr: Array<[K, V]>;
 
-  get size() {
+  /**
+   * Number of key-value pairs in the map.
+   *
+   * @readonly
+   */
+  get size(): number {
     return this.arr.length;
   }
 
@@ -34,10 +40,19 @@ export class SortedMap<K, V> implements ISortedMap<K, V> {
     for (const pair of iterable) this.set(...pair);
   }
 
+  /**
+   * Removes all key-value pairs from the map.
+   */
   clear() {
     this.arr = [];
   }
 
+  /**
+   * Removes the specified (by key) key-value pair from the map.
+   *
+   * @param key Pair key.
+   * @returns TRUE if the pair existed and has been removed, FALSE otherwise.
+   */
   delete(key: K): boolean {
     const { index, exact } = this.findIndex(key);
 
@@ -126,6 +141,12 @@ export class SortedMap<K, V> implements ISortedMap<K, V> {
     this.arr.forEach((value: [K, V]) => callbackfn(value[1], value[0], this), thisArg);
   }
 
+  /**
+   * Gets value of the specified (by key) key-value pair from the map. Throws an error if key not found.
+   *
+   * @param key Pair key.
+   * @returns Pair value.
+   */
   get(key: K): V {
     const { index, exact } = this.findIndex(key);
 

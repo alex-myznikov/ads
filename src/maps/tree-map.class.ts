@@ -14,6 +14,11 @@ type E<TR> = ExtractPosition<TR>;
 export abstract class TreeMap<K, V, TR extends BinaryTree<[K, V]> = BinaryTree<[K, V]>>
   extends SearchTreeAbstract<[K, V], K, TR> implements ISortedMap<K, V> {
 
+  /**
+   * Number of key-value pairs in the map.
+   *
+   * @readonly
+   */
   get size() {
     return this.tree.length;
   }
@@ -30,10 +35,19 @@ export abstract class TreeMap<K, V, TR extends BinaryTree<[K, V]> = BinaryTree<[
 
   abstract get [Symbol.toStringTag](): string;
 
+  /**
+   * Removes all key-value pairs from the map.
+   */
   clear() {
     this.tree.clear();
   }
 
+  /**
+   * Removes the specified (by key) key-value pair from the map.
+   *
+   * @param key Pair key.
+   * @returns TRUE if the pair existed and has been removed, FALSE otherwise.
+   */
   delete(key: K): boolean {
     const position = this.search(key);
     let parent: E<TR> | undefined;
@@ -132,6 +146,12 @@ export abstract class TreeMap<K, V, TR extends BinaryTree<[K, V]> = BinaryTree<[
     this.tree.traverse(new InorderTreeTraversal((value: [K, V]) => callbackfn.call(thisArg, value[1], value[0], this)));
   }
 
+  /**
+   * Gets value of the specified (by key) key-value pair from the map. Throws an error if key not found.
+   *
+   * @param key Pair key.
+   * @returns Pair value.
+   */
   get(key: K): V {
     const position = this.search(key);
 
