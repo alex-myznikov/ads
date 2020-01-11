@@ -52,7 +52,7 @@ export class Node<T> implements IContainer<T> {
 }
 
 /**
- * Implementation of a linked binary tree.
+ * A tree in which element can have either zero, one or two children. This structure is link-based.
  */
 export class LinkedBinaryTree<T> extends BinaryTree<T, Position<T, Node<T>>, LinkedTreeStructure<T, Node<T>>> {
 

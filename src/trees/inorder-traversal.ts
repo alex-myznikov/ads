@@ -8,7 +8,7 @@ import { IStructure } from '../structure.interface';
 import { TreeAbstract } from './tree.class';
 
 /**
- * Implementation of a inorder tree traversal.
+ * Tree traversal algorithm that on each level of a tree visits root after traversing its leftmost subtree.
  */
 export class InorderTreeTraversal<T, TR extends TreeAbstract<T, IContainer<T>, IStructure> = TreeAbstract<T>>
   extends TreeTraversalAbstract<T, void, TR> {

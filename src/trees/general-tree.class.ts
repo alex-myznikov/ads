@@ -45,7 +45,7 @@ export class Node<T> implements IContainer<T> {
 }
 
 /**
- * Implementation of a general tree.
+ * A tree in which each element can have either zero or many children. This structure is link-based.
  */
 export class GeneralTree<T> extends TreeAbstract<T, Position<T, Node<T>>, LinkedTreeStructure<T, Node<T>>> {
 

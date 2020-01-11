@@ -39,6 +39,12 @@ export interface IEulerTourMetadata<T> extends ITraversalMetadata {
 export class EulerTourTreeTraversal<T, R = T, TR extends TreeAbstract<T> = TreeAbstract<T>>
   extends TreeTraversalAbstract<T, R, TR, IEulerTourMetadata<R>> {
 
+  /**
+   * Creates an instance of EulerTourTreeTraversal.
+   *
+   * @param callback Function to call on each visited element during traversal.
+   * @memberof EulerTourTreeTraversal
+   */
   constructor(protected callback: (
     element: T,
     meta: IEulerTourMetadata<R>,

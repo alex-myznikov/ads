@@ -15,9 +15,9 @@ export abstract class BinaryTree<T, P extends IContainer<T> = IContainer<T>,
    * @param element Element to add.
    * @returns Position of the added element.
    */
-   abstract addLeft(position: P, element: T): P;
+  abstract addLeft(position: P, element: T): P;
 
-   /**
+  /**
    * Adds element as the right child of the specified position. Throws an error if right child already exists.
    *
    * @param position Position in the tree.
@@ -58,7 +58,7 @@ export abstract class BinaryTree<T, P extends IContainer<T> = IContainer<T>,
    * @param position Position in the tree.
    * @returns Position or undefined if the specified position has no left child.
    */
-   abstract getLeft(position: P): P | undefined;
+  abstract getLeft(position: P): P | undefined;
 
   /**
    * Gets right child of the specified position.
@@ -107,16 +107,16 @@ export abstract class BinaryTree<T, P extends IContainer<T> = IContainer<T>,
    * @param b Position in the tree.
    * @returns TRUE if the positions are in parent->left child relation, FALSE otherwise.
    */
-   abstract isLeftChild(a: P, b: P): boolean;
+  abstract isLeftChild(a: P, b: P): boolean;
 
-   /**
+  /**
    * Checks whether the first specified position is the right child of the second.
    *
    * @param a Position in the tree.
    * @param b Position in the tree.
    * @returns TRUE if the positions are in parent->right child relation, FALSE otherwise.
    */
-   abstract isRightChild(a: P, b: P): boolean;
+  abstract isRightChild(a: P, b: P): boolean;
 
   /**
    * Removes element from the tree by position and returns it. Throws an error if the position is not valid

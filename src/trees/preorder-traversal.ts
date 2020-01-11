@@ -8,7 +8,7 @@ import { IStructure } from '../structure.interface';
 import { TreeAbstract } from './tree.class';
 
 /**
- * Implementation of a preorder tree traversal.
+ * Tree traversal algorithm that on each level of a tree visits root before traversing its subtrees.
  */
 export class PreorderTreeTraversal<T, TR extends TreeAbstract<T, IContainer<T>, IStructure> = TreeAbstract<T>>
   extends TreeTraversalAbstract<T, void, TR> {
