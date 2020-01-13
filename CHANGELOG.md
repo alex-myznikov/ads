@@ -13,10 +13,14 @@ Graphs and traversal algorithms for them.
 
 <br/>
 
-## [Unreleased 0.1.1] - 2020-01
+## [Unreleased 0.1.2] - 2020-01
 Improved documentation.\
 First results of performance optimization researches.\
 Fixes for reported issues.
+
+## [0.1.1] - 2020-01-14
+### Fixed
+Not adding bundles to package installation directory.
 
 ## [0.1.0] - 2020-01-11
 ### Added

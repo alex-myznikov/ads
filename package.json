@@ -1,6 +1,6 @@
 {
   "name": "ads-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Algorithms and data structures for JavaScript and TypeScript",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -76,6 +76,7 @@
   },
   "files": [
     "CHANGELOG.md",
+    "dist/bundles",
     "dist/cjs",
     "dist/esm",
     "dist/types",
