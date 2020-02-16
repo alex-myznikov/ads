@@ -46,7 +46,7 @@ export abstract class LinkedListAbstract<T, N extends IContainer<T>> implements 
   abstract clear(): void;
 
   /**
-   * Checks whether the list is empty or not.
+   * Checks whether the list is empty or not. Running time O(1).
    *
    * @returns TRUE if the list is empty, FALSE otherwise.
    */

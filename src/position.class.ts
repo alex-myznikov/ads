@@ -1,9 +1,9 @@
 import { IContainer } from './container.interface';
 
 /**
- * Represents the location of a single element in linked data structure.
+ * Represents the location of one element in a linked data structure.
  *
- * @template T Type of elements stored in the data structure this position points on.
+ * @template T Type of elements stored in the data structure this position points to.
  */
 export class Position<T, N extends IContainer<T>> implements IContainer<T> {
 

@@ -37,7 +37,7 @@ export abstract class PositionalListAbstract<T, N extends IContainer<T>> extends
   protected abstract isDeprecated(node: N): boolean;
 
   /**
-   * Ensures the specified position is valid and belongs to this list. Throws an error if validation fails.
+   * Ensures that the specified position is valid and belongs to this list. Throws an error if validation fails.
    *
    * @protected
    * @param position Position of a node in the list.
